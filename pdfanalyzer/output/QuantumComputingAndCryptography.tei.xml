@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Quantum Computing and Cryptography</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<title level="a" type="main">Quantum Computing and Cryptography</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">E1E3BA241F801AC8FF37D31B099E63A1</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.7.2" ident="GROBID" when="2023-02-19T16:40+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Quantum computers can be highly beneficial to scientific developments due to the new, speedy way of performing computing. Once available, they however could break currently used cryptography and undermine the protection of (personal) data.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<facsimile>
+		<surface n="1" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+		<surface n="2" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+		<surface n="3" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+	</facsimile>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>I. What is quantum computing?</head><p>The physical laws of quantum mechanics allow for an alternative method to how today's computers process information. Whereas traditional computers use bits (0 or 1) as a building block, quantum computers employ quantum bits, or qubits, that can be at the same moment a combination of |0⟩ and |1⟩.</p><p>The possible spectrum of values one qubit can adopt is best depicted by the surface of the Bloch sphere in Figure <ref type="figure" coords="1,88.65,453.80,4.04,10.68" target="#fig_0">1</ref>. While bits allow for two discrete values, qubits can store a point in a two-dimensional continuum, a surface of a sphere. Quantum computing can take advantage of those more powerful qubits and carry out operations not only for a determined value |0⟩ or |1⟩, but also for all possible superpositions at the same time. Consequently, quantum computing attains an efficiency advantage over binary computing for selected tasks. Some tasks would be rendered only feasible due to this efficiency boost, if the appropriate quantum computer hardware were available.</p><p>In sum, quantum computers have a speed advantage over classical computers for selected problems and could therefore perform types of computation not available to current classical computers.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II. What are the data protection issues?</head><p>There are many reasons why quantum computing could have significant implications for data protec- tion in terms of data security and confidentiality of communications. One reason is the ability to break cryptography. Quantum computing can break many of today's classical cryptography and as such harm severely IT security. The risk extends to the core internet security protocols. Nearly all of today's systems that demand security, privacy or trust, would be affected.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II.1. Impact on public-key cryptography</head><p>Public-key cryptography, also known as asymmetric encryption, is a method of encrypting data with the It requires two separate keys, a private and a public key. The Rivest-Sharmir-Adleman (RSA) algorithm is a cryptographic system that is used for public-key cryptography, and is commonly used when sending sensitive data over the internet. The RSA algorithm allows for both public and private keys to encrypt messages so their confidentiality and authenticity remain intact. Quantum computers would allow for public-key cryptography systems to be jeopardised by adversaries in possession of a sufficiently powerful quantum computer, that could carry out the decryption without prior knowledge of the private key. Effected could be for instance digital signatures, essential Internet protocols like HTTPS (TLS) required for secure browsing, online banking, online shopping, etc.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II.2. Impact on symmetric cryptography</head><p>Quantum computing can also bring negative consequences for security guarantees of symmetric cryptography systems such as the Advanced Encryption Standard (AES). Asymmetric (e.g. RSA) and symmetric (e.g. AES) cryptography are often used together such as with the use of HTTPS. Symmetric cryptography needs practical ways of exchanging private keys in a confidential manner. To guarantee data security, the private key exchange must remain secure. But the key exchange methods used in practice today are based on problems that quantum computing may put at risk. To guarantee data confidentiality, the whole key exchange must remain secure.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II.3. Retrospective decryption</head><p>The technological progress in binary computing hardware, meaning today's widespread classic computers, is also a threat to IT security. With increasing computing power at decreasing costs, the retrospective decryption of data from the past becomes of use if the employed key lengths used at the time were sufficiently short. Security experts regularly call out for an increase of key lengths to keep data secure for a given period. Some governments' secret services are reported to collect data purposefully for future retrospective decryption. Quantum computers though follow different laws and would allow retrospective decryption in many cases much earlier.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II.4. Practical quantum computers</head><p>To be able to execute quantum algorithms with practical impacts, quantum computers would need to have thousands or millions of qubits with low error rates. This is something which is beyond the reach of technology in the foreseeable future.</p><p>In 2019, Google claimed to have demonstrated quantum supremacy with its 54-qubit quantum computer (Oliver 2019). The claim was that it took their quantum computer hundreds of seconds to perform computation that would take thousands of years for a powerful non-quantum supercomputer. While the solved task has no practical significance, it served as a proof of concept. It is likely that more similar results may be announced in this decade, but in the foreseeable future they will unlikely have a practical impact.</p><p>According to current understanding, to execute useful algorithms of practical relevance there is a need to build a quantum computer with more qubits and smaller error rates than what is possible today. The creation of a large and usable quantum computer within the next ten years is highly unlikely, but difficult to predict. It is this unpredictability that eventually leads to risks for IT security today.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II.5. Post-quantum cryptography</head><p>Post-quantum cryptography or quantum-safe cryptography refers to cryptography whose security is believed to be unaffected by quantum computers. This is achieved by the use of very different mathematical building blocks, which incorporate mathematical operations that quantum computers cannot solve more efficiently than other computers.</p><p>Post-quantum cryptography however will likely come with performance drawbacks and require larger computing resources to e.g. encrypt and decrypt data or sign and verify signatures and more networking resources to exchange lengthier keys and certificates. Post-quantum cryptography is not yet standardised. Sufficient and convincing knowledge must be available to conclude in a so-called cryptanalysis that such a solution is safe for both quantum and binary computing. The US National Institute of Standards and Technology (NIST) is working towards a Post-quantum cryptography standard and estimates to publish a draft with a first algorithm in 2022 or 2024. Once standardised, algorithms will need to be integrated with standard internet protocols like HTTPS.</p><p>As of 2020, prototypes of (non-standardised) postquantum cryptography are available for testing in the form of source code, software libraries (e.g. for OpenSSL), cloud services (e.g. Amazon AWS and Cloudflare) and consumer software (e.g. Google Chrome). It is estimated that a full transition could even take as long as 15-20 years in practice.</p><p>Organisations should consider for how long they need to guarantee absolute confidentiality of data and protection from retrospective decryption. Based on what we know today there is no immediate threat posed by a quantum computer in the foreseeable future. It may likely take decades to build a usable quantum computer that can execute known algorithms. But for data that needs to remain safe for very long, this uncertainty poses an issue that may require an early transition to post-quantum cryptography.</p><p>For this reason, some organisations may be interested in preparing appropriate risk assessment as well as contingency and migration plans. Such plans should always prioritise guaranteeing data security with respect to today's non-quantum security. When transitioning to post-quantum systems, organisations should consider existing risks and the usual considerations during migration of data that would guarantee data security (i.e. reliability, availability) as well as confidentiality (e.g. when the data is re-encrypted with post-quantum cryptography). The German Federal Office for Information Security (2020) has developed initial recommendations for the migration to post-quantum cryptography. To subscribe or unsubscribe to the EDPS Tech-Dispatch publications, please send a mail to t e c h d i s p a t c h @ e d p s . e u r o p a . e u .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>III. Recommended Reading</head><p>The data protection notice is online on the EDPS website. © European Union, 2020. Except otherwise noted, the reuse of this document is authorised under a Creative Commons Attribution 4.0 International License (CC BY 4.0). This means that reuse is allowed provided appropriate credit is given and any changes made are indicated. For any use or reproduction of photos or other material that is not owned by the European Union, permission must be sought directly from the copyright holders. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0" coords="1,302.62,508.46,252.17,10.68;1,314.57,522.90,238.18,10.68;1,314.57,537.35,238.17,10.68;1,314.57,551.79,180.83,10.68"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: The Bloch sphere is a geometrical representation of a qubit. Qubits can take as value each point on the surface described by the two angles 𝜑 and 𝜃. The pole points are |0⟩ or |1⟩.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1" coords="2,42.52,240.50,250.14,10.68;2,54.48,254.95,216.75,10.68;2,42.52,40.09,250.14,188.07"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: Quantum Computer IBM Q. Source: Pierre Metivier (detail, licensed under cc-by-nc 2.0)</figDesc><graphic coords="2,42.52,40.09,250.14,188.07" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2" coords="3,359.48,690.32,61.01,7.43;3,317.96,701.14,137.89,8.90;3,359.48,714.23,74.27,7.43;3,359.48,726.19,180.37,7.43;3,317.96,737.01,19.56,8.90;3,359.48,738.14,96.37,7.43;3,359.48,750.10,74.27,7.43;3,359.48,762.05,175.95,7.43"><head></head><label></label><figDesc>S B N 9 7 8 -9 2 -9 2 4 2 -4 3 1 -2 Q T -A D -2 0 -0 0 2 -E N -Q h t t p s : / / d a t a . e u r o p a . e u / d o i / 1 0 . 2 8 0 4 / 6 0 3 7 9 8PDF:I S B N 9 7 8 -9 2 -9 2 4 2 -4 3 2 -9 Q T -A D -2 0 -0 0 2 -E N -N h t t p s : / / d a t a . e u r o p a . e u / d o i / 1 0 . 2 8 0 4 / 3 6 4 0 4</figDesc></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>
