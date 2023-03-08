@@ -1,0 +1,2101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Image as Set of Points</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2023-03-02">2 Mar 2023</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName coords="1,116.47,117.47,29.61,8.82"><forename type="first">Xu</forename><surname>Ma</surname></persName>
+							<email>ma.xu1@northeastern.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Northeastern University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,158.33,117.47,55.84,8.82"><forename type="first">Yuqian</forename><surname>Zhou</surname></persName>
+							<email>yuqzhou@adobe.com</email>
+							<affiliation key="aff1">
+								<orgName type="institution">Adobe Inc</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,228.12,117.47,51.12,8.82"><forename type="first">Huan</forename><surname>Wang</surname></persName>
+							<email>wang.huan@northeastern.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Northeastern University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,288.20,117.47,36.26,8.82"><forename type="first">Can</forename><surname>Qin</surname></persName>
+							<email>qin.ca@northeastern.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Northeastern University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,333.43,117.47,34.06,8.82"><forename type="first">Bin</forename><surname>Sun</surname></persName>
+							<email>sun.bi@northeastern.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Northeastern University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,376.46,117.47,45.68,8.82"><forename type="first">Chang</forename><surname>Liu</surname></persName>
+							<email>liu.chang6@northeastern.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Northeastern University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,431.11,117.47,31.47,8.82"><forename type="first">Yun</forename><surname>Fu</surname></persName>
+							<email>yunfu@ece.neu.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Northeastern University</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Image as Set of Points</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2023-03-02">2 Mar 2023</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">A05CBBA796DB84BD2760382D67D36769</idno>
+					<idno type="arXiv">arXiv:2303.01494v1[cs.CV]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.7.2" ident="GROBID" when="2023-03-08T10:35+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What is an image and how to extract latent features? Convolutional Networks (ConvNets) consider an image as organized pixels in a rectangular shape and extract features via convolutional operation in local region; Vision Transformers (ViTs) treat an image as a sequence of patches and extract features via attention mechanism in a global range. In this work, we introduce a straightforward and promising paradigm for visual representation, which is called Context Clusters. Context clusters (CoCs) view an image as a set of unorganized points and extract features via simplified clustering algorithm. In detail, each point includes the raw feature (e.g., color) and positional information (e.g., coordinates), and a simplified clustering algorithm is employed to group and extract deep features hierarchically. Our CoCs are convolution-and attention-free, and only rely on clustering algorithm for spatial interaction. Owing to the simple design, we show CoCs endow gratifying interpretability via the visualization of clustering process. Our CoCs aim at providing a new perspective on image and visual representation, which may enjoy broad applications in different domains and exhibit profound insights. Even though we are not targeting SOTA performance, COCs still achieve comparable or even better results than ConvNets or ViTs on several benchmarks. Codes are available at: https://github.com/ma-xu/Context-Cluster.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<facsimile>
+		<surface n="1" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="2" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="3" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="4" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="5" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="6" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="7" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="8" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="9" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="10" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="11" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="12" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="13" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="14" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="15" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="16" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="17" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="18" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+	</facsimile>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>The way we extract features depends a lot on how we interpret an image. As a fundamental paradigm, Convolutional Neural Networks (ConvNets) have dominated the field of computer vision and considerably improved the performance of various vision tasks in recent years <ref type="bibr" coords="1,440.05,481.08,64.77,8.90" target="#b16">(He et al., 2016;</ref><ref type="bibr" coords="1,107.64,492.04,63.02,8.90" target="#b53">Xie et al., 2021;</ref><ref type="bibr" coords="1,173.17,492.04,59.07,8.90" target="#b12">Ge et al., 2021)</ref>. Methodologically, ConvNets conceptualize a picture as a collection of arranged pixels in a rectangle form, and extract local features using convolution in a sliding window fashion. Benefiting from some important inductive biases like locality and translation equivariance, ConvNets are made to be efficient and effective. Recently, Vision Transformers (ViTs) have significantly challenged ConvNets' hegemony in the vision domain. Derived from language processing, Transformers <ref type="bibr" coords="1,215.36,546.83,91.31,8.90" target="#b48">(Vaswani et al., 2017)</ref> treat an image as a sequence of patches, and a global-range self-attention operation is employed to adaptively fuse information from patches. With the resulting models (i.e., ViTs), the inherent inductive biases in ConvNets are abandoned, and gratifying results are obtained <ref type="bibr" coords="1,229.74,579.71,85.11,8.90">(Touvron et al., 2021)</ref>.</p><p>Recent work has shown tremendous improvements in vision community, which are mainly built on top of convolution or attention (e.g., ConvNeXt <ref type="bibr" coords="1,317.38,607.60,67.30,8.90" target="#b30">(Liu et al., 2022)</ref>, MAE <ref type="bibr" coords="1,417.13,607.60,65.04,8.90" target="#b18">(He et al., 2022)</ref>, and CLIP <ref type="bibr" coords="1,131.70,618.56,82.21,8.90" target="#b40">(Radford et al., 2021)</ref>). Meanwhile, some attempts combine convolution and attention together, like CMT <ref type="bibr" coords="1,150.33,629.52,76.61,8.90" target="#b13">(Guo et al., 2022a)</ref> and CoAtNet <ref type="bibr" coords="1,286.07,629.52,67.44,8.90" target="#b7">(Dai et al., 2021)</ref>. These methods scan images in grid (convolution) yet explore mutual relationships of a sequence (attention), enjoying locality prior (convolution) without sacrificing global reception (attention). While they inherit the advantages from both and achieve better empirical performance, the insights and knowledge are still restricted to ConvNets and ViTs. Instead of being lured into the trap of chasing incremental improvements, we underline that some feature extractors are also worth investigating beyond convolution and attention. While convolution and attention are acknowledged to have significant benefits and an enormous influence on the field of vision, they are not the only choices. MLP-based architectures <ref type="bibr" coords="1,466.42,706.23,37.58,8.90;2,108.00,85.10,45.83,8.90" target="#b45">(Touvron et al., 2022;</ref><ref type="bibr" coords="2,156.14,85.10,88.03,8.90" target="#b43">Tolstikhin et al., 2021)</ref> have demonstrated that a pure MLP-based design can also achieve similar performance. Besides, considering graph network as the feature extractor is proven to be feasible <ref type="bibr" coords="2,141.56,107.02,68.37,8.90" target="#b15">(Han et al., 2022)</ref>. Hence, we expect a new paradigm of feature extraction that can provide some novel insights instead of incremental performance improvements.</p><formula xml:id="formula_0" coords="2,325.74,187.17,132.57,24.25">𝐶 ! 𝑋 ! " 𝑋 ! "</formula><p>Figure <ref type="figure" coords="2,305.67,232.55,3.87,8.90">1</ref>: A context cluster in our network trained for image classification. We view an image as a set of points and sample c centers for points clustering. Point features are aggregated and then dispatched within a cluster. For cluster center C i , we first aggregated all points {x 0 i , x 1 i , • • • , x n i } in ith cluster, then the aggregated result is distributed to all points in the clusters dynamically. See § 3 for details.</p><p>In this work, we look back into the classical algorithm for the fundamental visual representation, clustering method <ref type="bibr" coords="2,143.60,167.79,121.03,8.90" target="#b2">(Bishop &amp; Nasrabadi, 2006)</ref>. Holistically, we view an image as a set of data points and group all points into clusters. In each cluster, we aggregate the points into a center and then dispatch the center point to all the points adaptively. We call this design context cluster. Fig. <ref type="figure" coords="2,263.13,233.54,4.88,8.90">1</ref> illustrates the process. Specifically, we consider each pixel as a 5-dimensional data point with the information of color and position. In a sense, we convert an image as a set of point clouds and utilize methodologies from point cloud analysis <ref type="bibr" coords="2,145.89,310.21,75.43,8.82">(Qi et al., 2017b;</ref><ref type="bibr" coords="2,225.43,310.21,43.08,8.82;2,108.00,321.16,23.24,8.82" target="#b34">Ma et al., 2022)</ref> for image visual representation learning. This bridges the representations of image and point cloud, showing a strong generalization and opening the possibilities for an easy fusion of multi-modalities. With a set of points, we introduce a simplified clustering method to group the points into clusters. The clustering processing shares a similar idea as SuperPixel <ref type="bibr" coords="2,445.07,354.09,60.18,8.90;2,108.00,365.05,21.02,8.90" target="#b41">(Ren &amp; Malik, 2003)</ref>, where similar pixels are grouped, but they are fundamentally different. To our best knowledge, we are the first ones to introduce the clustering method for the general visual representation and make it work. On the contrary, SuperPixel and later versions are mainly for image pre-processing <ref type="bibr" coords="2,468.17,386.97,35.83,8.90;2,108.00,397.93,47.59,8.90" target="#b22">(Jampani et al., 2018)</ref> or particular tasks like semantic segmentation <ref type="bibr" coords="2,342.67,397.93,73.43,8.90" target="#b56">(Yang et al., 2020;</ref><ref type="bibr" coords="2,418.59,397.93,64.23,8.90" target="#b58">Yu et al., 2022b)</ref>.</p><p>We instantiate our deep network based on the context cluster and name the resulting models as Context Clusters (CoCs). Our new design is inherently different from ConvNets or ViTs, but we also inherit some positive philosophy from them, including the hierarchical representation <ref type="bibr" coords="2,464.26,436.78,40.99,8.90;2,108.00,447.74,22.94,8.90" target="#b30">(Liu et al., 2022)</ref> from ConvNets and Metaformer <ref type="bibr" coords="2,262.57,447.74,68.05,8.90" target="#b59">(Yu et al., 2022c)</ref> framework from ViTs. CoCs reveal distinct advantages. First, by considering image as a set of points, CoCs show great generalization ability to different data domains, like point clouds, RGBD images, etc. Second, the context clustering processing provides CoCs gratifying interpretability. By visualizing the clustering in each layer, we can explicitly understand the learning in each layer. Even though our method does not target SOTA performance, it still achieves on par or even better performance than ConvNets or ViTs on several benchmarks. We hope our context cluster will bring new breakthroughs to the vision community.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Related Work</head><p>Clustering in Image Processing While clustering approaches in image processing <ref type="bibr" coords="2,456.41,569.71,48.83,8.90;2,107.25,580.67,23.08,8.90" target="#b4">(Castleman, 1996)</ref> have gone out of favor in the deep learning era, they never disappear from computer vision. A time-honored work is SuperPixel <ref type="bibr" coords="2,245.09,591.63,84.10,8.90" target="#b41">(Ren &amp; Malik, 2003)</ref>, which segments an image into regions by grouping a set of pixels that share common characteristics. Given the desired sparsity and simple representation, SuperPixel has become a common practice for image preprocessing. Naive application of SuperPixel exhaustively clusters (e.g., via K-means algorithm) pixels over the entire image, making the computational cost heavy. To this end, SLIC <ref type="bibr" coords="2,299.12,635.47,85.15,8.90" target="#b0">(Achanta et al., 2012)</ref> limits the clustering operation in a local region and evenly initializes the K-means centers for better and faster convergence. In recent years, clustering methods have been experiencing a surge of interest and are closely bound with deep networks <ref type="bibr" coords="2,188.29,668.34,73.82,8.90" target="#b26">(Li &amp; Chen, 2015;</ref><ref type="bibr" coords="2,264.60,668.34,82.98,8.90" target="#b22">Jampani et al., 2018;</ref><ref type="bibr" coords="2,350.08,668.34,64.66,8.90" target="#b38">Qin et al., 2018;</ref><ref type="bibr" coords="2,417.23,668.34,69.06,8.90" target="#b56">Yang et al., 2020)</ref>. To create the superpixels for deep networks, SSN <ref type="bibr" coords="2,293.65,679.30,86.34,8.90" target="#b22">(Jampani et al., 2018)</ref> proposes a differentiable SLIC method, which is end-to-end trainable and enjoys favorable runtime. Most recently, tentative efforts have been made towards applying clustering methods into networks for specific vision tasks, like segmentation <ref type="bibr" coords="2,164.63,712.18,70.46,8.90" target="#b58">(Yu et al., 2022b;</ref><ref type="bibr" coords="2,237.69,712.18,63.65,8.90" target="#b34">Xu et al., 2022)</ref> and fine-grained recognition <ref type="bibr" coords="2,421.77,712.18,79.60,8.90" target="#b21">(Huang &amp; Li, 2020)</ref>. For example, CMT-DeepLab <ref type="bibr" coords="2,226.20,723.14,69.14,8.90" target="#b57">(Yu et al., 2022a)</ref> interprets the object queries in segmentation task as cluster centers, and the grouped pixels are assigned to the segmentation for each cluster. Nevertheless, to our best knowledge, there is no work conducted for a general visual representation via clustering. We aim to make up for the vacancy, along with proving the feasibility numerically and visually.</p><p>ConvNets &amp; ViTs ConvNets have dominated the vision community since the deep learning era <ref type="bibr" coords="3,491.02,131.92,10.98,8.90;3,108.00,142.88,116.40,8.90" target="#b42">(Simonyan &amp; Zisserman, 2015;</ref><ref type="bibr" coords="3,227.03,142.88,61.36,8.90" target="#b16">He et al., 2016)</ref>. Recently, ViTs <ref type="bibr" coords="3,359.29,142.88,103.70,8.90" target="#b11">(Dosovitskiy et al., 2020)</ref> introduce purely attention-based transformers <ref type="bibr" coords="3,256.44,153.84,90.22,8.90" target="#b48">(Vaswani et al., 2017)</ref> to the vision community and have set new SOTA performances on various vision tasks. A common and plausible conjecture is that these gratifying achievements are credited to the self-attention mechanism. However, this intuitive conjecture has soon been challenged. Extensive experiments also showcase that a ResNet <ref type="bibr" coords="3,439.81,186.72,64.85,8.90" target="#b16">(He et al., 2016)</ref> can achieve on par or even better performance than ViTs, with proper training recipe and minimal modifications <ref type="bibr" coords="3,165.76,208.64,96.18,8.90" target="#b51">(Wightman et al., 2021;</ref><ref type="bibr" coords="3,264.43,208.64,63.16,8.90" target="#b30">Liu et al., 2022)</ref>. We emphasize that while convolution and attention may have unique virtues (i.e., ConvNets enjoy inductive biases <ref type="bibr" coords="3,408.48,219.60,69.94,8.90" target="#b30">(Liu et al., 2022)</ref> while ViTs excel at generalization <ref type="bibr" coords="3,224.42,230.55,73.88,8.90">(Yuan et al., 2021b</ref>)), they did not show significant performance gap. Different from convolution and attention, in this work, we radically present a new paradigm for visual representation using clustering algorithm. With both quantitative and qualitative analysis, we show that our method can serve as a new general backbone and enjoys gratifying interpretability.</p><p>Recent Advances Extensive efforts have been made to push up the vision tasks' performances within the framework of ConvNets and ViTs <ref type="bibr" coords="3,287.85,299.30,71.78,8.90" target="#b29">(Liu et al., 2021b;</ref><ref type="bibr" coords="3,362.12,299.30,74.57,8.90" target="#b10">Ding et al., 2022b;</ref><ref type="bibr" coords="3,439.17,299.30,62.28,8.90" target="#b52">Wu et al., 2021)</ref>. To take advantage of both convolution and attention, some work learns to mix the two designs in a hybrid mode, like CoAtNet <ref type="bibr" coords="3,218.66,321.21,67.37,8.90" target="#b7">(Dai et al., 2021)</ref> and Mobile-Former <ref type="bibr" coords="3,368.64,321.21,77.02,8.90" target="#b6">(Chen et al., 2022b)</ref>. We also note that some recent advances explored more methods for visual representation, beyond convolution and attention. MLP-like models <ref type="bibr" coords="3,224.40,343.13,95.61,8.90" target="#b43">(Tolstikhin et al., 2021;</ref><ref type="bibr" coords="3,322.80,343.13,85.44,8.90" target="#b45">Touvron et al., 2022;</ref><ref type="bibr" coords="3,411.03,343.13,68.74,8.90" target="#b19">Hou et al., 2022;</ref><ref type="bibr" coords="3,482.55,343.13,21.45,8.90;3,108.00,354.09,53.73,8.90" target="#b5">Chen et al., 2022a)</ref> directly consider a MLP layer for spatial interaction. Besides, some work employs shifting <ref type="bibr" coords="3,140.64,365.05,70.50,8.90" target="#b27">(Lian et al., 2021;</ref><ref type="bibr" coords="3,213.63,365.05,75.97,8.90" target="#b20">Huang et al., 2021)</ref> or pooling <ref type="bibr" coords="3,335.46,365.05,68.28,8.90" target="#b59">(Yu et al., 2022c)</ref> for local communication. Similar to our work that treats the image as unordered data set, Vision GNN (ViG) <ref type="bibr" coords="3,435.39,376.01,69.28,8.90" target="#b15">(Han et al., 2022)</ref> extracts graph-level features for visual tasks. Differently, we directly apply the clustering method from conventional image processing and exhibit promising generalization ability and interpretability.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Method</head><p>Context Cluster </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Context Clusters Pipeline</head><p>From Image to Set of Points. given an input image I ∈ R 3×w×h , we begin by enhancing the image with the 2D coordinates of each pixel I i, j , where each pixel's coordinate is presented as i w − 0.5, j h − 0.5 . It is feasible to investigate further positional augmentation techniques to potentially improve performance. This design is taken into consideration for its simplicity and practicality. The augmented image is then converted to a collection of points (i.e., pixels) P ∈ R 5×n , where n = w × h is the number of points, and each point contains both feature (color) and position (coordinates) information; hence, the points set could be unordered and disorganized.  We are rewarded with excellent generalization ability by offering a fresh perspective of image, a set of points. A set of data points can be considered as a universal data representation because data in most domains can be given as a combination of feature and position information (or either of the two). This inspires us to conceptualize an image as a set of points.</p><p>Feature Extraction with Image Set Points. Following the ConvNets methodology <ref type="bibr" coords="4,441.37,303.40,63.45,8.90" target="#b16">(He et al., 2016;</ref><ref type="bibr" coords="4,108.00,314.36,62.53,8.90" target="#b30">Liu et al., 2022)</ref>, we extract deep features using context cluster blocks (see Fig. <ref type="figure" coords="4,427.99,314.36,5.02,8.90" target="#fig_0">2</ref> for reference and § 3.2 for explanation) hierarchically. Fig. <ref type="figure" coords="4,277.22,325.32,5.07,8.90" target="#fig_1">3</ref> shows our Context Cluster architecture. Given a set of points P ∈ R 5×n , we first reduce the points number for computational efficiency, then a succession of context cluster blocks are applied to extract features. To reduce the points number, we evenly select some anchors in space, and the nearest k points are concatenated and fused by a linear projection.</p><p>Note that this reduction can be achieved by a convolutional operation if all points are arranged in order and k is properly set (i.e., 4 and 9), like in ViT <ref type="bibr" coords="4,323.60,380.12,101.96,8.90" target="#b11">(Dosovitskiy et al., 2020)</ref>. For clarity on the centers and anchors stated previously, we strongly suggest the readers check appendix § B.</p><p>Task-Specific Applications. For classification, we average all points of the last block's output and use a FC layer for classification. For downstream dense prediction tasks like detection and segmentation, we need to rearrange the output points by position after each stage to satisfy the needs of most detection and segmentation heads (e.g., Mask-RCNN <ref type="bibr" coords="4,361.81,440.89,64.37,8.90" target="#b17">(He et al., 2017)</ref>). That is, Context Cluster offers remarkable flexibility in classification, but is limited to a compromise between dense prediction tasks' requirements and our model configurations. We expect innovative detection &amp; segmentation heads (like DETR <ref type="bibr" coords="4,237.80,473.77,79.41,8.90" target="#b3">(Carion et al., 2020)</ref>) can seamlessly integrate with our method.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Context Cluster Operation</head><p>In this subsection, we introduce the key contribution in our work, the context cluster operation. Holistically, we first group the feature points into clusters; then, feature points in each cluster will be aggregated and then dispatched back, as illustrated in Fig. <ref type="figure" coords="4,341.06,542.49,3.74,8.90">1</ref>.</p><p>Context Clustering. Given a set of feature points P ∈ R n×d , we group all the points into several groups based on the similarities, with each point being solely assigned to one cluster. We first linearly project P to P s for similarity computation. Following the conventional SuperPixel method SLIC <ref type="bibr" coords="4,131.58,599.94,83.03,8.90" target="#b0">(Achanta et al., 2012)</ref>, we evenly propose c centers in space, and the center feature is computed by averaging its k nearest points. We then calculate the pair-wise cosine similarity matrix S ∈ R c×n between P s and the resulting set of center points. Since each point contains both feature and position information, while computing similarity, we implicitly highlight the points' distances (locality) as well as the feature similarity. After that, we allocate each point to the most similar center, resulting in c clusters. Of note is that each cluster may have a different number of points. In extreme cases, some clusters may have zero points, in which case they are redundant.</p><p>Feature Aggregating. We dynamically aggregate all points in a cluster based on the similarities to the center point. Assuming a cluster contains m points (a subset in P) and the similarity between the m points and the center is s ∈ R m (a subset in S ), we map the points to a value space to get P v ∈ R m×d , where d is the value dimension. We also propose a center v c in the value space like the clustering center proposal. The aggregated feature g ∈ R d is given by:</p><formula xml:id="formula_1" coords="5,165.28,98.24,338.72,29.68">g = 1 C        v c + m i=1 sig (αs i + β) * v i        , s.t., C = 1 + m i=1 sig (αs i + β) .<label>(1)</label></formula><p>Here α and β are learnable scalars to scale and shift the similarity and sig (•) is a sigmoid function to re-scale the similarity to (0, 1). v i indicates i-th point in P v . Empirically, this strategy would achieve much better results than directly applying the original similarity because no negative value is involved. Softmax is not considered since the points do not contradict with one another. We incorporate the value center v c in Eq. 1 for numerical stability<ref type="foot" coords="5,291.43,174.66,3.49,6.23" target="#foot_0">1</ref> as well as further emphasize the locality. To control the magnitude, the aggregated feature is normalized by a factor of C.</p><p>Feature Dispatching. The aggregated feature g is then adaptively dispatched to each point in a cluster based on the similarity. By doing so, the points can communicate with one another and shares features from all points in the cluster, as shown in Fig. <ref type="figure" coords="5,326.79,232.22,3.74,8.90">1</ref>. For each point p i , we update it by</p><formula xml:id="formula_2" coords="5,243.33,246.25,126.10,11.58">p i = p i + FC sig (αs i + β) * g .</formula><p>(2) Here we follow the same procedures to handle the similarity and apply a fully-connected (FC) layer to match the feature dimension (from value space dimension d to original dimension d).</p><p>Multi-Head Computing. We acknowledge the multi-head design in the self-attention mechanism <ref type="bibr" coords="5,129.46,306.77,85.36,8.90" target="#b48">(Vaswani et al., 2017)</ref> and use it to enhance our context cluster. We consider h heads and set the dimension number of both value space P v and similarity space P s to d for simplicity. The outputs of multi-head operations are concatenated and fused by a FC layer. The multi-head architecture also contributes to a satisfying improvement in our context cluster, as we empirically demonstrate.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Architecture Initialization</head><p>While Context Cluster is fundamentally distinct from convolution and attention, the design philosophies from ConvNets and ViTs, such as hierarchical representations and meta Transformer architecture <ref type="bibr" coords="5,125.77,406.53,66.24,8.90" target="#b59">(Yu et al., 2022c)</ref>, are still applicable to Context Cluster. To align with other networks and make our method compatible with most detection and segmentation algorithms, we progressively reduce the number of points by a factor of 16, 4, 4, and 4 in each stage. We consider 16 nearest neighbors for selected anchors in the first stage, and we choose their 9 nearest neighbors in the rest stages.</p><p>An underlying issue is computational efficiency. Assume we have n d-dimensional points and c clusters, the time complexity to calculate the feature similarity would be O (ncd), which is unacceptable when the input image resolution is high (e.g., 224 × 224). To circumvent this problem, we introduce region partition by splitting the points into several local regions like Swin Transformer <ref type="bibr" coords="5,462.82,489.22,42.43,8.90;5,108.00,500.18,26.27,8.90" target="#b29">(Liu et al., 2021b)</ref>, and compute similarity locally. As a result, when the number of local regions is set to r, we noticeably lower the time complexity by a factor of r, from O (ncd) to O r n r c r d . See appendix § A for detailed configurations. Note that if we split the set of points to several local regions, we limit the receptive field for context cluster, and no communications among local regions are available.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4">Discussion</head><p>Fixed or Dynamic centers for clusters? Both conventional clustering algorithms and SuperPixel techniques iteratively update the centers until converge. However, this will result in exorbitant computing costs when clustering is used as a key component in each building block. The inference time will increase exponentially. In Context Cluster, we view fixed centers as an alternative for inference efficiency, which can be considered as a compromise between accuracy and speed.</p><p>Overlap or non-overlap clustering? We allocate the points solely to a specific center, which differs from previous point cloud analysis design philosophies. We intentionally adhere to the conventional clustering approach (non-overlap clustering) since we want to demonstrate that the simple and traditional algorithm can serve as a generic backbone. Although it might produce higher performance, overlapped clustering is not essential to our approach and could result in extra computing burdens. Even we are not in pursuit of state-of-the-art performance like ConvNeXt <ref type="bibr" coords="6,415.75,492.73,70.42,8.90" target="#b30">(Liu et al., 2022)</ref> and DaViT <ref type="bibr" coords="6,138.32,503.69,77.92,8.90" target="#b9">(Ding et al., 2022a)</ref>, Context Cluster still presents promising results on all tasks. Detailed studies demonstrate the interpretability and the generalization ability of our Context Cluster.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Image Classification on ImageNet-1K</head><p>We train Context Clusters on the ImageNet-1K training set (about 1.3M images) and evaluate upon the validation set. In this work, we adhere to the conventional training recipe in <ref type="bibr" coords="6,409.57,574.69,66.25,8.90" target="#b7">(Dai et al., 2021;</ref><ref type="bibr" coords="6,478.32,574.69,22.79,8.90;6,108.00,585.65,44.62,8.90">Wightman, 2019;</ref><ref type="bibr" coords="6,155.11,585.65,82.66,8.90">Touvron et al., 2021;</ref><ref type="bibr" coords="6,240.26,585.65,63.46,8.90" target="#b59">Yu et al., 2022c)</ref>. For data augmentation, we mainly adopt random horizontal flipping, random pixel erase, mixup, cutmix, and label smoothing. AdamW <ref type="bibr" coords="6,455.87,596.61,48.38,8.90;6,107.61,607.57,60.56,8.90" target="#b32">(Loshchilov &amp; Hutter, 2019</ref>) is used to train all of our models across 310 epochs with a momentum of 0.9 and a weight decay of 0.05. The learning rate is set to 0.001 by default and adjusted using a cosine schedular <ref type="bibr" coords="6,148.93,629.49,113.35,8.90" target="#b31">(Loshchilov &amp; Hutter, 2017)</ref>. By default, the models are trained on 8 A100 GPUs with a 128 mini-batch size (that is 1024 in total). We use Exponential Moving Average (EMA) to enhance the training, similar to earlier studies <ref type="bibr" coords="6,264.61,651.41,78.63,8.90">(Guo et al., 2022b;</ref><ref type="bibr" coords="6,346.50,651.41,85.59,8.90">Touvron et al., 2021)</ref>.    <ref type="table" coords="7,229.93,481.90,5.08,8.90" target="#tab_4">2</ref> reports the results on ImageNet-1K of eliminating each individual component in Context-Cluster-Small variant. To remove the multi-head design, we utilize one head for each block and set the head dimension number to <ref type="bibr" coords="7,260.04,525.73,15.77,8.90">[16,</ref><ref type="bibr" coords="7,277.47,525.73,12.45,8.90">32,</ref><ref type="bibr" coords="7,291.58,525.73,12.45,8.90">96,</ref><ref type="bibr" coords="7,305.70,525.73,18.26,8.90">128]</ref> in the four stages, respectively. When the positional information is removed, the model becomes untrainable since points are disorganized. A similar phenomenon can also be seen from cifar <ref type="bibr" coords="7,222.35,569.57,102.28,8.90" target="#b24">(Krizhevsky et al., 2009)</ref> datasets. Performance dropped 3.3% without the context cluster operation. Besides, multi-head design is able to boost the result by 0.9%. Combining all the components, we arrive at a 77.5% top-1 accuracy.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Visualization of Clustering</head><p>To better understand Context Cluster, we draw the clustering map in Fig. <ref type="figure" coords="7,406.80,651.41,3.81,8.90" target="#fig_2">4</ref>, and we also show the attention map of ViTs and the class activation map (i.e., CAM) <ref type="bibr" coords="7,371.14,662.37,77.33,8.90" target="#b63">(Zhou et al., 2016)</ref> of ConvNets. Notice that the three kinds of maps are conceptually different and cannot be compared directly. We list the other two (attention and class activation) maps for reference and demonstrate the inner operations in ViTs, ConvNets, and our Context Cluster. Detail settings can be found in the caption of Fig. <ref type="figure" coords="7,486.85,695.24,3.74,8.90" target="#fig_2">4</ref>.</p><p>As the number of points is reduced, the details are merged to form a context cluster. Three observations justify the correctness and effectiveness of our Context Cluster. First, our method clearly clusters the goose as one object context in the last stage and groups the background grass together. A similar phenomenon can also be observed from the previous stages but in more detailed and local regions. Second, our context cluster can even cluster similar contexts in the very early stages (e.g., the first and second stages). Zoom in the details in the red boxes, we can see that the points belonging to the goose's neck are clearly clustered together, suggesting the strong clustering ability of our method. Last, we notice that most clusters emphasize the locality, while some (colored in bright green) show the globality a lot, as shown in the clustering map of the last stage. This further demonstrates the design philosophy; we encourage similar points to be grouped but make no restriction to the receptive field. Visual clustering map and detailed analysis indicate that our Context Cluster is effective and exhibit promising interpretability. Notably, our method demonstrates promising clustering results in a SuperPixel-style when removing the region partition operation. See appendix for more examples. Therefore we also examine our method for the task of point cloud classification. We choose PointMLP <ref type="bibr" coords="8,183.94,309.75,42.05,8.90;8,108.00,320.71,23.71,8.90" target="#b34">(Ma et al., 2022)</ref> as the foundation for our model because of its performance and ease of use. In detail, we only consider one head and set the head dimension number to min c 4 , 32 where c indicates the channel number in each layer. We place our Context Cluster block before each Residual Point Block in PointMLP. The resulting model is termed PointMLP-CoC. Note that better settings would result in improved performance, but that is not the focus of our study. We report the mean accuracy over all classes (mAcc) and overall accuracy over all examples (OA) in Table <ref type="table" coords="8,494.47,475.58,3.74,8.90" target="#tab_5">3</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">3D Point Cloud Classification on ScanObjectNN</head><p>In Table <ref type="table" coords="8,143.35,492.51,3.76,8.90" target="#tab_5">3</ref>, we present the mean accuracy across all classes (mAcc) and the overall accuracy across all samples (OA). Experimental results show that our method can substantially increase PointMLP's performance, with improvements in mean accuracy of 0.5% (84.4% vs. 83.9%) and overall accuracy of 0.8% (86.2% vs. 85.4%). Note that the promising gain has only been made by the introduction of one head in the context cluster; with more heads and elaborate settings, performance would be improved. Most importantly, the outcomes show that our approach is highly generalizable to different domains, such as point clouds. We anticipate that our Context Cluster will operate satisfactorily when applied to more domains with little to no modifications.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.4">Object Detection and Instance Segmentation on MS-COCO</head><p>Next, we investigate Context Cluster's generalisability to downstream tasks, including object detection and instance segmentation. We conduct our experiments on the MS COCO 2017 benchmark <ref type="bibr" coords="8,465.46,629.49,39.79,8.90;8,108.00,640.45,21.68,8.90" target="#b28">(Lin et al., 2014)</ref>, which has 118k images for training and 5k images for validation. Following previous work, we train and test our model integrating with Mask RCNN <ref type="bibr" coords="8,339.06,651.41,64.93,8.90" target="#b17">(He et al., 2017)</ref> for both object detection and instance segmentation tasks. All models are trained with 1× scheduler (12 epochs) and initialized with ImageNet pre-trained weights. For comparison, we consider ResNet as a representative for ConvNets and PVT for ViTs. We report evaluation metric mean Average Precision (mAP) in Table <ref type="table" coords="8,498.18,684.28,3.68,8.90" target="#tab_6">4</ref>.</p><p>We notice that owing to the differences in image resolution, directly adopting the Context Cluster configuration for ImageNet may not be appropriate for the downstream tasks. For classification task, we would have 49 points and 4 centers in a local region. The detection and segmentation tasks </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.5">Semantic Segmentation on ADE20K</head><p>We examine our Context Cluster equipped with semantic FPN <ref type="bibr" coords="9,363.93,304.91,86.81,8.90" target="#b23">(Kirillov et al., 2019)</ref> for semantic segmentation task on the ADE20K <ref type="bibr" coords="9,250.38,315.87,75.01,8.90" target="#b64">(Zhou et al., 2017)</ref> dataset. For training, validation, and testing, ADE20K includes 20k, 2k, and 3k images, each of which corresponds to one of 150 semantic categories. For a fair comparison, we train all of our models for 80k iterations with a batch size of 16 on four V100 GPUs and adopt the standard data augmentation methods used in PVT <ref type="bibr" coords="9,453.61,348.75,51.63,8.90;9,108.00,359.71,21.02,8.90" target="#b49">(Wang et al., 2021)</ref>. With an initial learning rate of 2x10-4, the AdamW optimizer is used to train all of our models. We use a polynomial decay schedule with a power of 0.9 to decrease the learning rate. Experimental results on ADE20K are reported in Table 5. We show that our Context Clusters clearly outperform PVT and ResNet using a similar number of parameters. The promising improvements can be credited to our novel context cluster operation. Our context cluster is similar to the SuperPixel, which is an oversegmentation technology. When applied for feature extraction, we expect context cluster can over-segment the contexts in intermediate features, and show improvements for semantic segmentation tasks. Unlike in object detection and semantic segmentation tasks, the centers number shows little influence on the results. More results can be found in appendix § C.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Conclusion</head><p>We introduce Context Cluster, a novel feature extraction paradigm for visual representation. Inspired by point cloud analysis and SuperPixel algorithms, we view an image as a set of unorganized points and employ the simplified clustering approach to extract features. In terms of image interpretation and feature extraction operation, Context Cluster is fundamentally distinct from ConvNets and ViTs, and no convolution or attention is involved in our architecture. Instead of chasing SOTA performance, we show that our Context Cluster can achieve comparable or even better results than ConvNet and ViT baselines on multiple tasks and domains. Most notably, our method shows promising interpretability and generalization properties. We hope our Context Cluster can be considered as a novel visual representation method in addition to convolution and attention.</p><p>As discussed at the end of § 3, our new perspective and design for visual representation also come with new challenges, primarily in the compromise between accuracy and speed. Better strategies are worth exploring. Departing from the current framework of detection and segmentation to apply our context cluster philosophy to other tasks is also a worthwhile direction to pursue.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A Model Configurations</head><p>We first introduce the detailed configurations of our Context clusters in Table <ref type="table" coords="14,416.03,108.37,3.72,8.90" target="#tab_8">6</ref>. Point reducer block is consistent with image downsize blocks, like in PVT and ConvNeXt. In the context of points, we select k_neighbors of the nearest points for a proposed anchor, and fuse all the points using FC layer.</p><p>We reduce the number of points by a factor of downsample_r. The key contribution in our work is context cluster blocks. We first evenly split the whole set of points into regions local regions in the space. In each local region, we propose local_centers for clustering. We set the heads number and dimension of each head to heads and head_dim, respectively, in our context cluster operation. The channel number is expanded by a factor of mlp_r (i.e., to mlp_r × dim) and then reduced to dim in the MLP block. The Context Cluster block would be repeated by several times in each stage. We mark all variables in blue for easy understanding. For the Context-Cluster-Ti ‡ variation, it shares the same network structure as Context-Cluster-Ti, with the exception that we configure the region partition and local center numbers differently. In particular, the number of region partitions is set to [49, 49, 1, 1] and the number of centers in each local region is set to <ref type="bibr" coords="14,375.75,239.87,15.77,8.90">[16,</ref><ref type="bibr" coords="14,393.18,239.87,7.47,8.90">4,</ref><ref type="bibr" coords="14,402.31,239.87,12.45,8.90">49,</ref><ref type="bibr" coords="14,416.43,239.87,13.28,8.90">16]</ref> for the four stages. </p><formula xml:id="formula_3" coords="14,120.30,302.61,373.10,330.90">         k_neighbors = 16 downsample_r = 16 dim = 32                   k_neighbors = 16 downsample_r = 16 dim = 64                   k_neighbors = 16 downsample_r = 16 dim = 64          3136 Context Cluster Blocks                       regions = 64 local_centers = 4 heads = 4 head_dim = 24 mlp_r. = 8 dim = 32                       × 3                       regions = 64 local_centers = 4 heads = 4 head_dim = 32 mlp_r. = 8 dim = 64                       × 2                       regions = 64 local_centers = 4 heads = 6 head_dim = 32 mlp_r. = 8 dim = 64                       × 4 S2 3136 Point Reducer          k_neighbors = 9 downsample_r = 4 dim = 64                   k_neighbors = 9 downsample_r = 4 dim = 128                   k_neighbors = 9 downsample_r = 4 dim = 128          784 Context Cluster Blocks                       regions = 16 local_centers = 4 heads = 4 head_dim = 24 mlp_r. = 8 dim = 64                       × 4                       regions = 16 local_centers = 4 heads = 4 head_dim = 32 mlp_r. = 8 dim = 128                       × 2                       regions = 16 local_centers = 4 heads = 6 head_dim = 32 mlp_r. = 8 dim = 128                       × 4 S3 784 Point Reducer          k_neighbors = 9 downsample_r = 4 dim = 196                   k_neighbors = 9 downsample_r = 4 dim = 320                   k_neighbors = 9 downsample_r = 4 dim = 320          196 Context Cluster Blocks                       regions = 4 local_centers = 4 heads = 8 head_dim = 24 mlp_r. = 4 dim = 196                       × 5                       regions = 4 local_centers = 4 heads = 8 head_dim = 32 mlp_r. = 4 dim = 320                       × 6                       regions = 4 local_centers = 4 heads = 12 head_dim = 32 mlp_r. = 4 dim = 320                       × 12 S4 196 Point Reducer.          k_neighbors = 9 downsample_r = 4 dim = 320                   k_neighbors = 9 downsample_r = 4 dim = 512                   k_neighbors = 9 downsample_r = 4 dim = 512          49 Context Cluster Blocks                       regions = 1 local_centers = 4 heads = 8 head_dim = 24 mlp_r. = 4 dim = 320                       × 2                       regions = 1 local_centers = 4 heads = 8 head_dim = 32 mlp_r. = 4 dim = 512                       × 2                       regions = 1 local_centers = 4 heads = 12 head_dim = 32 mlp_r. = 4 dim = 512                       × 4</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B Detail Explanations</head><p>One may be confused about how to specify the anchors in our point reducer block and the centers in our context cluster block. We provide illustrative and thorough explanations of them in this section.</p><p>For both anchor and center, they are generated evenly in the space. In order to better illustrate this, we plot organized image points in Fig. <ref type="figure" coords="14,266.41,723.14,3.74,8.90" target="#fig_4">5</ref>.  On the left, we display 16 points with 4 proposed anchors for point reduction, each of which takes its closest 4 neighbors into account. All neighbors are concatenated along the channel dimension, and a FC layer is used to lower the dimensional number and fuse the information. After reducing the number of points, we arrive at a new set of points with the same number of proposed anchors.</p><p>On the right, we show 9 centers (red blocks) generated from the set of image points and corresponding 9 clusters. The feature of generated centers will be given by averaging the k neighbors (for the second center, we average the 9 points in the big blue circle).</p><p>The number of neighbors can be of any value. We set it to 4 or 9 due to three reasons. First, we follow the design of ConvNets and pyramid ViTs to ensure the set of points can be reorganized to a rectangular feature map. Second, this strategy eases our coding by employing convolution or pooling operations (which are equivalent to our description) and avoids heavy indices searching work. Last, a rectangular feature map is required by most detection and segmentation methods.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C More Experiments</head><p>We conduct more experiments to validate the effectiveness of our Context Cluster.   Clustering map of all heads. To have a better understanding of our context clustering operation, we show the clustering maps of all heads in the last block of stage3 and stage4 in our Context Cluster-Medium. As we expected, results in Fig. <ref type="figure" coords="16,319.14,442.65,5.08,8.90" target="#fig_5">6</ref> indicate that our method is able to cluster semantically similar contexts together and exhibits decent locality. An interesting observation is that the context cluster operation also tends to cluster contexts along vertical or horizontal directions. Similar phenomena can also be observed in other images and model variants.</p><p>Table <ref type="table" coords="16,132.07,498.85,3.88,8.90">9</ref>: Ablation study on region partition operation. Based on CoC-Tiny, we eliminated all region partition operations. To make the model trainable, the cluster numbers were changed to 16 in the first two stages and to 4 in the last two stages. We train models on 8×A100 GPUs with a batch size of 32 on each GPU, and report the training memory demand of one GPU. We test our model on one GPU. Ablation on region partition operation. While sacrificing the ability to model global interactions, region partition would introduce useful inductive biases like locality. We remove all CoC-Tiny region partition operations to see where the performance is coming from and report the results in Table <ref type="table" coords="16,498.14,633.31,3.80,8.90">9</ref>.</p><p>Experimental results indicate that without the region partition operation, the performance increased by 0.9% on ImageNet, indicating the effectiveness of our Context Cluster methodology. However, the training time and the memory demands are significantly increased (as discussed in § 3.3). Despite the fact that we agree that the region partition operation does introduce useful inductive bias, the results show that global interaction is also constructive to the success of our Context Cluster (as well as in other designs like ConvNets and ViTs).</p><p>Interestingly, we find that our Context Cluster even offers a meaningful clustering result in the early stages without the restriction of locality from region partition, as shown in Fig. <ref type="figure" coords="16,498.12,726.96,3.81,8.90">7</ref>.  Ablation on iteratively updating centers. As mentioned in the discussion section, we simplified the clustering algorithm for computational efficiency by fixing the centers without updating. We also conduct a simple experiment to confirm the effectiveness of dynamic centers. By updating centers for two times, we attain a 71.85% accuracy on ImageNet-1K based on CoC-Tiny (71.83%), showing negligible improvements (0.02%).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>D Generalization Outlook</head><p>The clustering algorithm is a general method not limited to a particular input format. Previously, we validated the generalization ability of Context Cluster on both image and point clouds. Here, we further outlook the generalization ability to different image formats as shown in Fig. <ref type="figure" coords="18,445.78,400.72,8.30,8.90" target="#fig_7">10</ref>.</p><p>We starts from the discussion on the discrete pixels. Because of the clustering algorithm, our Context Cluster actually has a significant advantage over ConvNets and ViTs in processing discrete images.</p><p>In other words, our Context Cluster does not require an image pixel to be in a continuous space.</p><p>In detail, given an image consisting of discrete pixels, we extract features like regular images but change the center proposal method. In our submission, we describe the center proposal method by evenly proposing c centers in space, and the center feature is computed by averaging its k nearest points (which can be easily implemented by pooling). For the discrete pixels, we can consider the Farthest Point Sampling (FPS) method <ref type="bibr" coords="18,267.53,494.36,69.51,8.90">(Qi et al., 2017b)</ref> from point cloud processing. Notice that our method is inspired by point cloud methods, and an image with discrete pixels is naturally a point cloud set with RGB information. In addition to FPS, other discrete sampling techniques can also be investigated to propose centers for discrete pixels, including random sampling, grid sampling, etc.</p><p>In addition to discrete pixels, our context cluster can also be used with a variety of additional image formats. For masked images and irregular images, traditional ConvNets or ViTs require the image to be filled with white pixels. Differently, by conceptualizing an image as a set of points, we escape this step. We interpret masked or irregular images as discrete points and handle them as previously described. Thanks to the clustering algorithm, our Context Cluster exhibits great generalization ability to various image formats.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0" coords="3,234.71,552.44,269.29,8.90;3,234.71,563.40,269.29,8.90;3,234.71,574.36,158.88,8.90;3,108.00,452.47,116.75,8.90;3,108.00,463.43,118.41,8.90;3,108.00,474.39,117.09,8.90;3,108.00,485.35,118.41,8.90;3,108.00,496.31,116.75,8.90;3,108.00,507.27,118.41,8.90;3,108.00,518.22,116.75,8.90;3,108.00,529.18,118.41,8.90;3,108.00,540.14,116.75,8.90;3,108.00,551.10,116.75,8.90;3,108.00,562.06,116.75,8.90;3,108.00,573.02,117.09,8.90;3,108.00,583.98,116.75,8.90;3,108.00,594.94,397.66,8.90;3,108.00,605.90,316.75,8.90"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: A Context Cluster block. We use a context cluster operation to group a set of data points, and then communicate the points within clusters. An MLP block is applied later. Context Clusters forgo the fashionable convolution or attention in favor of novelly considering the classical algorithm, clustering, for the representation of visual learning. In this section, we first describe the Context Clusters pipeline. The proposed context cluster operation (as shown in Fig. 2) for feature extraction is then thoroughly explained. After that, we set up the Context Cluster architectures. Finally, some open discussions might aid individuals in comprehending our work and exploring more directions following our Context Cluster.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1" coords="4,108.00,197.69,396.17,8.90;4,108.00,208.65,396.00,8.90;4,108.00,219.61,337.66,8.90"><head>Figure 3 :</head><label>3</label><figDesc>Figure 3: Context Cluster architecture with four stages. Given a set of image points, Context Cluster gradually reduces the point number and extracts deep features. Each stage begins with a points reducer, after which a succession of context cluster blocks is used to extract features.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2" coords="7,108.00,290.35,397.25,8.90;7,108.00,301.31,396.00,8.90;7,108.00,312.27,397.25,8.90;7,108.00,323.23,396.00,8.90;7,108.00,334.19,348.29,8.90;7,108.00,355.37,396.00,8.90;7,108.00,366.33,396.00,8.90;7,108.00,377.29,396.00,8.90;7,108.00,388.25,396.00,8.90;7,108.00,399.21,396.00,8.90;7,108.00,410.17,396.16,8.90;7,108.00,421.13,396.00,8.90;7,108.00,432.08,396.00,8.90;7,108.00,443.04,396.00,8.90;7,108.00,454.00,396.35,8.90;7,108.00,464.96,233.91,8.90"><head>Figure 4 :</head><label>4</label><figDesc>Figure 4: Visualization of activation map, class activation map, and clustering map for ViT-B/16, ResNet50, our CoC-M, and CoC-T without region partition, respectively. We plot the results of the last block in the four stages from left to right. For ViT-B/16, we select the [3rd, 6th, 9th, 12th] blocks, and show the cosine attention map for the cls-token. The clustering maps show that our Context Cluster is able to cluster similar contexts together, and tell what model learned visually.top-1 accuracy. Additionally, our Context Cluster obviously outperforms MLP-based methods. This phenomenon indicates that the performance of our method is not credited to MLP blocks, and context cluster blocks substantially contribute to the visual representation. The performance differences between Context-Cluster-Ti and Context-Cluster-Ti ‡ are negligible, demonstrating the robustness of our Context Cluster to the local region partitioning strategy. We recognize that our results cannot match the SOTA performance (e.g., CoAtNet-0 arrives 81.6% accuracy with a comparable number of parameters as CoC-Tiny), but we emphasize that we are pursuing and proving the viability of a new feature extraction paradigm. We successfully forsake convolution and attention in our networks by conceptualizing image as a set of points and naturally applying clustering algorithm for feature extraction. In contrast to convolution and attention, our context cluster has excellent generalizability to other domain data and enjoys promising interpretability.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3" coords="15,281.90,122.58,11.04,7.95;15,157.06,207.30,167.64,8.01;15,376.96,207.30,103.15,8.01"><head>FC</head><label></label><figDesc>(a) Illustration of anchors for points reduction. (b) Demo of centers in CoC.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4" coords="15,108.00,231.19,396.17,8.90;15,108.00,242.15,397.75,8.90;15,108.00,253.11,396.00,8.90;15,108.00,264.02,396.00,8.95;15,108.00,274.97,396.00,8.95;15,108.00,285.98,395.83,8.90;15,108.00,296.94,364.20,8.90;15,123.75,92.83,108.05,108.05"><head>Figure 5 :</head><label>5</label><figDesc>Figure 5: Detail explanations on the anchors in points reducer block and centers for context cluster block. The image points (represented in patch) are organized for easy understanding and illustration.In a sense, the anchors are for reducing point numbers, and centers are used for clustering. Both of them are evenly distributed in design. On the left, we evenly propose 4 anchors (marked in blue dot) with 4 neighbors for each anchor. On the right, we evenly sample 9 centers (marked in red block), hence leading to 9 irregular clusters. The center feature value is achieved by averaging its k neighbors. In this figure, we show the neighbors in the big blue circle for the second center.</figDesc><graphic coords="15,123.75,92.83,108.05,108.05" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5" coords="16,108.00,364.10,396.16,8.90;16,108.00,375.06,396.00,8.90;16,108.00,386.02,279.76,8.90"><head>Figure 6 :</head><label>6</label><figDesc>Figure 6: We visualize the clustering maps of all heads in the last block of stage3 and stage4 in our Context Cluster-Medium. While context cluster operation shows a preference for the locality as we expected, we notice that it also favors vertical or horizontal directions.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6" coords="17,108.00,309.03,396.00,8.90;17,108.00,319.99,396.00,8.90;17,108.00,330.94,376.79,8.90;17,167.91,245.64,52.43,52.43"><head>Figure 7 :Figure 9 :</head><label>79</label><figDesc>Figure 7: Clustering results of the last context cluster block in the first CoC-Tiny stage (without region partition). Without region partition, Our Context Cluster astonishingly displays "SuperPixel"-like clustering results, even in the early stage. we pick the most intriguing one from the four heads.</figDesc><graphic coords="17,167.91,245.64,52.43,52.43" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7" coords="18,112.50,203.65,387.01,8.90;18,112.15,86.43,89.70,89.70"><head>Figure 10 :</head><label>10</label><figDesc>Figure 10: Four examples of image formats. Remember that there are no pixels in the white area.</figDesc><graphic coords="18,112.15,86.43,89.70,89.70" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" coords="4,122.02,81.69,360.96,106.63"><head>Context Cluster Blocks Context Cluster Blocks Context Cluster Blocks Context Cluster Blocks Stage 1 Stage 2 Stage 3 Stage 4 Image Points Set</head><label></label><figDesc></figDesc><table coords="4,142.66,81.69,340.32,106.63"><row><cell>[𝑪 𝟏 ,</cell><cell>𝒏 𝟏𝟔</cell><cell>]</cell><cell>[𝑪 𝟐 ,</cell><cell>𝒏 𝟔𝟒</cell><cell>]</cell><cell>[𝑪 𝟑 ,</cell><cell>𝒏 𝟐𝟓𝟔</cell><cell>]</cell><cell>[𝑪 𝟒 ,</cell><cell>𝒏 𝟏𝟎𝟐𝟒</cell><cell>]</cell></row><row><cell>[𝟓, 𝒏]</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell cols="2">×𝑵 𝟏</cell><cell></cell><cell cols="2">×𝑵 𝟐</cell><cell></cell><cell cols="2">×𝑵 𝟑</cell><cell></cell><cell cols="2">×𝑵 𝟒</cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" coords="4,198.80,112.14,231.62,55.07"><head>Points Reducer Points Reducer Points Reducer Points Reducer</head><label></label><figDesc></figDesc><table /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" coords="6,107.53,82.81,397.71,401.89"><head>Table 1 :</head><label>1</label><figDesc>Comparison with representative backbones on ImageNet-1k benchmark. Throughput (images / s) is measured on a single V100 GPU with a batch size of 128, and is averaged by the last 500 iterations. All models are trained and tested at 224×224 resolution, except ViT-B and ViT-L.</figDesc><table coords="6,108.00,121.17,392.88,316.85"><row><cell></cell><cell>Method</cell><cell cols="3">Param. GFLOPs Top-1</cell><cell>Throughputs (images/s)</cell></row><row><cell></cell><cell>♣ ResMLP-12 (Touvron et al., 2022)</cell><cell>15.0</cell><cell>3.0</cell><cell>76.6</cell><cell>511.4</cell></row><row><cell></cell><cell>♣ ResMLP-24 (Touvron et al., 2022)</cell><cell>30.0</cell><cell>6.0</cell><cell>79.4</cell><cell>509.7</cell></row><row><cell>MLP</cell><cell>♣ ResMLP-36 (Touvron et al., 2022) ♣ MLP-Mixer-B/16 (Tolstikhin et al., 2021) ♣ MLP-Mixer-L/16 (Tolstikhin et al., 2021)</cell><cell>45.0 59.0 207.0</cell><cell>8.9 12.7 44.8</cell><cell>79.7 76.4 71.8</cell><cell>452.9 400.8 125.2</cell></row><row><cell></cell><cell>♣ gMLP-Ti (Liu et al., 2021a)</cell><cell>6.0</cell><cell>1.4</cell><cell>72.3</cell><cell>511.6</cell></row><row><cell></cell><cell>♣ gMLP-S (Liu et al., 2021a)</cell><cell>20.0</cell><cell>4.5</cell><cell>79.6</cell><cell>509.4</cell></row><row><cell></cell><cell>ViT-B/16 (Dosovitskiy et al., 2020)</cell><cell>86.0</cell><cell>55.5</cell><cell>77.9</cell><cell>292.0</cell></row><row><cell>Attention</cell><cell>ViT-L/16 (Dosovitskiy et al., 2020) PVT-Tiny (Wang et al., 2021) PVT-Small (Wang et al., 2021) T2T-ViT-7 (Yuan et al., 2021a) DeiT-Tiny/16 (Touvron et al., 2021)</cell><cell>307 13.2 24.5 4.3 5.7</cell><cell>190.7 1.9 3.8 1.1 1.3</cell><cell>76.5 75.1 79.8 71.7 72.2</cell><cell>92.8 ---523.8</cell></row><row><cell></cell><cell>DeiT-Small/16 (Touvron et al., 2021)</cell><cell>22.1</cell><cell>4.6</cell><cell>79.8</cell><cell>521.3</cell></row><row><cell></cell><cell>Swin-T (Liu et al., 2021b)</cell><cell>29</cell><cell>4.5</cell><cell>81.3</cell><cell>-</cell></row><row><cell>Convolution Cluster Cluster</cell><cell>♠ ResNet18 (He et al., 2016) ♠ ResNet50 (He et al., 2016) ♠ ConvMixer-512/16 (Trockman et al., 2022) ♠ ConvMixer-1024/12 (Trockman et al., 2022) ♠ ConvMixer-768/32 (Trockman et al., 2022) Context-Cluster-Ti (ours) Context-Cluster-Ti ‡ (ours) Context-Cluster-Small (ours) Context-Cluster-Medium (ours)</cell><cell>12 26 5.4 14.6 21.1 5.3 5.3 14.0 27.9</cell><cell>1.8 4.1 ---1.0 1.0 2.6 5.5</cell><cell>69.8 79.8 73.8 77.8 80.16 71.8 71.7 77.5 81.0</cell><cell>584.9 524.8 --142.9 518.4 510.8 513.0 325.2</cell></row><row><cell cols="2">4 Experiments</cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table><note>We validate Context Cluster on ImageNet-1K<ref type="bibr" coords="6,292.98,453.88,73.68,8.90" target="#b8">(Deng et al., 2009)</ref>,ScanObjectNN (Uy et al., 2019), MS COCO<ref type="bibr" coords="6,154.19,464.84,64.25,8.90" target="#b28">(Lin et al., 2014)</ref>, and ADE20k<ref type="bibr" coords="6,278.89,464.84,73.06,8.90" target="#b64">(Zhou et al., 2017)</ref> datasets for image classification, point cloud classification, object detection, instance segmentation, and semantic segmentation tasks.</note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" coords="7,108.00,481.85,395.99,102.01"><head>Table 2 :</head><label>2</label><figDesc>Component ablation studies of Context-Cluster-Small on ImageNet-1k.</figDesc><table coords="7,339.90,519.50,158.06,64.36"><row><cell>position</cell><cell>context</cell><cell>multi</cell><cell>top-1</cell></row><row><cell>info.</cell><cell>cluster</cell><cell>head</cell><cell>acc.</cell></row><row><cell></cell><cell></cell><cell></cell><cell>-</cell></row><row><cell></cell><cell></cell><cell></cell><cell>74.2(↓3.3)</cell></row><row><cell></cell><cell></cell><cell></cell><cell>76.6(↓0.9)</cell></row><row><cell></cell><cell></cell><cell></cell><cell>77.5</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5" coords="8,108.00,243.99,396.00,205.35"><head>Table 3 :</head><label>3</label><figDesc>Classification results on ScanObjectNN. All results are reported on the most challenging variant (PB_T50_RS).</figDesc><table coords="8,108.00,243.99,383.86,205.35"><row><cell>Context Clusters are a nat-</cell><cell></cell><cell></cell></row><row><cell>ural fit for point clouds Qi</cell><cell></cell><cell></cell></row><row><cell>et al. (2017b); Lu et al. (2022).</cell><cell></cell><cell></cell></row><row><cell>Method</cell><cell>mAcc(%)</cell><cell>OA(%)</cell></row><row><cell>♠ SpiderCNN (Xu et al., 2018)</cell><cell>69.8</cell><cell>73.7</cell></row><row><cell>♠ DGCNN (Wang et al., 2019)</cell><cell>73.6</cell><cell>78.1</cell></row><row><cell>♠ PointCNN (Li et al., 2018)</cell><cell>75.1</cell><cell>78.5</cell></row><row><cell>♠ GBNet (Qiu et al., 2021)</cell><cell>77.8</cell><cell>80.5</cell></row><row><cell>PointBert (Yu et al., 2022d)</cell><cell>-</cell><cell>83.1</cell></row><row><cell>Point-MAE (Pang et al., 2022)</cell><cell>-</cell><cell>85.2</cell></row><row><cell>Point-TnT (Berg et al., 2022)</cell><cell>81.0</cell><cell>83.5</cell></row><row><cell>♣ PointNet (Qi et al., 2017a)</cell><cell>63.4</cell><cell>68.2</cell></row><row><cell>♣ PointNet++ (Qi et al., 2017b)</cell><cell>75.4</cell><cell>77.9</cell></row><row><cell>♣ BGA-PN++ (Uy et al., 2019)</cell><cell>77.5</cell><cell>80.2</cell></row><row><cell>♣ PointMLP (Ma et al., 2022)</cell><cell>83.9</cell><cell>85.4</cell></row><row><cell>♣ PointMLP-elite (Ma et al., 2022)</cell><cell>81.8</cell><cell>83.8</cell></row><row><cell>PointMLP-CoC (ours)</cell><cell>84.4 ↑0.5</cell><cell>86.2 ↑0.8</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6" coords="9,107.64,82.81,398.10,185.47"><head>Table 4 :</head><label>4</label><figDesc>COCO object detection and instance segmentation results using Mask-RCNN (1×). points with the same configuration for image size(1280, 800). It is obvious that grouping 1000 points into 4 clusters would produce an inferior result. To this end, we investigate 4, 25, and 49 centers for a local region, and we refer to the resulting models as Small/4, Small/25, and Small/49, respectively. Results in Table4indicate that our Context Cluster demonstrates promising generalisability to downstream tasks. Our CoC-Small/25 outperforms the ConvNet and ViT baselines on both detection and instance segmentation tasks when properly configured (25 centers in a local region). In line with our expectations, only 4 centers cannot accurately model the large local region, and unnecessary centers cannot further enhance the performance. See appendix § C for more results.</figDesc><table coords="9,107.64,98.36,390.93,93.20"><row><cell>Family Conv.</cell><cell>Backbone ♠ ResNet-18</cell><cell cols="2">Params AP box AP box 50 31.2M 34.0 54.0</cell><cell>AP box 75 36.7</cell><cell cols="2">AP mask AP mask 50 31.2 51.0</cell><cell>AP mask 75 32.7</cell></row><row><cell>Attention</cell><cell>PVT-Tiny</cell><cell>32.9M 36.7</cell><cell>59.2</cell><cell>39.3</cell><cell>35.1</cell><cell>56.7</cell><cell>37.3</cell></row><row><cell></cell><cell>CoC-Small/4</cell><cell>33.6M 35.9</cell><cell>58.3</cell><cell>38.3</cell><cell>33.8</cell><cell>55.3</cell><cell>35.8</cell></row><row><cell>Cluster</cell><cell cols="2">CoC-Small/25 33.6M 37.5</cell><cell>60.1</cell><cell>40.0</cell><cell>35.4</cell><cell>57.1</cell><cell>37.9</cell></row><row><cell></cell><cell cols="2">CoC-Small/49 33.6M 37.2</cell><cell>59.8</cell><cell>39.7</cell><cell>34.9</cell><cell>56.7</cell><cell>37.0</cell></row><row><cell cols="2">would have 1000</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_7" coords="9,333.61,389.61,172.05,108.12"><head>Table 5</head><label>5</label><figDesc></figDesc><table coords="9,333.92,389.61,171.74,108.12"><row><cell cols="3">: Semantic segmentation perfor-</cell></row><row><cell cols="3">mance of different backbones with Seman-</cell></row><row><cell cols="3">tic FPN on the ADE20K validation set.</cell></row><row><cell>Backbone</cell><cell cols="2">Params mIoU(%)</cell></row><row><cell>♠ ResNet18</cell><cell>15.5M</cell><cell>32.9</cell></row><row><cell>PVT-Tiny</cell><cell>17.0M</cell><cell>35.7</cell></row><row><cell>CoC-Small/4</cell><cell>17.7M</cell><cell>36.6</cell></row><row><cell cols="2">CoC-Small/25 17.7M</cell><cell>36.4</cell></row><row><cell cols="2">CoC-Small/49 17.7M</cell><cell>36.3</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_8" coords="14,107.69,260.78,397.55,63.89"><head>Table 6 :</head><label>6</label><figDesc>Detailed configurations for our Context Cluster. We initialize three variants, CoC-Tiny, CoC-Small, and CoC-Medium, with different model capacities.</figDesc><table coords="14,115.48,293.67,359.64,31.00"><row><cell cols="2">Stage Points</cell><cell>Block</cell><cell>CoC-Tiny</cell><cell>CoC-Small</cell><cell>CoC-Medium</cell></row><row><cell>S1</cell><cell>50176</cell><cell>Point Reducer</cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_9" coords="15,107.25,552.73,398.41,179.31"><head>Table 7 :</head><label>7</label><figDesc>Semantic segmentation results of different backbones with Semantic-FPN on the ADE20K validation set.</figDesc><table coords="15,283.65,587.86,213.94,64.49"><row><cell cols="2">Family Backbone</cell><cell cols="2">Params mIoU(%)</cell></row><row><cell>Conv.</cell><cell>♠ ResNet50</cell><cell>28.5M</cell><cell>36.7</cell></row><row><cell>Atten.</cell><cell>PVT-Small</cell><cell>28.2M</cell><cell>39.8</cell></row><row><cell>Cluster</cell><cell>CoC-Medium/4</cell><cell>25.2M</cell><cell>40.2</cell></row><row><cell>Cluster</cell><cell>CoC-Medium/25</cell><cell>25.2M</cell><cell>40.6</cell></row><row><cell>Cluster</cell><cell>CoC-Medium/49</cell><cell>25.2M</cell><cell>40.8</cell></row></table><note>-Small/25 and 14 hours for CoC-Small/49. The cost of computing increases linearly with the complexity of the computations in our context cluster blocks.More results for Detection. We also conduct more results for object detection and instance segmentation task. Besides the experiments reported in Table4, we also conduct experiments based on the pre-trained CoC-Medium. Results are reported in Table8. In line with CoC-Small, CoC-Medium shows comparable performance as in ResNet50 and PVT-Small.</note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_10" coords="16,113.98,82.81,386.25,246.20"><head>Table 8 :</head><label>8</label><figDesc>COCO object detection and instance segmentation results using Mask-RCNN (1×).</figDesc><table coords="16,113.98,98.36,386.25,230.64"><row><cell>Family Conv.</cell><cell>Backbone ♠ ResNet-50</cell><cell cols="2">Params AP box AP box 50 44.2M 38.0 58.6</cell><cell>AP box 75 41.4</cell><cell cols="2">AP mask AP mask 50 34.4 55.1</cell><cell>AP mask 75 36.7</cell></row><row><cell>Atten</cell><cell>PVT-Small</cell><cell>44.1M 40.4</cell><cell>62.9</cell><cell>43.8</cell><cell>37.8</cell><cell>60.1</cell><cell>40.3</cell></row><row><cell>Cluster</cell><cell>CoC-Medium/4</cell><cell>42.1M 38.6</cell><cell>61.1</cell><cell>41.5</cell><cell>36.1</cell><cell>58.2</cell><cell>38.0</cell></row><row><cell>Cluster</cell><cell cols="2">CoC-Medium/25 42.1M 40.1</cell><cell>62.8</cell><cell>43.6</cell><cell>37.4</cell><cell>59.9</cell><cell>40.0</cell></row><row><cell>Cluster</cell><cell cols="2">CoC-Medium/49 42.1M 40.6</cell><cell>63.3</cell><cell>43.9</cell><cell>37.6</cell><cell>60.1</cell><cell>39.9</cell></row><row><cell>Stage 3</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Stage 4</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0">If there were no v c involved and no points are grouped into the cluster coincidentally, C would be zero, and the network cannot be optimized. In our research, this conundrum occurs frequently. Adding a small value like 1e −5 does not help and would lead to the problem of vanishing gradients.</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct coords="10,108.00,102.98,397.74,8.90;10,117.96,113.94,387.28,8.90;10,117.96,124.89,22.42,8.90" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">SLIC Superpixels Compared to State-of-the-Art Superpixel Methods</title>
+		<author>
+			<persName coords=""><forename type="first">Radhakrishna</forename><surname>Achanta</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Appu</forename><surname>Shaji</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kevin</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Aurelien</forename><surname>Lucchi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Pascal</forename><surname>Fua</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sabine</forename><surname>Süsstrunk</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/tpami.2012.120</idno>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Pattern Analysis and Machine Intelligence</title>
+		<title level="j" type="abbrev">IEEE Trans. Pattern Anal. Mach. Intell.</title>
+		<idno type="ISSN">0162-8828</idno>
+		<idno type="ISSNe">2160-9292</idno>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2274" to="2282" />
+			<date type="published" when="2012-11">2012</date>
+			<publisher>Institute of Electrical and Electronics Engineers (IEEE)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,144.40,397.66,8.90;10,117.96,155.35,300.13,8.90" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Points to Patches: Enabling the Use of Self-Attention for 3D Shape Recognition</title>
+		<author>
+			<persName coords=""><forename type="first">Axel</forename><surname>Berg</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Magnus</forename><surname>Oskarsson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mark</forename><surname>O'connor</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/icpr56361.2022.9956172</idno>
+		<idno type="arXiv">arXiv:2204.03957</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 26th International Conference on Pattern Recognition (ICPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-08-21">2022</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="10,108.00,174.86,397.74,8.90;10,117.96,185.81,61.31,8.90" xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Pattern Recognition and Machine Learning</title>
+		<author>
+			<persName coords=""><forename type="first">M</forename><surname>Christopher</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Bishop</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">M</forename><surname>Nasser</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Nasrabadi</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-0-387-45528-0</idno>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<publisher>Springer New York</publisher>
+			<biblScope unit="volume">4</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,205.32,396.35,8.90;10,117.96,216.27,303.14,8.90" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">End-to-End Object Detection with Transformers</title>
+		<author>
+			<persName coords=""><forename type="first">Nicolas</forename><surname>Carion</surname></persName>
+			<idno type="ORCID">0000-0002-2308-9680</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Francisco</forename><surname>Massa</surname></persName>
+			<idno type="ORCID">0000-0003-0697-6664</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Gabriel</forename><surname>Synnaeve</surname></persName>
+			<idno type="ORCID">0000-0003-1715-3356</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nicolas</forename><surname>Usunier</surname></persName>
+			<idno type="ORCID">0000-0002-9324-1457</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alexander</forename><surname>Kirillov</surname></persName>
+			<idno type="ORCID">0000-0003-3169-3199</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sergey</forename><surname>Zagoruyko</surname></persName>
+			<idno type="ORCID">0000-0001-9684-5240</idno>
+		</author>
+		<idno type="DOI">10.1007/978-3-030-58452-8_13</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Computer Vision – ECCV 2020</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="213" to="229" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,235.78,302.64,8.90" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Digital image processing</title>
+		<author>
+			<persName coords=""><surname>Kenneth R Castleman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1996">1996</date>
+			<publisher>Prentice Hall Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,255.28,396.35,8.90;10,117.96,266.24,240.61,8.90" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">CycleMLP: A MLP-like architecture for dense prediction</title>
+		<author>
+			<persName coords=""><forename type="first">Shoufa</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Enze</forename><surname>Xie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">G</forename><forename type="middle">E</forename><surname>Chongjian</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Runjian</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ding</forename><surname>Liang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ping</forename><surname>Luo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ICLR</title>
+		<imprint>
+			<date type="published" when="2022">2022a</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,285.74,396.00,8.90;10,117.96,296.70,302.20,8.90" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Mobile-Former: Bridging MobileNet and Transformer</title>
+		<author>
+			<persName coords=""><forename type="first">Yinpeng</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiyang</forename><surname>Dai</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Dongdong</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Mengchen</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiaoyi</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Lu</forename><surname>Yuan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zicheng</forename><surname>Liu</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr52688.2022.00520</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-06">2022b</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,316.20,396.00,8.90;10,117.96,327.16,170.16,8.90" xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Coatnet: Marrying convolution and attention for all data sizes</title>
+		<author>
+			<persName coords=""><forename type="first">Zihang</forename><surname>Dai</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hanxiao</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Quoc</forename><forename type="middle">V</forename><surname>Le</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Mingxing</forename><surname>Tan</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<publisher>NeurIPS</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,346.66,396.00,8.90;10,117.96,357.62,179.82,8.90" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">ImageNet: A large-scale hierarchical image database</title>
+		<author>
+			<persName coords=""><forename type="first">Jia</forename><surname>Deng</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Wei</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Richard</forename><surname>Socher</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Li-Jia</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Kai Li</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Li Fei-Fei</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2009.5206848</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2009 IEEE Conference on Computer Vision and Pattern Recognition</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2009-06">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,377.12,396.00,8.90;10,117.71,388.08,140.56,8.90" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">DaViT: Dual Attention Vision Transformers</title>
+		<author>
+			<persName coords=""><forename type="first">Mingyu</forename><surname>Ding</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Bin</forename><surname>Xiao</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Noel</forename><surname>Codella</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ping</forename><surname>Luo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jingdong</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Lu</forename><surname>Yuan</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-031-20053-3_5</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Lecture Notes in Computer Science</title>
+				<imprint>
+			<publisher>Springer Nature Switzerland</publisher>
+			<date type="published" when="2022">2022a</date>
+			<biblScope unit="page" from="74" to="92" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,407.58,397.39,8.90;10,117.96,418.54,223.88,8.90" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Scaling Up Your Kernels to 31×31: Revisiting Large Kernel Design in CNNs</title>
+		<author>
+			<persName coords=""><forename type="first">Xiaohan</forename><surname>Ding</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiangyu</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jungong</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Guiguang</forename><surname>Ding</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr52688.2022.01166</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-06">2022b</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,438.04,396.00,8.90;10,117.96,449.00,386.03,8.90;10,117.96,459.96,332.35,8.90" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">An image is worth 16x16 words: Transformers for image recognition at scale</title>
+		<author>
+			<persName coords=""><forename type="first">Alexey</forename><surname>Dosovitskiy</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Lucas</forename><surname>Beyer</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alexander</forename><surname>Kolesnikov</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Dirk</forename><surname>Weissenborn</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiaohua</forename><surname>Zhai</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Thomas</forename><surname>Unterthiner</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Mostafa</forename><surname>Dehghani</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Matthias</forename><surname>Minderer</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Georg</forename><surname>Heigold</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sylvain</forename><surname>Gelly</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICLR</title>
+				<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,479.46,397.74,8.90;10,117.96,490.42,159.58,8.90" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Yolox: Exceeding yolo series in</title>
+		<author>
+			<persName coords=""><forename type="first">Zheng</forename><surname>Ge</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Songtao</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Feng</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zeming</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jian</forename><surname>Sun</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2107.08430</idno>
+		<imprint>
+			<date type="published" when="2021">2021. 2021</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="10,108.00,509.92,397.38,8.90;10,117.96,520.88,297.86,8.90" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">CMT: Convolutional Neural Networks Meet Vision Transformers</title>
+		<author>
+			<persName coords=""><forename type="first">Jianyuan</forename><surname>Guo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kai</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Han</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yehui</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xinghao</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yunhe</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chang</forename><surname>Xu</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr52688.2022.01186</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-06">2022a</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,540.38,396.00,8.90;10,117.96,551.34,240.55,8.90" xml:id="b14">
+	<monogr>
+		<title level="m" type="main">Visual attention network</title>
+		<author>
+			<persName coords=""><forename type="first">Meng-Hao</forename><surname>Guo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Cheng-Ze</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zheng-Ning</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ming-Ming</forename><surname>Cheng</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shi-Min</forename><surname>Hu</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2202.09741</idno>
+		<imprint>
+			<biblScope unit="page">2022</biblScope>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="10,108.00,570.84,396.00,8.90;10,117.96,581.80,126.99,8.90" xml:id="b15">
+	<monogr>
+		<title level="m" type="main">Vision gnn: An image is worth graph of nodes</title>
+		<author>
+			<persName coords=""><forename type="first">Kai</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yunhe</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jianyuan</forename><surname>Guo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yehui</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Enhua</forename><surname>Wu</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<publisher>NeurIPS</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,601.30,396.00,8.90;10,117.96,612.26,114.55,8.90" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Deep Residual Learning for Image Recognition</title>
+		<author>
+			<persName coords=""><forename type="first">Kaiming</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiangyu</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shaoqing</forename><surname>Ren</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jian</forename><surname>Sun</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2016.90</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2016-06">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,631.76,372.20,8.90" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Mask R-CNN</title>
+		<author>
+			<persName coords=""><forename type="first">Kaiming</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Georgia</forename><surname>Gkioxari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Piotr</forename><surname>Dollar</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ross</forename><surname>Girshick</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/iccv.2017.322</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2017 IEEE International Conference on Computer Vision (ICCV)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2017-10">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,651.26,396.00,8.90;10,117.96,662.22,231.84,8.90" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Masked Autoencoders Are Scalable Vision Learners</title>
+		<author>
+			<persName coords=""><forename type="first">Kaiming</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xinlei</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Saining</forename><surname>Xie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yanghao</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Piotr</forename><surname>Dollar</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ross</forename><surname>Girshick</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr52688.2022.01553</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-06">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,681.72,396.00,8.90;10,117.96,692.68,363.99,8.90" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Vision Permutator: A Permutable MLP-Like Architecture for Visual Recognition</title>
+		<author>
+			<persName coords=""><forename type="first">Qibin</forename><surname>Hou</surname></persName>
+			<idno type="ORCID">0000-0002-8388-8708</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zihang</forename><surname>Jiang</surname></persName>
+			<idno type="ORCID">0000-0002-8096-842X</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Li</forename><surname>Yuan</surname></persName>
+			<idno type="ORCID">0000-0002-2120-5588</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ming-Ming</forename><surname>Cheng</surname></persName>
+			<idno type="ORCID">0000-0001-5550-8758</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shuicheng</forename><surname>Yan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jiashi</forename><surname>Feng</surname></persName>
+			<idno type="ORCID">0000-0001-6843-0064</idno>
+		</author>
+		<idno type="DOI">10.1109/tpami.2022.3145427</idno>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Pattern Analysis and Machine Intelligence</title>
+		<title level="j" type="abbrev">IEEE Trans. Pattern Anal. Mach. Intell.</title>
+		<idno type="ISSN">0162-8828</idno>
+		<idno type="ISSNe">1939-3539</idno>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1328" to="1334" />
+			<date type="published" when="2022">2022</date>
+			<publisher>Institute of Electrical and Electronics Engineers (IEEE)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,108.00,712.18,397.38,8.90;10,117.96,723.14,356.81,8.90" xml:id="b20">
+	<monogr>
+		<title level="m" type="main">Shuffle transformer: Rethinking spatial shuffle for vision transformer</title>
+		<author>
+			<persName coords=""><forename type="first">Zilong</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Youcheng</forename><surname>Ben</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Guozhong</forename><surname>Luo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Pei</forename><surname>Cheng</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Gang</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Bin</forename><surname>Fu</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2106.03650</idno>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="11,108.00,85.10,397.74,8.90;11,117.96,96.06,63.09,8.90" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Interpretable and Accurate Fine-grained Recognition via Region Grouping</title>
+		<author>
+			<persName coords=""><forename type="first">Zixuan</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yin</forename><surname>Li</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr42600.2020.00869</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2020-06">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,114.60,396.00,8.90;11,117.96,125.56,106.15,8.90" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Superpixel Sampling Networks</title>
+		<author>
+			<persName coords=""><forename type="first">Varun</forename><surname>Jampani</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Deqing</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ming-Yu</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ming-Hsuan</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jan</forename><surname>Kautz</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-030-01234-2_22</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Computer Vision – ECCV 2018</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="363" to="380" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,144.10,397.74,8.90;11,117.96,155.06,63.09,8.90" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Panoptic Feature Pyramid Networks</title>
+		<author>
+			<persName coords=""><forename type="first">Alexander</forename><surname>Kirillov</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ross</forename><surname>Girshick</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kaiming</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Piotr</forename><surname>Dollar</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2019.00656</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2019-06">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,173.60,397.74,8.90" xml:id="b24">
+	<monogr>
+		<title level="m" type="main">Figure 5: Initial cross entropy values of samples from CIFAR-100 (Krizhevsky, 2009) on SqueezeNet (Iandola et al., 2016) when learning 10 classes at a time using the same learning settings as shown in Table 1.</title>
+		<author>
+			<persName coords=""><forename type="first">Alex</forename><surname>Krizhevsky</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Geoffrey</forename><surname>Hinton</surname></persName>
+		</author>
+		<idno type="DOI">10.7717/peerjcs.633/fig-5</idno>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>PeerJ</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,192.14,396.00,8.90;11,117.96,203.10,163.53,8.90" xml:id="b25">
+	<monogr>
+		<title level="m" type="main">Pointcnn: Convolution on x-transformed points</title>
+		<author>
+			<persName coords=""><forename type="first">Yangyan</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Rui</forename><surname>Bu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Mingchao</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Wei</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xinhan</forename><surname>Di</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Baoquan</forename><surname>Chen</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<publisher>NeurIPS</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,221.64,397.24,8.90;11,117.96,232.60,22.42,8.90" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Superpixel segmentation using linear spectral clustering</title>
+		<author>
+			<persName coords=""><forename type="first">Zhengqin</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jiansheng</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CVPR</title>
+				<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,251.14,396.00,8.90;11,117.96,262.10,104.32,8.90" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">As-mlp: An axial shifted mlp architecture for vision</title>
+		<author>
+			<persName coords=""><forename type="first">Dongze</forename><surname>Lian</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zehao</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xing</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shenghua</forename><surname>Gao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICLR</title>
+				<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,280.64,396.17,8.90;11,117.96,291.60,387.28,8.90;11,117.96,302.56,22.42,8.90;11,108.00,321.10,370.98,8.90" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Microsoft COCO: Common Objects in Context</title>
+		<author>
+			<persName coords=""><forename type="first">Tsung-Yi</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Michael</forename><surname>Maire</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Serge</forename><surname>Belongie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">James</forename><surname>Hays</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Pietro</forename><surname>Perona</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Deva</forename><surname>Ramanan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Piotr</forename><surname>Dollár</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">Lawrence</forename><surname>Zitnick</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-319-10602-1_48</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Computer Vision – ECCV 2014</title>
+				<editor>
+			<persName><forename type="first">Hanxiao</forename><surname>Liu</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Zihang</forename><surname>Dai</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">David</forename><surname>So</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Quoc V</forename><surname>Le</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2014">2014. 2021a</date>
+			<biblScope unit="page" from="740" to="755" />
+		</imprint>
+	</monogr>
+	<note>ECCV. Springer</note>
+</biblStruct>
+
+<biblStruct coords="11,108.00,339.64,397.75,8.90;11,117.96,350.60,364.20,8.90" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Swin Transformer: Hierarchical Vision Transformer using Shifted Windows</title>
+		<author>
+			<persName coords=""><forename type="first">Ze</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yutong</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yue</forename><surname>Cao</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Han</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yixuan</forename><surname>Wei</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zheng</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Stephen</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Baining</forename><surname>Guo</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/iccv48922.2021.00986</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2021 IEEE/CVF International Conference on Computer Vision (ICCV)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2021-10">2021b</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,369.14,397.75,8.90;11,117.60,380.10,165.06,8.90" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">A ConvNet for the 2020s</title>
+		<author>
+			<persName coords=""><forename type="first">Zhuang</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hanzi</forename><surname>Mao</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chao-Yuan</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Christoph</forename><surname>Feichtenhofer</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Trevor</forename><surname>Darrell</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Saining</forename><surname>Xie</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr52688.2022.01167</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-06">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,398.64,397.59,8.90" xml:id="b31">
+	<monogr>
+		<title level="m" type="main">Sgdr: Stochastic gradient descent with warm restarts</title>
+		<author>
+			<persName coords=""><forename type="first">Ilya</forename><surname>Loshchilov</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Frank</forename><surname>Hutter</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<publisher>ICLR</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,417.18,360.77,8.90" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Decoupled weight decay regularization</title>
+		<author>
+			<persName coords=""><forename type="first">Ilya</forename><surname>Loshchilov</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Frank</forename><surname>Hutter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICLR</title>
+				<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,435.72,396.00,8.90;11,117.96,446.68,387.28,8.90;11,117.96,457.64,22.42,8.90" xml:id="b33">
+	<monogr>
+		<author>
+			<persName coords=""><forename type="first">Tao</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chunxu</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Youxin</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Gangshan</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Limin</forename><surname>Wang</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2205.00847</idno>
+		<title level="m">App-net: Auxiliary-point-based push and pull operations for efficient point cloud classification</title>
+				<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="11,108.00,476.18,396.00,8.90;11,117.96,487.14,290.52,8.90" xml:id="b34">
+	<monogr>
+		<title level="m" type="main">Rethinking network design and local geometry in point cloud: A simple residual mlp framework</title>
+		<author>
+			<persName coords=""><forename type="first">Xu</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Can</forename><surname>Qin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Haoxuan</forename><surname>You</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yun</forename><surname>Haoxi Ran</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Fu</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<publisher>ICLR</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,505.68,396.00,8.90;11,117.96,516.64,271.15,8.90" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Masked Autoencoders for Point Cloud Self-supervised Learning</title>
+		<author>
+			<persName coords=""><forename type="first">Yatian</forename><surname>Pang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Wenxiao</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Francis</forename><forename type="middle">E H</forename><surname>Tay</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Wei</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yonghong</forename><surname>Tian</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Li</forename><surname>Yuan</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-031-20086-1_35</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Lecture Notes in Computer Science</title>
+				<imprint>
+			<publisher>Springer Nature Switzerland</publisher>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="page" from="604" to="621" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,535.18,396.00,8.90;11,117.96,546.14,224.53,8.90" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Pointnet: Deep learning on point sets for 3d classification and segmentation</title>
+		<author>
+			<persName coords=""><forename type="first">Hao</forename><surname>Charles R Qi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kaichun</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Leonidas</forename><forename type="middle">J</forename><surname>Mo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Guibas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CVPR</title>
+				<imprint>
+			<date type="published" when="2017">2017a</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,564.68,396.00,8.90;11,117.96,575.64,258.14,8.90" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Pointnet++: Deep hierarchical feature learning on point sets in a metric space</title>
+		<author>
+			<persName coords=""><forename type="first">Charles</forename><surname>Ruizhongtai</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Qi</forename></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Li</forename><surname>Yi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hao</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Leonidas</forename><forename type="middle">J</forename><surname>Guibas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">NeurIPS</title>
+		<imprint>
+			<biblScope unit="page">2017</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,594.18,396.00,8.90;11,117.96,605.14,147.47,8.90" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Efficient scene labeling via sparse annotations</title>
+		<author>
+			<persName coords=""><forename type="first">Can</forename><surname>Qin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Maoguo</forename><surname>Gong</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yue</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Dayong</forename><surname>Tian</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Puzhao</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAIW</title>
+				<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,623.68,396.00,8.90;11,117.96,634.64,221.79,8.90" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Geometric back-projection network for point cloud classification</title>
+		<author>
+			<persName coords=""><forename type="first">Saeed</forename><surname>Shi Qiu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nick</forename><surname>Anwar</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Barnes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Multimedia</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,653.18,397.25,8.90;11,117.96,664.14,386.04,8.90;11,117.96,675.10,235.74,8.90" xml:id="b40">
+	<monogr>
+		<title level="m" type="main">Learning transferable visual models from natural language supervision</title>
+		<author>
+			<persName coords=""><forename type="first">Alec</forename><surname>Radford</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jong</forename><forename type="middle">Wook</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chris</forename><surname>Hallacy</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Aditya</forename><surname>Ramesh</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Gabriel</forename><surname>Goh</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sandhini</forename><surname>Agarwal</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Girish</forename><surname>Sastry</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Amanda</forename><surname>Askell</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Pamela</forename><surname>Mishkin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jack</forename><surname>Clark</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<publisher>ICML</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,693.64,397.66,8.90" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Learning a classification model for segmentation</title>
+		<author>
+			<persName><surname>Ren</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Malik</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/iccv.2003.1238308</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings Ninth IEEE International Conference on Computer Vision</title>
+				<meeting>Ninth IEEE International Conference on Computer Vision</meeting>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,108.00,712.18,396.00,8.90;11,117.96,723.14,100.44,8.90" xml:id="b42">
+	<monogr>
+		<title level="m" type="main">Very deep convolutional networks for large-scale image recognition</title>
+		<author>
+			<persName coords=""><forename type="first">Karen</forename><surname>Simonyan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Andrew</forename><surname>Zisserman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<publisher>ICLR</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,85.10,397.66,8.90;12,117.96,96.06,386.04,8.90;12,117.96,107.02,187.04,8.90" xml:id="b43">
+	<monogr>
+		<title level="m" type="main">Mlp-mixer: An all-mlp architecture for vision</title>
+		<author>
+			<persName coords=""><forename type="first">Neil</forename><surname>Ilya O Tolstikhin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alexander</forename><surname>Houlsby</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Lucas</forename><surname>Kolesnikov</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiaohua</forename><surname>Beyer</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Thomas</forename><surname>Zhai</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jessica</forename><surname>Unterthiner</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Andreas</forename><surname>Yung</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Daniel</forename><surname>Steiner</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jakob</forename><surname>Keysers</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Uszkoreit</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<publisher>NeurIPS</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,127.24,396.00,8.90;12,117.77,138.20,387.97,8.90" xml:id="b44">
+	<monogr>
+		<title level="m" type="main">Training data-efficient image transformers &amp; distillation through attention</title>
+		<author>
+			<persName coords=""><forename type="first">Matthieu</forename><surname>Hugo Touvron</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Matthijs</forename><surname>Cord</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Francisco</forename><surname>Douze</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alexandre</forename><surname>Massa</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hervé</forename><surname>Sablayrolles</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Jégou</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<publisher>ICML</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,158.43,396.00,8.90;12,117.96,169.39,387.70,8.90;12,117.60,180.35,348.29,8.90" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Resmlp: Feedforward networks for image classification with data-efficient training</title>
+		<author>
+			<persName coords=""><forename type="first">Piotr</forename><surname>Hugo Touvron</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Mathilde</forename><surname>Bojanowski</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Matthieu</forename><surname>Caron</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alaaeldin</forename><surname>Cord</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Edouard</forename><surname>El-Nouby</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Gautier</forename><surname>Grave</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Armand</forename><surname>Izacard</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Gabriel</forename><surname>Joulin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jakob</forename><surname>Synnaeve</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Verbeek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE TPAMI</title>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,200.57,356.64,8.90" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Preprint repository arXiv achieves milestone million uploads</title>
+		<author>
+			<persName coords=""><surname>Asher Trockman</surname></persName>
+		</author>
+		<idno type="DOI">10.1063/pt.5.028530</idno>
+		<idno type="arXiv">arXiv:2201.09792</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Physics Today</title>
+		<title level="j" type="abbrev">Phys. Today</title>
+		<idno type="ISSNe">1945-0699</idno>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<publisher>AIP Publishing</publisher>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="12,108.00,220.80,397.75,8.90;12,117.96,231.76,386.04,8.90;12,117.96,242.72,127.44,8.90" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Revisiting point cloud classification: A new benchmark dataset and classification model on real-world data</title>
+		<author>
+			<persName coords=""><forename type="first">Mikaela</forename><surname>Angelina Uy</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Quang-Hieu</forename><surname>Pham</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Binh-Son</forename><surname>Hua</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Thanh</forename><surname>Nguyen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sai-Kit</forename><surname>Yeung</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICCV</title>
+				<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,262.94,396.00,8.90;12,117.96,273.90,282.67,8.90" xml:id="b48">
+	<monogr>
+		<title level="m" type="main">Attention is all you need</title>
+		<author>
+			<persName coords=""><forename type="first">Ashish</forename><surname>Vaswani</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Noam</forename><surname>Shazeer</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Niki</forename><surname>Parmar</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jakob</forename><surname>Uszkoreit</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Llion</forename><surname>Jones</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Aidan</forename><forename type="middle">N</forename><surname>Gomez</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Łukasz</forename><surname>Kaiser</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Illia</forename><surname>Polosukhin</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<publisher>NeurIPS</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,294.13,397.24,8.90;12,117.96,305.08,386.04,8.90;12,117.96,316.04,117.84,8.90" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Pyramid Vision Transformer: A Versatile Backbone for Dense Prediction without Convolutions</title>
+		<author>
+			<persName coords=""><forename type="first">Wenhai</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Enze</forename><surname>Xie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiang</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Deng-Ping</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kaitao</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ding</forename><surname>Liang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Tong</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ping</forename><surname>Luo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ling</forename><surname>Shao</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/iccv48922.2021.00061</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2021 IEEE/CVF International Conference on Computer Vision (ICCV)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2021-10">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,336.27,397.75,8.90;12,117.96,347.23,387.28,8.90;12,117.96,358.19,22.42,8.90;12,108.00,378.41,75.55,8.90;12,213.54,378.41,109.83,8.90;12,353.37,378.98,151.68,7.82;12,117.96,389.37,133.00,8.90" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Dynamic Graph CNN for Learning on Point Clouds</title>
+		<author>
+			<persName coords=""><forename type="first">Yue</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yongbin</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ziwei</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sanjay</forename><forename type="middle">E</forename><surname>Sarma</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Michael</forename><forename type="middle">M</forename><surname>Bronstein</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Justin</forename><forename type="middle">M</forename><surname>Solomon</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3326362</idno>
+		<ptr target="https://github.com/rwightman/pytorch-image-models" />
+	</analytic>
+	<monogr>
+		<title level="j">ACM Transactions on Graphics</title>
+		<title level="j" type="abbrev">ACM Trans. Graph.</title>
+		<idno type="ISSN">0730-0301</idno>
+		<idno type="ISSNe">1557-7368</idno>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1" to="12" />
+			<date type="published" when="2019-10-10">2019. 2019</date>
+			<publisher>Association for Computing Machinery (ACM)</publisher>
+		</imprint>
+	</monogr>
+	<note>Ross Wightman. Pytorch image models</note>
+</biblStruct>
+
+<biblStruct coords="12,108.00,409.60,396.00,8.90;12,117.96,420.56,389.69,8.90;12,117.96,432.08,128.02,7.82" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Resnet strikes back: An improved training procedure in timm</title>
+		<author>
+			<persName coords=""><forename type="first">Ross</forename><surname>Wightman</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hugo</forename><surname>Touvron</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Herve</forename><surname>Jegou</surname></persName>
+		</author>
+		<ptr target="https://openreview.net/forum?id=NG6MJnVl6M5" />
+	</analytic>
+	<monogr>
+		<title level="m">NeurIPS 2021 Workshop on ImageNet</title>
+				<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,451.74,397.74,8.90;12,117.96,462.70,159.58,8.90" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Preprint repository arXiv achieves milestone million uploads</title>
+		<author>
+			<persName coords=""><forename type="first">Lemeng</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xingchao</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Qiang</forename><surname>Liu</surname></persName>
+		</author>
+		<idno type="DOI">10.1063/pt.5.028530</idno>
+		<idno type="arXiv">arXiv:2102.08606</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Physics Today</title>
+		<title level="j" type="abbrev">Phys. Today</title>
+		<idno type="ISSNe">1945-0699</idno>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<publisher>AIP Publishing</publisher>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="12,108.00,482.93,397.39,8.90;12,117.96,493.89,356.45,8.90" xml:id="b53">
+	<monogr>
+		<title level="m" type="main">Segformer: Simple and efficient design for semantic segmentation with transformers</title>
+		<author>
+			<persName coords=""><forename type="first">Enze</forename><surname>Xie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Wenhai</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zhiding</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Anima</forename><surname>Anandkumar</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jose</forename><forename type="middle">M</forename><surname>Alvarez</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ping</forename><surname>Luo</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<publisher>NeurIPS</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,514.11,396.00,8.90;12,117.49,525.07,355.71,8.90" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">GroupViT: Semantic Segmentation Emerges from Text Supervision</title>
+		<author>
+			<persName coords=""><forename type="first">Jiarui</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Shalini</forename><surname>De Mello</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sifei</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Wonmin</forename><surname>Byeon</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Thomas</forename><surname>Breuel</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jan</forename><surname>Kautz</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiaolong</forename><surname>Wang</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr52688.2022.01760</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-06">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,545.30,396.00,8.90;12,117.60,556.25,228.23,8.90" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">SpiderCNN: Deep Learning on Point Sets with Parameterized Convolutional Filters</title>
+		<author>
+			<persName coords=""><forename type="first">Yifan</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Tianqi</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Mingye</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Long</forename><surname>Zeng</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yu</forename><surname>Qiao</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-030-01237-3_6</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Computer Vision – ECCV 2018</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="90" to="105" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,576.48,397.66,8.90;12,117.96,587.44,130.78,8.90" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">Superpixel Segmentation With Fully Convolutional Networks</title>
+		<author>
+			<persName coords=""><forename type="first">Fengting</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Qian</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hailin</forename><surname>Jin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zihan</forename><surname>Zhou</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr42600.2020.01398</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2020-06">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,607.67,397.25,8.90;12,117.60,618.62,386.39,8.90;12,117.96,629.58,126.57,8.90" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">CMT-DeepLab: Clustering Mask Transformers for Panoptic Segmentation</title>
+		<author>
+			<persName coords=""><forename type="first">Qihang</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Huiyu</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Dahun</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Siyuan</forename><surname>Qiao</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Maxwell</forename><surname>Collins</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yukun</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hartwig</forename><surname>Adam</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alan</forename><surname>Yuille</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Liang-Chieh</forename><surname>Chen</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr52688.2022.00259</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-06">2022a</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,649.81,397.25,8.90;12,117.96,660.77,266.45,8.90" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">k-means Mask Transformer</title>
+		<author>
+			<persName coords=""><forename type="first">Qihang</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Huiyu</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Siyuan</forename><surname>Qiao</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Maxwell</forename><surname>Collins</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yukun</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hartwig</forename><surname>Adam</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alan</forename><surname>Yuille</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Liang-Chieh</forename><surname>Chen</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-031-19818-2_17</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Lecture Notes in Computer Science</title>
+				<imprint>
+			<publisher>Springer Nature Switzerland</publisher>
+			<date type="published" when="2022">2022b</date>
+			<biblScope unit="page" from="288" to="307" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,680.99,396.00,8.90;12,117.96,691.95,332.12,8.90" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">MetaFormer is Actually What You Need for Vision</title>
+		<author>
+			<persName coords=""><forename type="first">Weihao</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Mi</forename><surname>Luo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Pan</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chenyang</forename><surname>Si</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yichen</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xinchao</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jiashi</forename><surname>Feng</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shuicheng</forename><surname>Yan</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr52688.2022.01055</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-06">2022c</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="12,108.00,712.18,396.00,8.90;12,117.96,723.14,300.69,8.90" xml:id="b60">
+	<analytic>
+		<title level="a" type="main">Point-BERT: Pre-training 3D Point Cloud Transformers with Masked Point Modeling</title>
+		<author>
+			<persName coords=""><forename type="first">Xumin</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Lulu</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yongming</forename><surname>Rao</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Tiejun</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jie</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jiwen</forename><surname>Lu</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr52688.2022.01871</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-06">2022d</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="13,108.00,85.10,396.00,8.90;13,117.96,96.06,386.04,8.90;13,117.96,107.02,107.90,8.90" xml:id="b61">
+	<analytic>
+		<title level="a" type="main">Tokens-to-Token ViT: Training Vision Transformers from Scratch on ImageNet</title>
+		<author>
+			<persName coords=""><forename type="first">Li</forename><surname>Yuan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yunpeng</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Tao</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Weihao</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yujun</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Zihang</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Francis</forename><forename type="middle">E H</forename><surname>Tay</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jiashi</forename><surname>Feng</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shuicheng</forename><surname>Yan</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/iccv48922.2021.00060</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2021 IEEE/CVF International Conference on Computer Vision (ICCV)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2021-10">2021a</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="13,108.00,125.95,397.25,8.90;13,117.60,136.91,386.57,8.90;13,117.71,147.86,195.00,8.90" xml:id="b62">
+	<monogr>
+		<title level="m" type="main">Florence: A new foundation model for computer vision</title>
+		<author>
+			<persName coords=""><forename type="first">Lu</forename><surname>Yuan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Dongdong</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yi-Ling</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Noel</forename><surname>Codella</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiyang</forename><surname>Dai</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jianfeng</forename><surname>Gao</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Houdong</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xuedong</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Boxin</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chunyuan</forename><surname>Li</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2111.11432</idno>
+		<imprint>
+			<biblScope unit="page">2021</biblScope>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="13,108.00,166.79,396.00,8.90;13,117.96,177.75,222.88,8.90" xml:id="b63">
+	<analytic>
+		<title level="a" type="main">Learning Deep Features for Discriminative Localization</title>
+		<author>
+			<persName coords=""><forename type="first">Bolei</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Aditya</forename><surname>Khosla</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Agata</forename><surname>Lapedriza</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Aude</forename><surname>Oliva</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Antonio</forename><surname>Torralba</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2016.319</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2016-06">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="13,108.00,196.68,396.00,8.90;13,117.96,207.64,193.40,8.90" xml:id="b64">
+	<analytic>
+		<title level="a" type="main">Scene Parsing through ADE20K Dataset</title>
+		<author>
+			<persName coords=""><forename type="first">Bolei</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hang</forename><surname>Zhao</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xavier</forename><surname>Puig</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sanja</forename><surname>Fidler</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Adela</forename><surname>Barriuso</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Antonio</forename><surname>Torralba</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2017.544</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2017-07">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,1696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Efficient Teacher: Semi-Supervised Object Detection for YOLOv5</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2023-02-16">16 Feb 2023</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName coords="1,159.27,147.01,51.17,10.37"><forename type="first">Bowen</forename><surname>Xu</surname></persName>
+							<email>bowen.xbw@alibaba-inc.com</email>
+						</author>
+						<author>
+							<persName coords="1,225.39,147.01,68.74,10.37"><forename type="first">Mingtao</forename><surname>Chen</surname></persName>
+						</author>
+						<author>
+							<persName coords="1,309.07,147.01,71.75,10.37"><forename type="first">Wenlong</forename><surname>Guan</surname></persName>
+							<email>wenlong.gwl@alibaba-inc.com</email>
+						</author>
+						<author>
+							<persName coords="1,395.77,147.01,40.18,10.37"><forename type="first">Lulu</forename><surname>Hu</surname></persName>
+						</author>
+						<author>
+							<persName coords="1,261.92,160.96,71.38,10.37"><forename type="first">Alibaba</forename><surname>Group</surname></persName>
+						</author>
+						<title level="a" type="main">Efficient Teacher: Semi-Supervised Object Detection for YOLOv5</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2023-02-16">16 Feb 2023</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">524798BD76DFE69D0D6116A750AD0E06</idno>
+					<idno type="arXiv">arXiv:2302.07577v2[cs.CV]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.7.2" ident="GROBID" when="2023-03-08T10:34+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Semi-Supervised Object Detection (SSOD) has been successful in improving the performance of both R-CNN series and anchor-free detectors. However, one-stage anchorbased detectors lack the structure to generate high-quality or flexible pseudo labels, leading to serious inconsistency problems in SSOD. In this paper, we propose the Efficient Teacher framework for scalable and effective one-stage anchor-based SSOD training, consisting of Dense Detector, Pseudo Label Assigner, and Epoch Adaptor. Dense Detector is a baseline model that extends RetinaNet with dense sampling techniques inspired by YOLOv5. The Efficient Teacher framework introduces a novel pseudo label assignment mechanism, named Pseudo Label Assigner, which makes more refined use of pseudo labels from Dense Detector. Epoch Adaptor is a method that enables a stable and efficient end-to-end semi-supervised training schedule for Dense Detector. The Pseudo Label Assigner prevents the occurrence of bias caused by a large number of lowquality pseudo labels that may interfere with the Dense Detector during the student-teacher mutual learning mechanism, and the Epoch Adaptor utilizes domain and distribution adaptation to allow Dense Detector to learn globally distributed consistent features, making the training independent of the proportion of labeled data. Our experiments show that the Efficient Teacher framework achieves stateof-the-art results on VOC, COCO-standard, and COCOadditional using fewer FLOPs than previous methods. To the best of our knowledge, this is the first attempt to apply Semi-Supervised Object Detection to YOLOv5.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<facsimile>
+		<surface n="1" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="2" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="3" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="4" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="5" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="6" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="7" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="8" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="9" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="10" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="11" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="12" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="13" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="14" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+	</facsimile>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Object detection <ref type="bibr" coords="1,131.21,632.78,10.79,8.64" target="#b2">[3,</ref><ref type="bibr" coords="1,143.65,632.78,12.45,8.64" target="#b23">25,</ref><ref type="bibr" coords="1,157.76,632.78,12.45,8.64" target="#b29">31,</ref><ref type="bibr" coords="1,171.86,632.78,13.28,8.64" target="#b38">40]</ref> has made significant advances in recent years, which follows a traditional supervised training approach and relies on costly manual annotation efforts. To mitigate this problem, many semisupervised techniques <ref type="bibr" coords="1,141.50,680.60,10.79,8.64" target="#b0">[1,</ref><ref type="bibr" coords="1,153.97,680.60,13.28,8.64" target="#b33">35]</ref> are proposed to exploit large amounts of unlabeled data by automatically generating pseudo labels without introducing manual annotation. De-spite great progress in SSOD <ref type="bibr" coords="1,431.04,217.25,10.79,8.64" target="#b3">[4,</ref><ref type="bibr" coords="1,443.67,217.25,7.47,8.64" target="#b4">5,</ref><ref type="bibr" coords="1,452.97,217.25,12.45,8.64" target="#b25">27,</ref><ref type="bibr" coords="1,467.26,217.25,11.83,8.64" target="#b43">45]</ref>, there are three key issues that remain challenging: Firstly, few works on one-stage anchor-based SSOD have been reported. Though anchor-free detectors <ref type="bibr" coords="1,515.68,256.13,15.77,8.64" target="#b14">[15,</ref><ref type="bibr" coords="1,532.66,256.13,12.45,8.64" target="#b20">22,</ref><ref type="bibr" coords="1,308.86,268.09,13.60,8.64" target="#b38">40]</ref>have been recently getting more attention in the community of object detection, one-stage anchor-based detectors <ref type="bibr" coords="1,308.86,292.00,10.79,8.64" target="#b1">[2,</ref><ref type="bibr" coords="1,320.73,292.00,12.45,8.64" target="#b17">19,</ref><ref type="bibr" coords="1,334.26,292.00,12.45,8.64" target="#b20">22,</ref><ref type="bibr" coords="1,347.79,292.00,12.45,8.64" target="#b28">30,</ref><ref type="bibr" coords="1,361.32,292.00,11.83,8.64" target="#b40">42]</ref>, having the advantages of high recall, high numerical stability and fast training speed, are widely used in scenarios with extremely high recall demands. However, most SSOD methods are implemented on a two-stage anchor-based detector such as Faster R-CNN <ref type="bibr" coords="1,497.44,339.82,16.60,8.64" target="#b29">[31]</ref> and an one-stage anchor-free detector such as FCOS <ref type="bibr" coords="1,497.81,351.77,15.27,8.64" target="#b38">[40]</ref>, which output relatively sparse bounding box predictions due to the multi-stage coarse-to-fine prediction mechanism or the anchor-free design of detection head. In contrast, the classic one-stage anchor-based detector generates more dense predictions due to its multiple-anchor mechanism, which leads to positive and negative samples imbalance during supervised training <ref type="bibr" coords="1,365.67,435.46,16.60,8.64" target="#b44">[46]</ref> and poor quality of pseudo labels during semi-supervised training.</p><p>Secondly, current mainstream SSOD approaches, following a student-teacher mutual learning manner <ref type="bibr" coords="1,511.72,474.35,15.77,8.64" target="#b25">[27,</ref><ref type="bibr" coords="1,529.34,474.35,11.83,8.64" target="#b43">45]</ref>, is difficult for an one-stage anchor-based detector to train due to the serious pseudo label inconsistency problem, that is, throughout the training process, the quantity and quality of pseudo labels generated by the teacher model fluctuates greatly and the unqualified pseudo labels can mislead model updates. To alleviate this problem, two-stage methods <ref type="bibr" coords="1,326.37,558.03,11.62,8.64" target="#b3">[4]</ref>  <ref type="bibr" coords="1,341.65,558.03,16.60,8.64" target="#b25">[27]</ref> refine pseudo labels several times more than one-stage methods and anchor-free methods <ref type="bibr" coords="1,486.26,569.99,16.60,8.64" target="#b47">[49]</ref> adopt feature maps as soft pseudo labels to avoid bias caused by non maximum suppression. The pseudo label inconsistency is exacerbated in an one-stage anchor-based detector because of its multiple-anchor mechanism mentioned above. The work <ref type="bibr" coords="1,332.03,629.76,16.60,8.64" target="#b45">[47]</ref> has reported that the SSOD experimental results of RetinaNet are not as good as those on Faster R-CNN and FCOS.</p><p>Thirdly, how to train a SSOD model with both higher accuracy and better efficiency becomes the key issue that restricts the application of SSOD in a wide range of scenarios. The previous SSOD methods <ref type="bibr" coords="1,461.68,704.51,10.79,8.64" target="#b3">[4,</ref><ref type="bibr" coords="1,474.15,704.51,12.45,8.64" target="#b21">23,</ref><ref type="bibr" coords="1,488.30,704.51,12.45,8.64" target="#b25">27,</ref><ref type="bibr" coords="1,502.45,704.51,12.45,8.64" target="#b43">45,</ref><ref type="bibr" coords="1,516.58,704.51,13.28,8.64" target="#b48">50]</ref> are mainly in pursuit of better accuracy, but usually sacrifice training efficiency. Moreover, most previous works only focus on specific detector architecture, but the variety of real-world applications require faster iterative detector design with lower compute resource and higher accuracy.</p><p>In this paper, what we pursue is to design a scalable and effective SSOD framework on an one-stage anchor-based detector while considering both inference and training efficiency. We add the effective techniques used in the YOLO series <ref type="bibr" coords="2,76.34,501.28,10.79,8.64" target="#b1">[2,</ref><ref type="bibr" coords="2,89.14,501.28,12.45,8.64" target="#b14">15,</ref><ref type="bibr" coords="2,103.59,501.28,13.28,8.64" target="#b40">42]</ref> to a classical RetinaNet <ref type="bibr" coords="2,220.93,501.28,16.60,8.64" target="#b23">[25]</ref> to design a new representative one-stage anchor-based detector baseline, called Dense Detector. We attempt to transplant a mature SSOD scheme, the Unbiased Teacher <ref type="bibr" coords="2,226.98,537.14,15.27,8.64" target="#b25">[27]</ref>, to Dense Detector but find only 1.65 AP 50:95 improvement compared to the supervised method(shown in Table <ref type="table" coords="2,225.17,561.05,3.60,8.64" target="#tab_6">5</ref>), which confirms the second problem mentioned above. According to design paradigm of the Dense Detector, we propose the Efficient Teacher framework to overcome these challenges in SSOD. Pseudo Label Assigner(PLA) is introduced to alleviate pseudo label inconsistency by exploiting a fine-grained pseudo label assignment strategy on the objectness branch design. By distinguishing the pseudo labels into the reliable and the uncertain regions, different loss calculation methods are used respectively. In addition, we propose Epoch Adaptor(EA), an end-to-end training strategy for SSOD which consists of a Burn-In stage and a semi-supervised training stage. In the Burn-In stage, only labeled data is used for model parameter updating warm-up to obtain a student model with basic pseudo labels generation capability. Specially, the student model performs adversarial learning in the Burn-In stage so that the feature map of output is consistent on both labeled and unlabeled data. In the semisupervised training stage, EA automatically calculates low and high threshold used by PLA according to the number of the ground truth(GT) after Mosaic augmentation in an epoch, which leads to stable and effective training. The main contributions of this paper are as follows:</p><p>• We design Dense Detector as a baseline model to compare the differences between YOLOv5 and RetinaNet, which leads to a performance improvement of 5.36 AP 50:95 by utilizing dense sampling.</p><p>• We propose an effective SSOD training framework called Efficient Teacher, which includes a novel pseudo label assignment mechanism, Pseudo Label Assigner, reducing the inconsistency of pseudo labels, and Epoch Adaptor, enabling a fast and efficient end-to-end semisupervised training schedule.</p><p>• our experiments demonstrate that utilizing Efficient Teacher on YOLOv5 produces state-of-the-art results on VOC, COCO-standard, and COCO-additional datasets while consuming significantly fewer FLOPs than previous approaches.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Related Work</head><p>Semi-supervised Object Detection. Semi-supervised object detection, inherited from the semi-supervised image classification methods <ref type="bibr" coords="3,157.47,119.08,10.79,8.64" target="#b0">[1,</ref><ref type="bibr" coords="3,169.61,119.08,12.45,8.64" target="#b31">33,</ref><ref type="bibr" coords="3,183.42,119.08,12.45,8.64" target="#b33">35,</ref><ref type="bibr" coords="3,197.23,119.08,12.45,8.64" target="#b37">39,</ref><ref type="bibr" coords="3,211.04,119.08,11.83,8.64" target="#b41">43]</ref>, is divided into consistency-based schemes <ref type="bibr" coords="3,166.26,131.04,15.77,8.64" target="#b16">[18,</ref><ref type="bibr" coords="3,185.01,131.04,13.28,8.64" target="#b35">37]</ref> and pseudo-labeling schemes <ref type="bibr" coords="3,87.80,142.99,15.77,8.64" target="#b25">[27,</ref><ref type="bibr" coords="3,105.83,142.99,12.45,8.64" target="#b34">36,</ref><ref type="bibr" coords="3,120.54,142.99,12.45,8.64" target="#b43">45,</ref><ref type="bibr" coords="3,135.25,142.99,11.83,8.64" target="#b48">50]</ref>. The latter has become the current mainstream approach. STAC <ref type="bibr" coords="3,192.25,154.95,16.60,8.64" target="#b34">[36]</ref> exploits weak and strong data augmentation to process unlabeled data respectively. Unbiased Teacher <ref type="bibr" coords="3,150.41,178.86,16.60,8.64" target="#b25">[27]</ref> follows a stduent-teacher mutal learning to generate more accurate pseudo labels.To balance the effect of pseudo labels, Soft Teacher <ref type="bibr" coords="3,235.00,202.77,16.60,8.64" target="#b43">[45]</ref> uses the scores of the pseudo labels as the weights for loss calculation. DSL <ref type="bibr" coords="3,91.87,226.68,11.62,8.64" target="#b4">[5]</ref> is the first attempt to perform semi-supervised training on an anchor-free detector(FCOS) <ref type="bibr" coords="3,232.33,238.64,15.27,8.64" target="#b38">[40]</ref>. To relieve inconsistency problems, LabelMatch <ref type="bibr" coords="3,221.37,250.59,11.62,8.64" target="#b3">[4]</ref> utilizes label distribution to dynamically determine the filtering threshold of different categories of pseudo labels. The methods above have been proven great performance on two-stage and anchor-free detectors, but can not perform well on an one-stage anchor-based detector. Our Efficient Teacher is proposed to bridge the gap between semi-supervised training and one-stage anchor-based detectors.</p><p>Label Assignment. Label assignment is the key component that determines the performance of an object detector. Many works have been proposed to improve the label assignment mechanism, such as ATSS <ref type="bibr" coords="3,205.76,382.87,15.27,8.64" target="#b44">[46]</ref>, PAA <ref type="bibr" coords="3,249.12,382.87,15.27,8.64" target="#b19">[21]</ref>, Au-toAssign <ref type="bibr" coords="3,87.76,394.82,16.60,8.64" target="#b49">[51]</ref> and OTA <ref type="bibr" coords="3,144.55,394.82,15.27,8.64" target="#b13">[14]</ref>. Some researches <ref type="bibr" coords="3,235.25,394.82,11.62,8.64" target="#b3">[4]</ref>  <ref type="bibr" coords="3,249.09,394.82,16.60,8.64" target="#b26">[28]</ref> have noticed that the default label assignment mechanism using in supervised object detection can not be applied in SSOD directly, which results in performance degradation. In this paper, we propose a novel pseudo label assignment that can adapt to SSOD training for one-stage anchor-based detectors.</p><p>Domain Adaptation in Object Detection. The task of domain-adaptive object detection <ref type="bibr" coords="3,184.80,491.23,10.79,8.64" target="#b6">[7,</ref><ref type="bibr" coords="3,196.77,491.23,12.45,8.64" target="#b9">10,</ref><ref type="bibr" coords="3,210.40,491.23,12.45,8.64" target="#b22">24,</ref><ref type="bibr" coords="3,224.03,491.23,11.83,8.64" target="#b39">41]</ref>, aims to address the problem of domain shift <ref type="bibr" coords="3,184.63,503.19,12.69,8.64" target="#b7">[8]</ref>.The work <ref type="bibr" coords="3,238.85,503.19,16.60,8.64" target="#b12">[13]</ref> utilizes adversarial learning by training a discriminator with a gradient reverse layer(GRL) to generate domain-invariant feature. The work <ref type="bibr" coords="3,112.91,539.05,16.60,8.64" target="#b9">[10]</ref> introduces semi-supervised techniques used in Mean Teacher to alleviate domain bias, which reveals that domain shift is intrinsically related to inconsistency of semi-supervised task. This inspires Efficient Teacher to introduce adversarial learning in domain adaptation to alleviate the pseudo label inconsistency of SSOD training.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Efficient Teacher</head><p>Efficient Teacher is a novel and efficient framework for semi-supervised object detection, which significantly enhances the performance of one-stage anchor-based detectors. The framework is based on a student-teacher mutual learning approach, as shown in Figure <ref type="figure" coords="3,229.51,704.51,3.74,8.64" target="#fig_0">1</ref> previous works <ref type="bibr" coords="3,375.63,284.50,10.79,8.64" target="#b3">[4,</ref><ref type="bibr" coords="3,388.88,284.50,7.47,8.64" target="#b4">5,</ref><ref type="bibr" coords="3,398.80,284.50,12.45,8.64" target="#b25">27,</ref><ref type="bibr" coords="3,413.72,284.50,11.83,8.64" target="#b43">45]</ref>. Our proposed Pseudo Label Assigner method divides pseudo labels into reliable and uncertain ones based on their scores, with reliable pseudo labels used for default supervised training, and uncertain ones used to guide the training of the student model with objectness scores. The Epoch Adaptor method is used to speed up convergence by performing domain adaptation between labeled and unlabeled data, and switching the main epoch from labeled to unlabeled data after a burn-in stage.</p><p>Throughout the training process, the teacher model employs the Exponential Moving Average (EMA) technique for updates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Dense Detector</head><p>The imbalance of positive and negative training assignment samples often leads to unqualified pseudo labels in one-stage anchor-based detectors. To address this issue, we introduce the design of dense inputs. YOLOv5 <ref type="bibr" coords="3,518.70,489.32,16.60,8.64" target="#b17">[19]</ref> is a widely-used one-stage anchor-based detector in industry due to its friendly-deployed support and fast training speed. Results in Table <ref type="table" coords="3,377.41,525.19,4.98,8.64">1</ref> demonstrate that YOLOv5 w/o outperforms RetinaNet in terms of performance and computation. Furthermore, with dense image inputs after Mosaic augmentation, the AP 50:95 of YOLOv5 can be boosted from 41.2 to 47.87. YOLOv7 further improves the AP 50:95 to 51.5 with the help of dense flow of information and gradients on the basis of dense inputs. Our study suggests that improvements in the performance of one-stage anchorbased detectors often require dense inputs. Therefore, we propose Dense Detector as a base model for SSOD under dense inputs.</p><p>Dense Detector is modified from RetinaNet with ResNet-50-FPN backbone while changing the number of To verify the performance of Dense Detector in SSOD, we apply the classic SSOD method(Unbiased Teacher <ref type="bibr" coords="4,266.45,279.61,15.93,8.64" target="#b25">[27]</ref>) to the Dense Detector, which contains labeled and unlabeled data, teacher and student model, and a pseudo label filter to select pseudo labels. Furthermore, both labeled and unlabeled data branches adopt loss definition in Equation <ref type="formula" coords="4,278.89,327.43,3.74,8.64" target="#formula_1">2</ref>. However, in contrast to Unbiased Teacher on Faster R-CNN in Table <ref type="table" coords="4,85.80,351.34,3.74,8.64" target="#tab_2">2</ref>, the AP 50:95 improvement of Unbiased Teacher drops from 7.64 to 4.3 on Dense Detector. This motivated us to develop the following Pseudo Label Assigner that plays a key role in pseudo label assignment.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Pseudo Label Assigner</head><p>The core problem in SSOD is how to assign pseudo labels, as sub-optimal assignments can lead to inconsistent pseudo labels and deteriorating performance of the mutual learning mechanism. Pseudo Label Filter (Figure <ref type="figure" coords="4,278.07,464.52,4.15,8.64" target="#fig_4">3</ref>) is a naive approach that assigns pseudo labels by setting a threshold, with those below the threshold being considered as background. However, this method can result in suboptimal assignments, as shown in Figure <ref type="figure" coords="4,215.21,512.34,3.88,8.64" target="#fig_4">3</ref>: in the top case, the pseudo label with red color is incorrectly assigned due to a threshold value of 0.1, leading to the student learning the wrong label; in the bottom case, the threshold of 0.6 excludes low-scoring pseudo labels but incorrectly treats the pseudo label in red color as background, resulting in decreased training for this class. These cases highlight the need for more reasonable strategies for pseudo label assignment in Dense Detector.</p><p>Proposed in this work, Pseudo Label Assigner (PLA) provides a more refined assignment of the pseudo labels generated by Dense Detector. In PLA, pseudo labels obtained after Non-Maximum Suppression (NMS) are separated into two categories: reliable and uncertain pseudo labels. The high and low threshold τ 1 , τ 2 of the pseudo label score is used to determine two types of pseudo labels. Pseudo labels with scores between τ 1 , τ 2 are considered un-  certain, and ignoring the loss of these labels directly results in improved performance on Dense Detector, as shown in Table <ref type="table" coords="4,334.77,447.23,3.74,8.64" target="#tab_6">5</ref>. In addition to solving the sub-optimal problem caused by Pseudo Label Filter, PLA includes an unsupervised loss that efficiently leverages uncertain pseudo labels. The loss of Dense Detector in SSOD is defined as a pair of single labeled image and single unlabeled image:</p><formula xml:id="formula_0" coords="4,396.45,512.55,148.66,9.65">L = L s + λL u<label>(1)</label></formula><p>where L s represents the loss function computed on a labeled image, while L u represents the loss function computed on an unlabeled image, λ is used to balance the supervised loss and the semi-supervised loss, which is set to 3.0 in this paper. The L s follows the standard loss function in <ref type="bibr" coords="4,505.10,578.51,15.49,8.64" target="#b17">[19]</ref>:</p><formula xml:id="formula_1" coords="4,313.24,594.93,228.00,52.58">L s = h,w (CE(X cls (h,w) , Y cls (h,w) ) + CIoU (X reg (h,w) , Y reg (h,w) ) + CE(X obj (h,w) , Y obj h,w ))<label>(2</label></formula><p>) where CE indicates cross-entropy loss function, X (h,w) is the output of student model, and Y (h,w) means the sampled results generated by the label assigner of Dense Detector . The L u is defined as follows: </p><formula xml:id="formula_2" coords="4,374.83,702.32,170.28,12.69">L u = L cls u + L reg u + L obj u<label>(3)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>L cls</head><formula xml:id="formula_3" coords="5,69.17,436.03,217.19,22.66">u = h,w (1 {p (h,w) &gt;=τ2} CE(X cls (h,w) , Ŷ cls (h,w) ))<label>(4)</label></formula><formula xml:id="formula_4" coords="5,50.11,475.59,243.58,30.17">L reg u = h,w (1 {p (h,w) &gt;=τ 2 or ô bj (h,w) &gt;0.99} CIoU (X reg (h,w) , Ŷ reg (h,w) ))<label>(5)</label></formula><p>L obj u = h,w</p><p>(1 {p (h,w) &lt;=τ1} CE(X obj (h,w) , 0)</p><formula xml:id="formula_5" coords="5,95.04,562.74,191.33,34.75">+ 1 {p (h,w) &gt;=τ2} CE(X obj (h,w) , Ŷ obj (h,w) )) + 1 {τ1&lt;p (h,w) &lt;τ2} CE(X obj (h,w) , ô bj (h,w) ))<label>(6)</label></formula><p>where Ŷ cls (h,w) , Ŷ reg (h,w) , Ŷ obj (h,w) is the classification score, regression, objectness score of sampled results from PLA at location (h, w) on feature map separately. ô bj (h,w) is the objectness score of pseudo label at (h, w). p (h,w) is the score of pseudo label at (h, w). 1 {•} is the indicator function, which outputs 1 if condition {•} is satisfied and 0 otherwise.</p><p>PLA categorizes uncertain pseudo labels into two types: 1) those with high classification scores and 2) those with high objectness scores, which are handled differently. For the first type, only L obj u is calculated, and the targets of the cross-entropy Ŷ (h, w) obj are replaced with the soft label ô bjh, w, indicating that these pseudo labels are not classified as either background or positive samples. For the second type, PLA calculates L reg u when the objectness score is greater than 0.99, as these pseudo labels have good regression results but insufficient classification scores to determine their label category. PLA aims to convert more uncertain pseudo labels into true positives using L reg u , as more than 70% of uncertain pseudo labels are false positives due to inaccurate prediction boxes during SSOD training on COCO. Therefore, PLA suppresses the inconsistency of pseudo labels through a soft label learning mechanism, without affecting the loss of reliable pseudo labels. Further details can be found in the Appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">Epoch Adaptor</head><p>Although the PLA addresses the issue of pseudo label inconsistency in SSOD, the hyperparameters τ 1 and τ 2 are still hand-tuned and influenced by the distribution of labeled data. Additionally, the training scheme significantly impacts the performance of SSOD method. Current SSOD methods use two types of training scheme: alternating train-  </p><formula xml:id="formula_6" coords="6,55.09,467.92,231.27,20.14">L da = − h,w D log p (h,w) +(1−D) log(1−p (h,w) ) . (7)</formula><p>where p (h,w) is the output of the domain classifier. D = 0 for labeled data and D = 1 for unlabeled data.We use the gradient reverse layer (GRL) <ref type="bibr" coords="6,146.58,519.87,15.27,8.64" target="#b12">[13]</ref>, whereas the ordinary gradient descent is applied for training the domain classifier and the sign of the gradient is reversed when passing through the GRL layer to optimize the base network. In Burn-In stage, the supervised loss in one image can be reformulated as follows:</p><formula xml:id="formula_7" coords="6,57.63,589.87,225.24,37.58">Ls = h,w (CE(X cls (h,w) , Y cls (h,w) ) + CIoU (X reg (h,w) , Y reg (h,w) ) + CE(X obj (h,w) + Y obj h,w )) + λL da (<label>8</label></formula><formula xml:id="formula_8" coords="6,282.88,604.72,3.48,7.77">)</formula><p>where λ is the hyper-parameter to control the contribution of domain adaptation, which is 0.1 in our experiments. The expression capability of the model is enhanced by allowing the detector to see the unlabeled data in Burn-In.</p><p>During the SSOD training stage, EA applies a strategy where the current main epoch switches from the labeled data to the unlabeled data, as depicted in Figure <ref type="figure" coords="6,308.86,221.56,3.74,8.64" target="#fig_6">4</ref>. To dynamically calculate the τ 1 and τ 2 thresholds of PLA in each epoch, we implement a distribution adaptation method based on the re-distribution method in Label-Match <ref type="bibr" coords="6,338.21,254.44,10.58,8.64" target="#b3">[4]</ref>. This is necessary because Mosaic augmentation increases the number of ground truth (GT) annotations in labeled data, which alters the GT counting setting used in the re-distribution method based on offline annotations in LabelMatch <ref type="bibr" coords="6,372.11,298.27,10.58,8.64" target="#b3">[4]</ref>. Specifically, the GT count per image increases from 7.24 to 21.4 during SSOD training on the COCO dataset. The τ 1 and τ 2 thresholds at the k-th epoch are determined as follows:</p><formula xml:id="formula_9" coords="6,391.86,346.97,153.25,20.23">τ k 1 = P k c [n k c • Nu N l ]<label>(9)</label></formula><formula xml:id="formula_10" coords="6,380.46,378.89,164.65,20.23">τ k 2 = P k c [α% • n k c • Nu N l ],<label>(10)</label></formula><p>The reliable ratio α is set to 60 for all experiments, and P k c represents the list of pseudo label scores of the c-th class at the k-th epoch. Meanwhile, N l and N u denote the number of labeled and unlabeled data, and n k c represents the number of c-th class ground truth annotations that are counted by EA at the k-th epoch. By dynamically calculating the appropriate thresholds at each epoch, EA enables joint training to be more adaptable to dynamic data distributions. This approach differs from the offline statistical method used by LabelMatch <ref type="bibr" coords="6,359.49,512.37,10.58,8.64" target="#b3">[4]</ref>.</p><p>By enabling the SSOD training to obtain higher AP 50:95 and faster convergence without the need for hand-tuned thresholds, EA effectively reduces the overall training time of joint training scheme. The experimental results demonstrating these effects are presented in Section 4.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Experiments</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Experimental Setup</head><p>Datasets. We validate our method on MS-COCO <ref type="bibr" coords="6,528.52,632.78,16.60,8.64" target="#b24">[26]</ref> and VOC <ref type="bibr" coords="6,349.82,644.74,16.60,8.64" target="#b11">[12]</ref> benchmarks: (1) COCO-standard: 1%, 2%, 5%, 10% of the images are sampled on COCO as labeled data, and all the remaining data are used as unlabeled data.</p><p>(2) COCO-additional: train2017 dataset is set as the labeled dataset and COCO2017-unlabeled is as the unlabeled dataset. ( <ref type="formula" coords="6,350.12,704.51,3.87,8.64" target="#formula_2">3</ref>  dataset and VOC12 trainval is used as the unlabeled dataset. We adopt the mean average precision AP 50:90 as the evaluation metric. Network.To verify that our proposed method is scalable, we used three Dense Detector architectures:The first one uses ResNet-50-FPN in Dense Detector. The second one replaces the original backbone with CSPNet and the Neck with PAN, which is similar with YOLOv5. The last one follows YOLOv7 to add ELAN module and RepConv <ref type="bibr" coords="7,269.77,398.30,16.60,8.64" target="#b10">[11]</ref> into backbone.</p><p>Implementation Details. We use 8 NVIDIA-V100 GPUs with 16G memory per GPU. We randomly sample 32 images from labeled data and 32 images from unlabeled data with ratio 1:1 in each iteration. For training configurations, the learning rate is 0.01 all the time, the τ 1 and τ 2 are calculated by EA. We used both weak and strong data augmentation. Mosaic is used in weak data augmentation. In the strong data augmentation, Mosaic, left-right flip, large scale jittering, graying, Gaussian blur, cutout, and color space conversion are selected. The max epoch is 300. Smoothing hyper-parameter in EMA is 0.999.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Results</head><p>COCO-standard. In Table <ref type="table" coords="7,176.47,584.07,3.74,8.64" target="#tab_2">2</ref>, we validate our proposed method on COCO-standard and the performance of Efficient Teacher is better than Unbiased Teacher on Dense Detector. Moreover, when applying standard YOLOv5l Backbone, our method achieves state-of-the-art results on labeled data with 2%, 5% ,10% coefficients. Comparing to previous state-of-the-arts, Efficient Teacher is the second highest in 1% labeled setting, after LabelMatch <ref type="bibr" coords="7,210.60,667.76,10.58,8.64" target="#b3">[4]</ref>, but greatly improved both in 5% and 10% COCO using fewer FLOPs.</p><p>COCO-additional. Results in Table <ref type="table" coords="7,219.00,692.56,4.98,8.64" target="#tab_4">3</ref> show our proposed method on COCO-additional, the gain effect of Effi-cient Teacher is better than Unbiased Teacher, which shows  PASCAL-VOC. Table <ref type="table" coords="7,418.34,446.74,4.98,8.64" target="#tab_5">4</ref> shows the results of experiments conducted on VOC are convincing. Our method achieves 58.30 on AP 50:95 , which shows more accurate bounding box regression results.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Method</head><p>AP 50:95 AP 50 STAC <ref type="bibr" coords="7,368.97,527.77,16.60,8.64" target="#b34">[36]</ref> 44.64 77.45 Instant Teacher <ref type="bibr" coords="7,405.82,539.72,16.60,8.64" target="#b48">[50]</ref> 50.00 79.20 Unbiased Teacher <ref type="bibr" coords="7,416.33,551.68,16.60,8.64" target="#b25">[27]</ref> 48.69 77.37 Dense Teacher <ref type="bibr" coords="7,403.60,563.63,16.60,8.64" target="#b47">[49]</ref> 55.87 79.89 DSL <ref type="bibr" coords="7,363.65,575.59,11.62,8.64" target="#b4">[5]</ref> 56.80 80.70 Unbiased Teacher v2 <ref type="bibr" coords="7,428.78,587.54,16.60,8.64" target="#b26">[28]</ref>  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3.">Ablation Studies</head><p>In ablation studies, we conducted experiments using the 10% COCO-standard dataset(one of 5 folds). The backbone is YOLOv5l.</p><p>Effect of Pseudo Label Assigner. The impact of the proposed Pseudo Label Assigner is presented in Table <ref type="table" coords="8,278.89,87.43,3.74,8.64" target="#tab_6">5</ref>. We observe that applying the Unbiased Teacher method to the Dense detector with a threshold of 0.3 for pseudo label generation only leads to a modest AP 50:95 improvement of 1.65, which is considerably lower than the 7.6 AP 50:95 gain achieved by the Unbiased Teacher <ref type="bibr" coords="8,211.47,147.21,16.60,8.64" target="#b25">[27]</ref> applied to the Faster R-CNN. When neglecting the uncertain pseudo labels, the AP 50:95 further increases to <ref type="bibr" coords="8,207.56,171.12,7.97,8.64" target="#b33">35</ref> Effect of dynamic threshold. We evaluate the impact of varying the threshold value τ 2 in the Pseudo Label Assigner method on the COCO 10% standard task. As shown Table <ref type="table" coords="8,86.30,393.88,3.74,8.64" target="#tab_7">6</ref>, increasing the value of τ 2 results in a decreasing trend for AP 50:95 , which is indicative of fewer reliable pseudo labels and more uncertain ones. This highlights the importance of having an appropriate balance between reliable and uncertain pseudo labels, as the decrease in the number of reliable pseudo labels can negatively impact the effectiveness of SSOD training. Notably, the use of Epoch Adaptor to dynamically calculate the value of τ 2 results in the best performance without requiring manual tuning efforts. Effect of the Epoch Adaptor. We conducted an ablation study of Epoch Adaptor, as shown in Figure <ref type="figure" coords="8,256.79,668.65,3.74,8.64" target="#fig_8">5</ref>. The results demonstrate that after jointly training with Epoch Adaptor, the network achieves superior performance with fewer iterations compared to the other two SSOD train-ing methods, namely fully supervised and alternating training, which involves training a detector for 70K iterations in a fully supervised manner followed by 240K iterations of semi-supervised training.  </p><formula xml:id="formula_11" coords="8,130.50,525.00,4.36,8.74">τ</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Conclusion</head><p>In this paper, we present Efficient Teacher, a method to bridge the gap between SSOD and one-stage anchor-based detectors, by building on the efficient dense input handling of Dense Detector. Our approach introduces the Pseudo Label Assigner to effectively utilize both reliable and uncertain pseudo labels, based on an analysis of their assignment in SSOD. In addition, we introduce Epoch Adaptor, a training scheme that maximizes the efficiency of training and utilization of both labeled and unlabeled data. Our approach achieves state-of-the-art results on VOC, COCO-standard, and COCO-additional datasets. As we explain in Section 3.1, the dense inputs of Dense Detector is an engineering technique to balances the importance of positive/negative examples. The dense inputs consists of two parts: dense image inputs and dense sample inputs, we design the ablation experiments about dense image inputs(Mosaic augmentation) and dense sample inputs(multi positive sample) in Dense Detector. The Mosaic augmentation means patch four images into one and multi positive sample extend label assignment sample to adjacent points on feature map. We report the supervised training performance of Dense Detector, in which the higher mAP corresponds the better pseudo label quality in SSOD. It is revealed in Figure <ref type="figure" coords="11,127.52,472.61,4.98,8.64">6</ref> that dense image inputs(Mosaic augmentation) shows massive improvement on mAP from 23.1 to 28.9 and dense sample inputs(multi positive sample) improves the mAP from 23.1 to 26.9, further more, with both two techniques the mAP can be boosted from 23.1 to 30.5. The dense inputs of Dense Detector has a positive effect on the efficiency and accuracy of Efficient Teacher.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.1. Analysis of Dense Detector</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.2. Analysis of Pseudo Labels Assigner</head><p>The Pseudo Label Assigner divides pseudo labels into two types: reliable and uncertain ones. In this part, we present more analysis about ratio of true positive and false positive in pseudo labels. Figure <ref type="figure" coords="11,181.06,620.83,4.98,8.64" target="#fig_10">7</ref> shows the average statistics of reliable and uncertain pseudo labels in one epoch, the True Positive means the pseudo labels have the same class as ground truth and an IoU overlap greater than 0.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.3. Analysis of Epoch Adaptor</head><p>We propose Epoch Adaptor to calculate the distribution of ground truth in each epoch due to Mosaic augmentation. We perform the qualitative comparisons between ground truth distribution of the proposed Efficient Teacher and Unbiased Teacher <ref type="bibr" coords="11,372.74,527.89,16.60,8.64" target="#b25">[27]</ref> method. The contents of images and instance distribution are shown in Figure <ref type="figure" coords="11,474.50,539.84,3.74,8.64">8</ref>, in which Unbiased Teacher has monotonous and large instance while Efficient Teacher has various and small instance. Moreover, the Mosaic augmentation is executed online which disabled the offline label number calculation in LabelMatch <ref type="bibr" coords="11,515.88,587.66,10.58,8.64" target="#b3">[4]</ref>. As discussed in Section 3.3, we observe the pseudo label and ground truth in Efficient Teacher and implement a distribution adaptation method to dynamically calculate number of ground truth per image which determines the τ 1 and τ 2 in Pseudo Label Assigner. Details are shown in Figure <ref type="figure" coords="11,518.13,647.44,3.74,8.64">9</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Experiments on CityScapes</head><p>To explore the flexibility of Efficient Teacher, we extend it to the scenario of domain adaptive object detection (DAOD) <ref type="bibr" coords="12,88.58,601.79,10.79,8.64" target="#b5">[6,</ref><ref type="bibr" coords="12,101.67,601.79,13.28,8.64">17]</ref> follow the LabelMatch <ref type="bibr" coords="12,217.06,601.79,10.58,8.64" target="#b3">[4]</ref>. The experiments are mainly to demonstrate the generality of Efficient Teacher framework, which simply treats the source data as labeled data and the target data as unlabeled data.  960 and λ is 1.0. Table <ref type="table" coords="13,149.92,312.92,4.98,8.64">8</ref> shows Efficient Teacher outperforms all previous state-of-the-art model with a margin of 2.9 AP 50 . Table <ref type="table" coords="13,121.76,336.83,4.98,8.64">9</ref> and Tabel 10 shows our method ,is an effective framework for both SSOD and DAOD.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C. Experiments on Customized Datasets</head><p>We further report the performance of Efficient Teacher on customized dataset to showcase the generality of our framework.</p><p>Dataset. The customized dataset contains two types of ground truth: reflective clothes and other, the relective clothes means the annotation of the reflective clothes that people wear and other means normal clothes. We only collect 3800 pictures in a few scenes while customer wish the model can be deployed in a lot of scenes, thus we take 3800 pictures as labeled data and COCO train dataset as unlabeled data for Efficient Teacher.</p><p>Implementation Details. We verify the generality of Efficient Teacher through inference the supervised model and semi-supervised model on COCO val dataset, results are visualized in Figure <ref type="figure" coords="13,127.50,608.87,8.30,8.64" target="#fig_13">11</ref>. Obviously, the SSOD on Efficient Teacher shows great performance improvement with fewer classification and localization error. In addition, what is interesting in the figures should be the red carp flags are misclassified as reflective clothes, which is the common phenomenon occurs by supervised training in practical applications. Efficient Teacher shows superiority of alleviating the overfitting due to small training dataset and potential to become the standard solution in application scenario.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>D. Implementation and Training Details</head><p>Our Efficient Teacher is based on YOLO-like Dense Detector, for fair comparison, we refactor the source code of YOLOv5(https://github.com/ultralytics/ yolov5), adding utilities like unlabeled dataloader, pseudo labels online transformation and configuration system. Our code can train both supervised and semi-supervised object detection through modify a few lines of configuration. The source code will be released soon.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0" coords="2,50.11,324.74,495.00,7.77;2,50.11,335.70,495.00,7.77;2,50.11,346.66,495.00,7.77;2,50.11,357.62,167.96,7.77;2,75.31,218.18,58.55,79.14"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. An overview of Efficient Teacher framework. Efficient Teacher proposes three modules to implement a scalable and effective SSOD framework, where Dense Detector improves the quality of pseudo labels with dense input while has better inference efficiency; Pseudo Label Assigner divides pseudo labels into two types to alleviate pseudo labels inconsistency problem; Epoch Adaptor reduces training time and the inconsistency of features.</figDesc><graphic coords="2,75.31,218.18,58.55,79.14" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1" coords="3,308.86,680.60,236.25,8.64;3,308.86,692.56,236.25,8.64;3,308.86,704.51,236.25,8.64;4,50.11,75.48,236.25,8.64;4,50.11,87.43,236.25,8.64;4,50.11,99.07,235.75,9.65;4,50.11,111.34,236.25,8.64;4,50.11,123.30,236.25,8.64;4,50.11,135.25,236.25,8.64;4,50.11,147.21,236.25,8.64;4,50.11,159.16,236.25,8.64;4,50.11,171.12,236.25,8.64;4,50.11,183.07,236.25,8.64;4,50.11,195.03,236.25,8.64;4,50.11,206.98,236.25,8.64;4,50.11,218.94,236.25,8.64;4,50.11,230.89,236.25,8.64;4,50.11,242.85,236.25,8.64;4,50.11,254.80,33.48,8.64"><head></head><label></label><figDesc>FPN output from 5 to 3, eliminating the weight sharing between detection headers and reducing the input resolution from 1333 to 640 for both training and inference. What's more, Dense Detector has two outputs(a classification score and a bounding-box offset) and a third branch that outputs the objectness score. Dense Detetor gained 5.36% AP 50:95 boost and 30% faster relative to RetinaNet as shown in Table 1. Specifically, Dense Detector obtains objectness score by calculating the Complete Intersection over Union(CIoU) [48] between the predicted and GT boxes. Objectness output directly indicates position response, and reflects the location quality of the predicted boxes. As illustrated in Figure 1, the pseudo labels in SSOD are the predicted boxes of unlabeled data, the objectness scores of which indicate the location quality of pseudo labels. Thus, compared to RetinaNet with only a classification branch, Dense Detector with an extra objectness branch can indicate the location quality of pseudo labels during SSOD training as shown in Figure2.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3" coords="4,308.86,317.35,236.25,7.77;4,308.86,328.31,236.25,7.77;4,308.86,339.27,236.25,7.77;4,308.86,350.23,236.25,7.77;4,308.86,360.90,236.25,8.06;4,308.86,371.86,236.25,8.06;4,308.86,383.11,236.25,7.77;4,308.86,394.07,98.18,7.77;4,330.67,168.44,86.71,124.67"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Comparison of pseudo label score heatmaps from Reti-naNet and Dense Detector. Darker color indicates higher score. (a) RetinaNet produces sparse response due to the calculation of classification scores from pseudo labels generated from unlabeled data of 1333 × 800 input resolution. (b) Dense Detector, with input resolution of 640 × 640, uses a weighted pseudo label score based on objectness and classification scores, resulting in a more robust and dense response..</figDesc><graphic coords="4,330.67,168.44,86.71,124.67" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4" coords="5,50.11,333.24,495.00,7.77;5,50.11,344.20,495.00,7.77;5,50.11,355.16,495.00,7.77;5,50.11,366.11,495.00,7.77;5,50.11,376.79,473.93,8.06;5,524.04,375.02,9.99,5.24;5,524.04,377.07,21.07,8.58;5,50.11,388.03,167.10,7.77;5,131.97,183.66,111.15,132.32"><head>Figure 3 .</head><label>3</label><figDesc>Figure3. Comparison of the impact of different pseudo label select strategy. In Pseudo Label Filter, a widely-used method in SSOD<ref type="bibr" coords="5,516.38,333.24,14.36,7.77" target="#b25">[27,</ref><ref type="bibr" coords="5,530.75,333.24,10.77,7.77" target="#b43">45]</ref>, Setting the threshold too low (0.1) can result in the generation of incorrect pseudo labels (indicated by the red line), while a threshold that is too high (0.6) may exclude reliable pseudo labels. This can lead to suboptimal assignments and adversely affect the training of the network. To address this issue, we propose the Pseudo Label Assigner method, which categorizes pseudo labels into reliable and uncertain categories based on high and low thresholds, respectively. The uncertain pseudo labels are assigned soft labels as targets for L obj u to improve the quality of pseudo labels in SSOD.</figDesc><graphic coords="5,131.97,183.66,111.15,132.32" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6" coords="6,50.11,167.11,495.00,7.77;6,50.11,178.07,495.00,7.77;6,50.11,189.03,458.17,7.77"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Training strategies for Dense Detector: (a) supervised training on labeled data followed by SSOD training on unlabeled data; (b) supervised training on labeled data with additional SSOD training on unlabeled data; (c) end-to-end training on both labeled and unlabeled data with Epoch Adaptor incorporating Domain and Distribution Adaptation for improved convergence and feature distribution.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8" coords="8,308.86,320.84,236.25,7.77;8,308.86,331.80,236.25,7.77;8,308.86,342.76,78.45,7.77"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Performance (AP50:95) comparisons of Epoch Adaptor, Alternating Training and Joint Training with Burn-In methods on COCO standard 10%.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9" coords="11,50.11,292.51,236.25,7.77;11,50.11,303.47,229.01,7.77"><head></head><label></label><figDesc>Figure 6. comparition between performance of different input and sample strategies, the result shows stable rise with dense inputs.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10" coords="11,308.86,419.29,236.25,7.77;11,308.86,430.25,190.89,7.77"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Weight of true and false positive compared across reliable and uncertain pseudo labels in Efficient Teacher.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11" coords="12,50.11,268.71,236.25,7.77;12,50.11,279.67,236.25,7.77;12,50.11,290.63,236.25,7.77;12,50.11,301.59,236.25,7.77;12,50.11,312.54,236.25,7.77;12,50.11,323.50,218.68,7.77;12,170.99,162.28,115.36,94.63"><head>Figure 8 .Figure 9 .</head><label>89</label><figDesc>Figure 8. The upper section displays the pseudo labels and ground truth obtained using the Unbiased Teacher method. The lower section presents figures that have been augmented with Mosaic in the Efficient Teacher method. In these figures, the three floating point numbers that appear with the class name represent the pseudo label score, objectness score, and classification score, respectively.</figDesc><graphic coords="12,170.99,162.28,115.36,94.63" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12" coords="13,105.39,163.43,384.44,7.77;13,421.28,180.91,118.88,79.32"><head>Figure 10 .</head><label>10</label><figDesc>Figure 10. DAOD Performance of YOLOv5 with Efficient Teacher on Foggy Cityscapes validation dataset.</figDesc><graphic coords="13,421.28,180.91,118.88,79.32" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13" coords="13,80.57,283.99,434.09,7.77;13,300.01,180.91,118.88,79.32"><head>Figure 11 .</head><label>11</label><figDesc>Figure 11. Comparison between supervised object detection and semi-supervised object detection on customized dataset.</figDesc><graphic coords="13,300.01,180.91,118.88,79.32" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" coords="6,354.00,704.51,191.12,8.64"><head></head><label></label><figDesc>) VOC: VOC07 trainval data is as the labeled +4.92) 18.25 ± 0.25 (+5.91) 24.38 ± 0.12 (+5.91)<ref type="bibr" coords="7,442.07,98.74,6.97,6.72" target="#b26">28</ref>.64 ± 0.21 (+4.78) 202.31G Instant Teaching [50] 18.05 ± 0.15 (+9.00) 22.45 ± 0.15 (+9.75) 26.75 ± 0.05 (+8.28) 30.40 ± 0.05 (+6.54) 202.31G Humber teacher [38] 16.96 ± 0.38 (+7.91) 21.72 ± 0.24 (+9.02) 27.70 ± 0.15 (+9.23) 31.61 ± 0.28 (+7.75) 202.31G Unbiased Teacher [27] 20.75 ± 0.12 (+11.70) 24.30 ± 0.07 (+9.80) 28.27 ± 0.11 (+9.80) 31.50 ± 0.10 (+7.64) 204.13G [27] 18.81 ± 0.28 (+7.52) 22.72 ± 0.21 (+9.60) 28.35 ± 0.12 (+8.15) 30.34 ± 0.09 (+4.30) 169.61G Ours 20.18 ± 0.21 (+8.87) 25.85 ± 0.13 (+12.73) 30.41 ± 0.08 (+10.13) 33.44 ± 0.11 (+7.40) 169.61G Ours † 23.76 ± 0.13 (+12.47) 28.70 ± 0.14 (+15.58) 34.11 ± 0.09 (+13.83) 37.90 ± 0.04 (+11.86) 109.59G</figDesc><table coords="7,54.25,76.25,486.72,157.86"><row><cell cols="2">Method</cell><cell>%1</cell><cell>%2</cell><cell>%5</cell><cell>%10</cell><cell>FLOPs</cell></row><row><cell></cell><cell>Supervised</cell><cell>9.05</cell><cell>12.70</cell><cell>18.47</cell><cell>23.86</cell><cell>202.31G</cell></row><row><cell>Two-stage anchor-based</cell><cell cols="2">STAC [36] 13.97 ± 0.35(Soft Teacher [45] 20.46 ± 0.39 (+11.41)</cell><cell>-</cell><cell cols="3">30.74 ± 0.08 (+12.27) 34.04 ± 0.14 (+10.18) 202.31G</cell></row><row><cell></cell><cell>LabelMatch [4]</cell><cell>25.81 ± 0.28 (+16.76)</cell><cell>-</cell><cell cols="3">32.70 ± 0.18 (+14.23) 35.49 ± 0.17 (+11.63) 202.31G</cell></row><row><cell></cell><cell>PseCo [23]</cell><cell cols="5">22.43 ± 0.36 (+13.38) 27.77 ± 0.18 (+15.07) 32.50 ± 0.08 (+14.03) 36.06 ± 0.24 (+12.20) 202.31G</cell></row><row><cell></cell><cell>Supervised</cell><cell>9.53</cell><cell>11.71</cell><cell>18.74</cell><cell>23.70</cell><cell>200.59G</cell></row><row><cell>One-stage anchor-free</cell><cell cols="6">Unbiased Teacher v2 [28] 22.71 ± 0.42 (+13.18) 26.03 ± 0.12 (+14.32) 30.08 ± 0.04 (+11.34) 32.61 ± 0.03 (+8.91) 200.59G DSL [5] 22.03 ± 0.28 (+12.50) 25.19 ± 0.37 (+13.48) 30.87 ± 0.24 (+12.13) 36.22 ± 0.18 (+12.52) 200.59G</cell></row><row><cell></cell><cell>Dense Teacher [49]</cell><cell cols="5">22.38 ± 0.31 (+12.85) 27.20 ± 0.20 (+15.49) 33.01 ± 0.21 (+14.27) 37.13 ± 0.12 (+13.43) 200.59G</cell></row><row><cell></cell><cell>Supervised</cell><cell>11.29</cell><cell>13.12</cell><cell>20.28</cell><cell>26.04</cell><cell>169.61G</cell></row><row><cell></cell><cell>Unbiased Teacher *</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>One-stage anchor-based</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" coords="7,50.11,257.99,495.00,19.02"><head>Table 2 .</head><label>2</label><figDesc>Experimental results on COCO-standard (AP50:95), * means re-implemented results on Dense Detector, † means Efficient Teacher with YOLOv5l<ref type="bibr" coords="7,106.63,269.24,13.74,7.77" target="#b17">[19]</ref>. All the results are the average of 5 folds.</figDesc><table /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" coords="7,308.86,313.40,236.25,87.97"><head></head><label></label><figDesc>1.01 increase on AP 50:95 . Backbone in all experiments is YOLOv5l.</figDesc><table coords="7,348.14,351.54,157.69,49.82"><row><cell>Method</cell><cell>AP 50:95</cell></row><row><cell>Supervised  †</cell><cell>47.87</cell></row><row><cell cols="2">Unbiased Teacher [27]  † 48.48(+0.61)</cell></row><row><cell>Ours  †</cell><cell>48.88(+1.01)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" coords="7,334.56,417.11,184.86,7.77"><head>Table 3 .</head><label>3</label><figDesc>Experimental results on COCO-additional.</figDesc><table /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5" coords="7,338.88,587.54,176.21,44.11"><head>Table 4 .</head><label>4</label><figDesc>Experimental results on PASCAL-VOC.</figDesc><table coords="7,456.09,587.54,55.55,8.64"><row><cell>56.87 81.29</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6" coords="8,50.11,171.12,236.25,168.44"><head>Table 5 .</head><label>5</label><figDesc>.2. However, by utilizing the Pseudo Label Assigner to handle the uncertain pseudo labels, we obtain a significant improvement of 7.45 in AP 50:95 , resulting in a final performance of 37.90, which is comparable to that of the Unbiased Teacher applied to the Faster R-CNN. Ablation study about different pseudo label assignment methods.</figDesc><table coords="8,57.25,253.63,224.08,52.07"><row><cell>Method</cell><cell>AP 50:95</cell><cell>AP 50</cell></row><row><cell>Supervised</cell><cell>30.45</cell><cell>44.65</cell></row><row><cell>Unbiased Teacher [27]</cell><cell cols="2">32.10 (+1.65) 47.30 (+2.65)</cell></row><row><cell cols="3">Ignore uncertain pseudo label [5] 35.20 (+4.75) 52.00 (+7.35)</cell></row><row><cell>Pseudo Label Assigner</cell><cell cols="2">37.90 (+7.45) 54.19 (+9.54)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_7" coords="8,50.11,525.00,235.75,113.21"><head>Table 6 .</head><label>6</label><figDesc>2 AP 50:95 AP 50 Ablation studies on dynamic threshold, EA indicates τ2 is calculated by Epoch Adaptor.</figDesc><table coords="8,128.27,542.28,79.94,61.46"><row><cell>0.4 37.20 54.08</cell></row><row><cell>0.5 37.20 54.10</cell></row><row><cell>0.6 36.90 53.77</cell></row><row><cell>0.7 35.10 51.60</cell></row><row><cell>EA 37.90 54.80</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_8" coords="11,50.11,75.48,495.00,637.67"><head></head><label></label><figDesc>5, the Loc False Positive means IoU overlap with ground truth less than 0.5 and Cls False Positive indicates pseudo labels is misclassified. What can be clearly seen in figures is 76% of reliable pseudo labels are True Positive while only 24%of uncertain pseudo labels comply with the requirements. The misclassified pseudo labels are only small percentage of both reliable and uncertain pseudo labels, meanwhile, the weight of poor location in uncertain pseudo labels reaches 70% which motivated us to design L reg u in Section 3.2.</figDesc><table coords="11,341.51,148.61,170.33,257.77"><row><cell cols="3">Cls False Positive</cell></row><row><cell>Loc False Positive</cell><cell>19%</cell><cell>5%</cell></row><row><cell></cell><cell></cell><cell>76%</cell></row><row><cell></cell><cell></cell><cell>True Positive</cell></row><row><cell cols="3">(a) Reliable pseudo labels.</cell></row><row><cell></cell><cell></cell><cell>Loc False Positive</cell></row><row><cell></cell><cell></cell><cell>70%</cell></row><row><cell></cell><cell>24%</cell><cell></cell></row><row><cell>True Positive</cell><cell></cell><cell>6%</cell></row><row><cell cols="3">Cls False Positive</cell></row><row><cell cols="3">(b) Uncertain pseudo labels.</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Dataset. As described in Tab. 7, following the LabelMatch, We evaluate our method on these settings and compare it with the state-of-the-arts.</p><p>Implementation Details. The implementation is nearly the same as SSOD, and more training hyper-parameters can be</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. More Analysis of Efficient Teacher</head><p>In this section, we aim to identify real gain of Efficient Teacher and make an in-depth study of it. Efficient Teacher is conceptually simple: it uses Dense Detector to generate high quality pseudo labels, Pseudo Label Assigner to alleviate pseudo label inconsistency problem and Epoch Adaptor to count the number of labels per image.</p><p>The backbone of Dense Detector in Efficient Teacher adopts CSPNet and PAN and all experiments are on one of five folds COCO standard 10% dataset.  Cityscapes-foggy <ref type="bibr" coords="12,373.86,142.93,13.74,7.77" target="#b32">[34]</ref>, KITTI <ref type="bibr" coords="12,418.92,142.93,14.94,7.77" target="#b15">[16]</ref> and Sim10k <ref type="bibr" coords="12,483.68,142.93,13.74,7.77" target="#b18">[20]</ref>.  </p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct coords="8,328.79,559.83,216.32,7.77;8,328.78,570.79,216.33,7.77;8,328.78,581.59,216.33,7.93;8,328.78,592.55,192.97,7.93" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Hyperparameter Learning for Graph Based Semi-supervised Learning Algorithms</title>
+		<author>
+			<persName coords=""><forename type="first">David</forename><surname>Berthelot</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nicholas</forename><surname>Carlini</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ian</forename><surname>Goodfellow</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nicolas</forename><surname>Papernot</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Avital</forename><surname>Oliver</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Colin</forename><forename type="middle">A</forename><surname>Raffel</surname></persName>
+		</author>
+		<idno type="DOI">10.7551/mitpress/7503.003.0203</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems 19</title>
+				<imprint>
+			<publisher>The MIT Press</publisher>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="8,328.79,604.62,216.32,7.77;8,328.78,615.58,216.33,7.77;8,328.78,626.38,216.33,7.93;8,328.78,637.50,4.48,7.77" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Yolov4: Optimal speed and accuracy of object detection</title>
+		<author>
+			<persName coords=""><forename type="first">Alexey</forename><surname>Bochkovskiy</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chien-Yao</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hong-Yuan Mark</forename><surname>Liao</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2004.10934</idno>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">2</biblScope>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="8,328.79,649.41,216.32,7.77;8,328.78,660.21,216.33,7.93;8,328.78,671.17,216.33,7.73;8,328.78,682.13,113.81,7.93" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Cascade R-CNN: Delving Into High Quality Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Zhaowei</forename><surname>Cai</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nuno</forename><surname>Vasconcelos</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2018.00644</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2018-06">2018</date>
+			<biblScope unit="page">1</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="8,328.79,694.20,216.32,7.77;8,328.78,705.16,216.33,7.77;9,70.03,76.13,216.33,7.77;9,70.03,86.92,216.33,7.94;9,70.03,97.88,216.33,7.94;9,70.03,109.00,58.28,7.77" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Label Matching Semi-Supervised Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Binbin</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Weijie</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shicai</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yunyi</forename><surname>Xuan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jie</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Di</forename><surname>Xie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shiliang</forename><surname>Pu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Mingli</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yueting</forename><surname>Zhuang</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr52688.2022.01398</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-06">2022</date>
+			<biblScope unit="page">12</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,121.24,216.32,7.77;9,70.03,132.20,216.33,7.77;9,70.03,143.00,216.33,7.93;9,70.03,153.95,216.33,7.73;9,70.03,165.07,122.27,7.77" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Dense Learning based Semi-Supervised Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Binghui</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Pengyu</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiang</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Biao</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Lei</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xian-Sheng</forename><surname>Hua</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr52688.2022.00477</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-06">2022</date>
+			<biblScope unit="page">8</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,177.31,216.32,7.77;9,70.03,188.27,216.33,7.77;9,70.03,199.07,216.33,7.93;9,70.03,210.03,216.33,7.73;9,70.03,221.15,99.86,7.77" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Harmonizing Transferability and Discriminability for Adapting Object Detectors</title>
+		<author>
+			<persName coords=""><forename type="first">Chaoqi</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zebiao</forename><surname>Zheng</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xinghao</forename><surname>Ding</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yue</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Qi</forename><surname>Dou</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr42600.2020.00889</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2020-06">2020</date>
+			<biblScope unit="page">12</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,233.38,216.32,7.77;9,70.03,244.34,216.33,7.77;9,70.03,255.30,216.33,7.77;9,70.03,266.10,151.33,7.93" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Self-Supervised Noisy Label Learning for Source-Free Unsupervised Domain Adaptation</title>
+		<author>
+			<persName coords=""><forename type="first">Weijie</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Luojun</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shicai</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Di</forename><surname>Xie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shiliang</forename><surname>Pu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yueting</forename><surname>Zhuang</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/iros47612.2022.9981099</idno>
+		<idno type="arXiv">arXiv:2102.11614</idno>
+		<idno>2021. 3</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-10-23" />
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="9,70.04,278.50,216.32,7.77;9,70.03,289.46,216.33,7.77;9,70.03,300.26,216.33,7.93;9,70.03,311.21,216.33,7.93;9,70.03,322.33,27.89,7.77" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Domain Adaptive Faster R-CNN for Object Detection in the Wild</title>
+		<author>
+			<persName coords=""><forename type="first">Yuhua</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Wen</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Christos</forename><surname>Sakaridis</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Dengxin</forename><surname>Dai</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Luc</forename><surname>Van Gool</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2018.00352</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2018-06">2018</date>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,334.57,216.32,7.77;9,70.03,345.53,216.33,7.77;9,70.03,356.49,216.33,7.77;9,70.03,367.29,216.33,7.93;9,70.03,378.25,216.33,7.73;9,70.03,389.20,145.26,7.93" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">The Cityscapes Dataset for Semantic Urban Scene Understanding</title>
+		<author>
+			<persName coords=""><forename type="first">Marius</forename><surname>Cordts</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Mohamed</forename><surname>Omran</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sebastian</forename><surname>Ramos</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Timo</forename><surname>Rehfeld</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Markus</forename><surname>Enzweiler</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Rodrigo</forename><surname>Benenson</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Uwe</forename><surname>Franke</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Stefan</forename><surname>Roth</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Bernt</forename><surname>Schiele</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2016.350</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2016-06">2016</date>
+			<biblScope unit="page">12</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,401.60,216.32,7.77;9,70.03,412.56,216.33,7.77;9,70.03,423.36,216.33,7.73;9,70.03,434.32,216.33,7.93;9,70.03,445.44,8.97,7.77" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Unbiased Mean Teacher for Cross-domain Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Jinhong</forename><surname>Deng</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Wen</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yuhua</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Lixin</forename><surname>Duan</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr46437.2021.00408</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2021-06">2021</date>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page">12</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,457.68,216.32,7.77;9,70.03,468.63,216.33,7.77;9,70.03,479.43,216.33,7.93;9,70.03,490.39,216.33,7.93;9,70.03,501.51,81.68,7.77" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">RepVGG: Making VGG-style ConvNets Great Again</title>
+		<author>
+			<persName coords=""><forename type="first">Xiaohan</forename><surname>Ding</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiangyu</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ningning</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jungong</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Guiguang</forename><surname>Ding</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jian</forename><surname>Sun</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr46437.2021.01352</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2021-06">2021</date>
+			<biblScope unit="page">7</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,513.75,216.32,7.77;9,70.03,524.55,216.33,7.93;9,70.03,535.50,216.33,7.93;9,70.03,546.62,27.89,7.77" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">The Pascal Visual Object Classes (VOC) Challenge</title>
+		<author>
+			<persName coords=""><forename type="first">Mark</forename><surname>Everingham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Luc</forename><surname>Van Gool</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Christopher</forename><forename type="middle">K I</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">John</forename><surname>Winn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrew</forename><surname>Zisserman</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s11263-009-0275-4</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Computer Vision</title>
+		<title level="j" type="abbrev">Int J Comput Vis</title>
+		<idno type="ISSN">0920-5691</idno>
+		<idno type="ISSNe">1573-1405</idno>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="303" to="338" />
+			<date type="published" when="2007">2007. 2012</date>
+			<publisher>Springer Science and Business Media LLC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,558.86,216.32,7.77;9,70.03,569.66,216.33,7.93;9,70.03,580.62,211.80,7.93" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Unsupervised domain adaptation by backpropagation</title>
+		<author>
+			<persName coords=""><forename type="first">Yaroslav</forename><surname>Ganin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Victor</forename><surname>Lempitsky</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International conference on machine learning</title>
+				<imprint>
+			<date type="published" when="2015">2015</date>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page">6</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,593.02,216.32,7.77;9,70.03,603.98,216.33,7.77;9,70.03,614.77,216.33,7.93;9,70.03,625.73,202.75,7.93" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">OTA: Optimal Transport Assignment for Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Zheng</forename><surname>Ge</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Songtao</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zeming</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Osamu</forename><surname>Yoshie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jian</forename><surname>Sun</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr46437.2021.00037</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2021-06">2021</date>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,638.13,216.32,7.77;9,70.03,648.93,216.33,7.93;9,70.03,659.89,106.83,7.93" xml:id="b14">
+	<monogr>
+		<title level="m" type="main">Yolox: Exceeding yolo series in</title>
+		<author>
+			<persName coords=""><forename type="first">Zheng</forename><surname>Ge</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Songtao</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Feng</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zeming</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jian</forename><surname>Sun</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2107.08430</idno>
+		<imprint>
+			<date type="published" when="2021">2021. 2021</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">2</biblScope>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="9,70.04,672.29,216.32,7.77;9,70.03,683.24,216.33,7.77;9,70.03,694.04,216.33,7.93;9,70.03,705.00,185.85,7.93;9,308.86,76.12,236.25,7.77;9,328.78,87.08,216.33,7.77;9,328.78,98.04,216.33,7.77;9,328.78,108.84,216.33,7.93;9,328.78,119.80,216.20,7.93" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Are we ready for autonomous driving? The KITTI vision benchmark suite</title>
+		<author>
+			<persName coords=""><forename type="first">Andreas</forename><surname>Geiger</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Philip</forename><surname>Lenz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Urtasun</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2012.6248074</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2012 IEEE Conference on Computer Vision and Pattern Recognition</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2012-06">2012. 2012. 2022</date>
+			<biblScope unit="page">12</biblScope>
+		</imprint>
+	</monogr>
+	<note>IEEE conference on computer vision and pattern recognition</note>
+</biblStruct>
+
+<biblStruct coords="9,328.79,132.20,216.32,7.77;9,328.78,143.16,216.33,7.77;9,328.78,153.95,216.33,7.93;9,328.78,165.07,41.33,7.77" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Hyperparameter Learning for Graph Based Semi-supervised Learning Algorithms</title>
+		<author>
+			<persName coords=""><forename type="first">Jisoo</forename><surname>Jeong</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Seungeui</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jeesoo</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nojun</forename><surname>Kwak</surname></persName>
+		</author>
+		<idno type="DOI">10.7551/mitpress/7503.003.0203</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems 19</title>
+				<imprint>
+			<publisher>The MIT Press</publisher>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,177.31,216.32,7.77;9,328.78,188.27,216.33,7.77;9,328.78,199.23,216.33,7.77;9,328.78,210.03,196.40,7.93" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">ultralytics/yolov5: v6. 1-tensorrt, tensorflow edge tpu and openvino export and inference</title>
+		<author>
+			<persName coords=""><surname>Jocher</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Chaurasia</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Stoken</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Borovec</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Nanocode012</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Kwon</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Taoxie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Fang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Michael</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Zenodo</title>
+		<imprint>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">7</biblScope>
+			<date type="published" when="2022-02-22">Feb, 22, 2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,222.43,216.32,7.77;9,328.78,233.38,216.33,7.77;9,328.78,244.34,216.33,7.77;9,328.78,255.14,216.33,7.93;9,328.78,266.10,102.35,7.93" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Driving in the Matrix: Can virtual worlds replace human-generated annotations for real world tasks?</title>
+		<author>
+			<persName coords=""><forename type="first">Matthew</forename><surname>Johnson-Roberson</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Charles</forename><surname>Barto</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Rounak</forename><surname>Mehta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sharath</forename><forename type="middle">Nittur</forename><surname>Sridhar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Karl</forename><surname>Rosaen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ram</forename><surname>Vasudevan</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/icra.2017.7989092</idno>
+		<idno type="arXiv">arXiv:1610.01983</idno>
+		<idno>2016. 12</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2017 IEEE International Conference on Robotics and Automation (ICRA)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2017-05" />
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="9,328.79,278.50,216.32,7.77;9,328.78,289.30,216.33,7.93;9,328.78,300.25,216.33,7.93;9,328.78,311.37,27.89,7.77" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Probabilistic Anchor Assignment with IoU Prediction for Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Kang</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hee</forename><forename type="middle">Seok</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-030-58595-2_22</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Computer Vision – ECCV 2020</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="355" to="371" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,323.61,216.32,7.77;9,328.78,334.57,216.33,7.77;9,328.78,345.53,216.33,7.77;9,328.78,356.33,216.33,7.93;9,328.78,367.29,97.87,7.93" xml:id="b20">
+	<monogr>
+		<title level="m" type="main">Yolov6: a single-stage object detection framework for industrial applications</title>
+		<author>
+			<persName coords=""><forename type="first">Chuyi</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Lulu</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hongliang</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kaiheng</forename><surname>Weng</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yifei</forename><surname>Geng</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Liang</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zaidan</forename><surname>Ke</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Qingyuan</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Meng</forename><surname>Cheng</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Weiqiang</forename><surname>Nie</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2209.02976</idno>
+		<idno>2022. 1</idno>
+		<imprint/>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="9,328.79,379.68,216.32,7.77;9,328.78,390.64,216.33,7.77;9,328.78,401.44,216.33,7.93;9,328.78,412.40,138.13,7.93" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">PseCo: Pseudo Labeling and Consistency Training for Semi-Supervised Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Gang</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiang</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yujie</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yichao</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ding</forename><surname>Liang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shanshan</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-031-20077-9_27</idno>
+		<idno type="arXiv">arXiv:2203.16317</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Lecture Notes in Computer Science</title>
+				<imprint>
+			<publisher>Springer Nature Switzerland</publisher>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="457" to="472" />
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="9,328.79,424.80,216.32,7.77;9,328.78,435.76,216.33,7.77;9,328.78,446.72,216.33,7.77;9,328.78,457.51,216.33,7.93;9,328.78,468.47,163.09,7.93" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A Free Lunch for Unsupervised Domain Adaptive Object Detection without Source Data</title>
+		<author>
+			<persName coords=""><forename type="first">Xianfeng</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Weijie</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Di</forename><surname>Xie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shicai</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Peng</forename><surname>Yuan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shiliang</forename><surname>Pu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yueting</forename><surname>Zhuang</surname></persName>
+		</author>
+		<idno type="DOI">10.1609/aaai.v35i10.17029</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the AAAI Conference on Artificial Intelligence</title>
+		<title level="j" type="abbrev">AAAI</title>
+		<idno type="ISSN">2159-5399</idno>
+		<idno type="ISSNe">2374-3468</idno>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="8474" to="8481" />
+			<date type="published" when="2021-05-18">2021</date>
+			<publisher>Association for the Advancement of Artificial Intelligence (AAAI)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,480.87,216.32,7.77;9,328.78,491.67,216.33,7.93;9,328.78,502.63,216.33,7.73;9,328.78,513.59,139.21,7.93" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Focal Loss for Dense Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Tsung-Yi</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Priya</forename><surname>Goyal</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ross</forename><surname>Girshick</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kaiming</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Piotr</forename><surname>Dollar</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/iccv.2017.324</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2017 IEEE International Conference on Computer Vision (ICCV)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2017-10">2017</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,525.99,216.32,7.77;9,328.78,536.94,216.33,7.77;9,328.78,547.90,216.33,7.77;9,328.78,558.70,216.33,7.93;9,328.78,569.82,62.89,7.77" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Microsoft COCO: Common Objects in Context</title>
+		<author>
+			<persName coords=""><forename type="first">Tsung-Yi</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Michael</forename><surname>Maire</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Serge</forename><surname>Belongie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">James</forename><surname>Hays</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Pietro</forename><surname>Perona</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Deva</forename><surname>Ramanan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Piotr</forename><surname>Dollár</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">Lawrence</forename><surname>Zitnick</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-319-10602-1_48</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Computer Vision – ECCV 2014</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2014">2014</date>
+			<biblScope unit="page" from="740" to="755" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,582.06,216.32,7.77;9,328.78,593.02,216.33,7.77;9,328.78,603.98,216.33,7.77;9,328.78,614.77,216.33,7.93;9,328.78,625.89,26.90,7.77" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Unbiased Teacher v2: Semi-supervised Object Detection for Anchor-free and Anchor-based Detectors</title>
+		<author>
+			<persName coords=""><forename type="first">Yen-Cheng</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chih-Yao</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zsolt</forename><surname>Kira</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr52688.2022.00959</idno>
+		<idno type="arXiv">arXiv:2102.09480</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page">11</biblScope>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="9,328.79,638.13,216.32,7.77;9,328.78,649.09,216.33,7.77;9,328.78,659.89,216.33,7.93;9,328.78,670.85,216.33,7.73;9,328.78,681.97,104.34,7.77" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Unbiased Teacher v2: Semi-supervised Object Detection for Anchor-free and Anchor-based Detectors</title>
+		<author>
+			<persName coords=""><forename type="first">Yen-Cheng</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chih-Yao</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zsolt</forename><surname>Kira</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr52688.2022.00959</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2022-06">2022</date>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page">7</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,694.20,216.32,7.77;9,328.78,705.16,216.33,7.77;10,70.03,75.96,216.33,7.94;10,70.03,86.92,216.33,7.73;10,70.03,97.88,147.77,7.94" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">SimROD: A Simple Adaptation Method for Robust Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Rindra</forename><surname>Ramamonjison</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Amin</forename><surname>Banitalebi-Dehkordi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xinyu</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiaolong</forename><surname>Bai</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yong</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/iccv48922.2021.00355</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2021 IEEE/CVF International Conference on Computer Vision (ICCV)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2021-10">2021</date>
+			<biblScope unit="page">12</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,109.34,216.32,7.77;10,70.03,120.14,204.35,7.93" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Preprint repository arXiv achieves milestone million uploads</title>
+		<author>
+			<persName coords=""><forename type="first">Joseph</forename><surname>Redmon</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ali</forename><surname>Farhadi</surname></persName>
+		</author>
+		<idno type="DOI">10.1063/pt.5.028530</idno>
+		<idno type="arXiv">arXiv:1804.02767</idno>
+		<idno>2018. 1</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Physics Today</title>
+		<title level="j" type="abbrev">Phys. Today</title>
+		<idno type="ISSNe">1945-0699</idno>
+		<imprint>
+			<date type="published" when="2014" />
+			<publisher>AIP Publishing</publisher>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="10,70.04,131.59,216.32,7.77;10,70.03,142.55,216.33,7.77;10,70.03,153.35,216.33,7.93;10,70.03,164.31,95.88,7.93" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Faster r-cnn: Towards real-time object detection with region proposal networks</title>
+		<author>
+			<persName coords=""><forename type="first">Kaiming</forename><surname>Shaoqing Ren</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ross</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jian</forename><surname>Girshick</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in neural information processing systems</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">3</biblScope>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,175.77,216.32,7.77;10,70.03,186.72,216.33,7.77;10,70.03,197.52,216.33,7.93;10,70.03,208.48,216.33,7.93;10,70.03,219.60,54.78,7.77" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Strong-Weak Distribution Alignment for Adaptive Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Kuniaki</forename><surname>Saito</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yoshitaka</forename><surname>Ushiku</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Tatsuya</forename><surname>Harada</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kate</forename><surname>Saenko</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2019.00712</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2019-06">2019</date>
+			<biblScope unit="page">12</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,230.90,216.32,7.77;10,70.03,241.86,216.33,7.77;10,70.03,252.65,216.33,7.93;10,70.03,263.61,158.49,7.93" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Mutual exclusivity loss for semi-supervised deep learning</title>
+		<author>
+			<persName coords=""><forename type="first">Mehdi</forename><surname>Sajjadi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Mehran</forename><surname>Javanmardi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Tolga</forename><surname>Tasdizen</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/icip.2016.7532690</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2016 IEEE International Conference on Image Processing (ICIP)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2016-09">2016</date>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,275.07,216.32,7.77;10,70.03,285.87,216.33,7.93;10,70.03,296.83,216.33,7.93;10,70.03,307.95,8.97,7.77" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Semantic Foggy Scene Understanding with Synthetic Data</title>
+		<author>
+			<persName coords=""><forename type="first">Christos</forename><surname>Sakaridis</surname></persName>
+			<idno type="ORCID">0000-0003-1127-8887</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Dengxin</forename><surname>Dai</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Luc</forename><surname>Van Gool</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s11263-018-1072-8</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Computer Vision</title>
+		<title level="j" type="abbrev">Int J Comput Vis</title>
+		<idno type="ISSN">0920-5691</idno>
+		<idno type="ISSNe">1573-1405</idno>
+		<imprint>
+			<biblScope unit="volume">126</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="973" to="992" />
+			<date type="published" when="2018-03-23">2018</date>
+			<publisher>Springer Science and Business Media LLC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,319.24,216.32,7.77;10,70.03,330.20,216.33,7.77;10,70.03,341.16,216.33,7.77;10,70.03,352.12,216.33,7.77;10,70.03,362.92,216.33,7.93;10,70.03,374.04,54.78,7.77" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Hyperparameter Learning for Graph Based Semi-supervised Learning Algorithms</title>
+		<author>
+			<persName coords=""><forename type="first">Kihyuk</forename><surname>Sohn</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">David</forename><surname>Berthelot</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nicholas</forename><surname>Carlini</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zizhao</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Han</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Colin</forename><forename type="middle">A</forename><surname>Raffel</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ekin</forename><surname>Dogus Cubuk</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alexey</forename><surname>Kurakin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chun-Liang</forename><surname>Li</surname></persName>
+		</author>
+		<idno type="DOI">10.7551/mitpress/7503.003.0203</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems 19</title>
+				<imprint>
+			<publisher>The MIT Press</publisher>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,385.33,216.32,7.77;10,70.03,396.29,216.33,7.77;10,70.03,407.09,216.34,7.93;10,70.03,418.05,106.83,7.93" xml:id="b34">
+	<monogr>
+		<title level="m" type="main">A simple semi-supervised learning framework for object detection</title>
+		<author>
+			<persName coords=""><forename type="first">Kihyuk</forename><surname>Sohn</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zizhao</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chun-Liang</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Han</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chen-Yu</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Tomas</forename><surname>Pfister</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2005.04757</idno>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page">7</biblScope>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="10,70.04,429.51,216.32,7.77;10,70.03,440.46,216.33,7.77;10,70.03,451.26,216.33,7.93;10,70.03,462.22,216.33,7.93;10,70.03,473.34,27.89,7.77" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Proposal Learning for Semi-Supervised Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Peng</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chetan</forename><surname>Ramaiah</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yan</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ran</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Caiming</forename><surname>Xiong</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/wacv48630.2021.00234</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2021 IEEE Winter Conference on Applications of Computer Vision (WACV)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2021-01">2021</date>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,484.64,216.32,7.77;10,70.03,495.60,216.33,7.77;10,70.03,506.39,216.33,7.93;10,70.03,517.35,216.33,7.93;10,70.03,528.47,72.72,7.77" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Humble Teachers Teach Better Students for Semi-Supervised Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Yihe</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Weifeng</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yijun</forename><surname>Luo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yuting</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr46437.2021.00315</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2021-06">2021</date>
+			<biblScope unit="page">7</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,539.77,216.32,7.77;10,70.03,550.73,216.33,7.77;10,70.03,561.53,216.33,7.93;10,70.03,572.48,158.49,7.93" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Hyperparameter Learning for Graph Based Semi-supervised Learning Algorithms</title>
+		<author>
+			<persName coords=""><forename type="first">Antti</forename><surname>Tarvainen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Harri</forename><surname>Valpola</surname></persName>
+		</author>
+		<idno type="DOI">10.7551/mitpress/7503.003.0203</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems 19</title>
+				<imprint>
+			<publisher>The MIT Press</publisher>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,583.94,216.32,7.77;10,70.03,594.74,216.33,7.93;10,70.03,605.70,216.33,7.73;10,70.03,616.66,130.25,7.93" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">FCOS: Fully Convolutional One-Stage Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Zhi</forename><surname>Tian</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chunhua</forename><surname>Shen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hao</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Tong</forename><surname>He</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/iccv.2019.00972</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2019 IEEE/CVF International Conference on Computer Vision (ICCV)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2019-10">2019</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,628.11,216.32,7.77;10,70.03,639.07,216.33,7.77;10,70.03,650.03,216.33,7.77;10,70.03,660.83,216.33,7.93;10,70.03,671.79,216.33,7.93;10,70.03,682.91,86.17,7.77" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">MeGA-CDA: Memory Guided Attention for Category-Aware Unsupervised Domain Adaptive Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Vibashan</forename><surname>Vs</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Vikram</forename><surname>Gupta</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Poojan</forename><surname>Oza</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Vishwanath</forename><forename type="middle">A</forename><surname>Sindagi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Vishal</forename><forename type="middle">M</forename><surname>Patel</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr46437.2021.00449</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2021-06">2021</date>
+			<biblScope unit="page">12</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,694.20,216.32,7.77;10,70.03,705.16,216.33,7.77;10,328.78,75.96,216.33,7.94;10,328.78,86.92,147.10,7.94" xml:id="b40">
+	<monogr>
+		<author>
+			<persName coords=""><forename type="first">Chien-Yao</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alexey</forename><surname>Bochkovskiy</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hong-Yuan Mark</forename><surname>Liao</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2207.02696</idno>
+		<title level="m">Yolov7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors</title>
+				<imprint>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="10,328.79,98.98,216.32,7.77;10,328.78,109.94,216.33,7.77;10,328.78,120.74,216.33,7.93;10,328.78,131.70,216.33,7.93;10,328.78,142.82,54.78,7.77" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Self-Training With Noisy Student Improves ImageNet Classification</title>
+		<author>
+			<persName coords=""><forename type="first">Qizhe</forename><surname>Xie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Minh-Thang</forename><surname>Luong</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Eduard</forename><surname>Hovy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Quoc</forename><forename type="middle">V</forename><surname>Le</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr42600.2020.01070</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2020-06">2020</date>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,328.79,154.72,216.32,7.77;10,328.78,165.68,216.33,7.77;10,328.78,176.48,216.33,7.93;10,328.78,187.44,216.33,7.93;10,328.78,198.56,59.27,7.77" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Cross-Domain Detection via Graph-Induced Prototype Alignment</title>
+		<author>
+			<persName coords=""><forename type="first">Minghao</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hang</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Bingbing</forename><surname>Ni</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Qi</forename><surname>Tian</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Wenjun</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr42600.2020.01237</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2020-06">2020</date>
+			<biblScope unit="page">12</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,328.79,210.46,216.32,7.77;10,328.78,221.42,216.33,7.77;10,328.78,232.37,216.33,7.77;10,328.78,243.17,216.33,7.73;10,328.78,254.13,196.09,7.93" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">End-to-End Semi-Supervised Object Detection with Soft Teacher</title>
+		<author>
+			<persName coords=""><forename type="first">Mengde</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zheng</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Han</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jianfeng</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Lijuan</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Fangyun</forename><surname>Wei</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiang</forename><surname>Bai</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zicheng</forename><surname>Liu</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/iccv48922.2021.00305</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2021 IEEE/CVF International Conference on Computer Vision (ICCV)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2021-10">2021</date>
+			<biblScope unit="page">7</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,328.79,266.19,216.32,7.77;10,328.78,277.15,216.33,7.77;10,328.78,288.11,216.33,7.77;10,328.78,298.91,216.33,7.93;10,328.78,309.87,210.77,7.93" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Bridging the Gap Between Anchor-Based and Anchor-Free Detection via Adaptive Training Sample Selection</title>
+		<author>
+			<persName coords=""><forename type="first">Shifeng</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Cheng</forename><surname>Chi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yongqiang</forename><surname>Yao</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zhen</forename><surname>Lei</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Stan</forename><forename type="middle">Z</forename><surname>Li</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr42600.2020.00978</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2020-06">2020</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,328.79,321.93,216.32,7.77;10,328.78,332.89,216.33,7.77;10,328.78,343.85,216.33,7.77;10,328.78,354.64,216.33,7.93;10,328.78,365.76,27.89,7.77" xml:id="b45">
+	<monogr>
+		<title level="m" type="main">S4od: Semi-supervised learning for singlestage object detection</title>
+		<author>
+			<persName coords=""><forename type="first">Yueming</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xingxu</forename><surname>Yao</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chao</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Feng</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiaolin</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Tengfei</forename><surname>Xing</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Runbo</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hua</forename><surname>Chai</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Pengfei</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Guoshan</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2204.04492</idno>
+		<idno>2022. 1</idno>
+		<imprint/>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="10,328.79,377.66,216.32,7.77;10,328.78,388.62,216.33,7.77;10,328.78,399.58,216.33,7.77;10,328.78,410.38,216.33,7.93;10,328.78,421.34,75.20,7.93" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Enhancing Geometric Factors in Model Learning and Inference for Object Detection and Instance Segmentation</title>
+		<author>
+			<persName coords=""><forename type="first">Zhaohui</forename><surname>Zheng</surname></persName>
+			<idno type="ORCID">0000-0002-8442-1253</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ping</forename><surname>Wang</surname></persName>
+			<idno type="ORCID">0000-0001-9339-1829</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Dongwei</forename><surname>Ren</surname></persName>
+			<idno type="ORCID">0000-0002-0965-6810</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Wei</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Rongguang</forename><surname>Ye</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Qinghua</forename><surname>Hu</surname></persName>
+			<idno type="ORCID">0000-0001-7765-8095</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Wangmeng</forename><surname>Zuo</surname></persName>
+			<idno type="ORCID">0000-0002-3330-783X</idno>
+		</author>
+		<idno type="DOI">10.1109/tcyb.2021.3095305</idno>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Cybernetics</title>
+		<title level="j" type="abbrev">IEEE Trans. Cybern.</title>
+		<idno type="ISSN">2168-2267</idno>
+		<idno type="ISSNe">2168-2275</idno>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="8574" to="8586" />
+			<date type="published" when="2021">2021</date>
+			<publisher>Institute of Electrical and Electronics Engineers (IEEE)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,328.79,433.40,216.32,7.77;10,328.78,444.36,216.33,7.77;10,328.78,455.16,216.33,7.93;10,328.78,466.12,106.83,7.93" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Dense Teacher: Dense Pseudo-Labels for Semi-supervised Object Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Hongyu</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zheng</forename><surname>Ge</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Songtao</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Weixin</forename><surname>Mao</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zeming</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Haiyan</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jian</forename><surname>Sun</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-031-20077-9_3</idno>
+		<idno type="arXiv">arXiv:2207.02541</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Lecture Notes in Computer Science</title>
+				<imprint>
+			<publisher>Springer Nature Switzerland</publisher>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="35" to="50" />
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="10,328.79,478.18,216.32,7.77;10,328.78,489.14,216.33,7.77;10,328.78,499.94,216.33,7.93;10,328.78,510.89,216.33,7.93;10,328.78,522.01,90.65,7.77" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Instant-Teaching: An End-to-End Semi-Supervised Object Detection Framework</title>
+		<author>
+			<persName coords=""><forename type="first">Qiang</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chaohui</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zhibin</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Qi</forename><surname>Qian</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hao</forename><surname>Li</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr46437.2021.00407</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2021-06">2021</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">7</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,328.79,533.91,216.32,7.77;10,328.78,544.87,216.33,7.77;10,328.78,555.67,216.33,7.93;10,328.78,566.63,129.17,7.93" xml:id="b49">
+	<monogr>
+		<title level="m" type="main">Autoassign: Differentiable label assignment for dense object detection</title>
+		<author>
+			<persName coords=""><forename type="first">Benjin</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jianfeng</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zhengkai</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Fuhang</forename><surname>Zong</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Songtao</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zeming</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jian</forename><surname>Sun</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2007.03496</idno>
+		<idno>2020. 3</idno>
+		<imprint/>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

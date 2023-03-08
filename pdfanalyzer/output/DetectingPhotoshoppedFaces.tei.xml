@@ -1,0 +1,1353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Detecting Photoshopped Faces by Scripting Photoshop</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName coords="1,58.26,147.01,77.73,10.37"><forename type="first">Sheng-Yu</forename><surname>Wang</surname></persName>
+						</author>
+						<author>
+							<persName coords="1,164.76,147.01,60.65,10.37"><forename type="first">Oliver</forename><surname>Wang</surname></persName>
+						</author>
+						<author>
+							<persName coords="1,254.17,147.01,74.40,10.37"><forename type="first">Andrew</forename><surname>Owens</surname></persName>
+						</author>
+						<author>
+							<persName coords="1,357.33,147.01,71.38,10.37"><forename type="first">Richard</forename><surname>Zhang</surname></persName>
+						</author>
+						<author>
+							<persName coords="1,457.47,147.01,75.01,10.37"><forename type="first">Alexei</forename><forename type="middle">A</forename><surname>Efros</surname></persName>
+						</author>
+						<author>
+							<persName coords="1,198.50,166.94,62.45,10.37"><forename type="first">U</forename><forename type="middle">C</forename><surname>Berkeley</surname></persName>
+						</author>
+						<title level="a" type="main">Detecting Photoshopped Faces by Scripting Photoshop</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">B428813BE469637A271FF74B3BE50DCC</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.7.2" ident="GROBID" when="2023-03-08T10:34+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Adobe Research 2 (a) Manipulated photo (b) Detected manipulations (c) Suggested "undo" (d) Original photo Figure 1: Given an input face (a), our tool can detect that the face has been warped with the Face-Aware Liquify tool from Photoshop, predict where the face has been warped (b), and attempt to "undo" the warp (c) and recover the original image (d).</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<facsimile>
+		<surface n="1" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="2" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="3" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="4" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="5" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="6" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="7" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="8" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="9" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="10" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="11" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="12" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="13" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="14" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="15" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="16" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+	</facsimile>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>In an era when digitally edited visual content is ubiquitous, the public is justifiably eager to know whether the images they see on TV, in glossy magazines, and on the Internet are, in fact, real. While the popular press has mostly focused on "DeepFakes" and other GAN-based methods that may one day be able to convincingly simulate a real person's appearance, movements, and facial expressions <ref type="bibr" coords="1,332.87,471.38,15.77,8.64" target="#b34">[35,</ref><ref type="bibr" coords="1,352.17,471.38,12.45,8.64" target="#b9">10,</ref><ref type="bibr" coords="1,368.15,471.38,7.47,8.64" target="#b6">7,</ref><ref type="bibr" coords="1,379.15,471.38,11.83,8.64" target="#b16">17]</ref>, for now, such methods are prone to degeneracies and exhibit visible artifacts <ref type="bibr" coords="1,475.05,483.33,15.27,8.64" target="#b24">[25]</ref>. Rather, it is the more subtle image manipulations, performed with classic image processing techniques, typically in Adobe Photoshop, that have been the largest contributors to the proliferation of manipulated visual content <ref type="bibr" coords="1,447.58,531.15,15.27,8.64" target="#b13">[14]</ref>. While such editing operations have helped enable creative expression, if done without the viewer's knowledge, they can have serious negative implications, ranging from body image issues set by unrealistic standards, to the consequences of "fake news" in politics.</p><p>In this work, we focus on one specific type of Photoshop manipulation -image warping applied to faces. This is an extremely common task used for "beautification" and expression editing. Face warping is an interesting problem as it is a domain that is surprisingly hard for people to detect, but it is commonly used and has wide reaching implications. We show in a user study that humans have only 53.5% accuracy in identifying such edits (chance is 50%). We propose a lens through which these subtle edits become visualized, alerting the viewer to the presence of modifications, as shown on Figure <ref type="figure" coords="2,167.91,214.28,3.74,8.64">1</ref>. Our proposed approach is but one tool in a larger toolbox of techniques that together, could be used to help combat the spread of misinformation, and its effects.</p><p>Our approach consists of a CNN carefully trained to detect facial warping modifications in images. As with any deep learning method, collecting enough supervised training data is always a challenge. This is especially true for forensics applications, since there are no large-scale datasets of manually created visual fakes. In this work, we solve this problem by using Photoshop itself to automatically generate realistic-looking fake training data. We first collect a large dataset of real face images, scraped from different internet sources (Figure <ref type="figure" coords="2,174.90,369.90,7.61,8.64">2a</ref>). We then directly script the Face-Aware Liquify tool in Photoshop, which abstracts facial manipulations into high level semantic operations, such as "increase nose width" and "decrease eye distance". By randomly sampling manipulations in this space (Figure <ref type="figure" coords="2,65.34,429.67,7.89,8.64">2b</ref>), we are left with a training set consisting of pairs of source images and realistic looking warped modifications.</p><p>We train both global classification and local warping field prediction networks on this dataset. In particular, our local prediction method uses a combination of loss functions including flow warping prediction, relative warp preservation, and a pixel-wise reconstruction loss. We present a number of applications, including a visualization overlay to draw attention to modified regions, as in Fig. <ref type="figure" coords="2,69.14,537.47,15.27,8.64">1(b)</ref>, and un-warping the manipulated image to make it more like the original, as in Fig. <ref type="figure" coords="2,194.66,549.42,11.12,8.64">1(c</ref>). Finally, we evaluate our approach on a number of test cases, including images scraped from various sources, as well as with warping operations performed by other means.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Related work</head><p>Image forensics, or forgery detection, is an increasingly important area of research in computer vision. In this section, we focus on works that are either trained from large amounts of data, or directly address the face domain.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Face manipulation</head><p>Researchers have proposed forensics methods to detect a variety of face manipulations. Zhou et al. <ref type="bibr" coords="2,73.93,704.51,16.60,8.64" target="#b41">[42]</ref> and Roessler et al. <ref type="bibr" coords="2,172.62,704.51,15.77,8.64" target="#b29">[30,</ref><ref type="bibr" coords="2,191.58,704.51,13.28,8.64" target="#b30">31]</ref> propose neural net-work models to detect face swapping and face reenactment -manipulations where one face is wholly replaced with another (perhaps taken from the same subject) after splicing, color matching, and blending. Other work investigates detecting morphed (interpolated) faces <ref type="bibr" coords="2,470.57,250.15,16.60,8.64" target="#b28">[29]</ref> and inconsistencies in lighting from specular highlights on the eye <ref type="bibr" coords="2,526.03,262.10,15.27,8.64" target="#b15">[16]</ref>. In contrast, we consider facial warps which undergo subtle geometric deformations, rather than a complete replacement of the face, or the synthesis of new details.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Learning photo forensics</head><p>The difficulty in obtaining labeled training data has led researchers to propose a variety of "self-supervised" image forensics approaches that are trained on automatically-generated fake images. Chen et al. <ref type="bibr" coords="2,331.36,363.76,16.60,8.64" target="#b10">[11]</ref> use a convolutional network to detect median filtering. Zhou et al. <ref type="bibr" coords="2,385.38,375.71,16.60,8.64" target="#b42">[43]</ref> propose an object detection model, specifically using steganalysis features to reduce the influence of semantics. The model is pretrained on automatically created synthetic fakes using object segmentations, and subsequently fine-tuned on actual fake images. While we also generate fakes automatically, we use the tools that a typical editor would use, allowing us to detect these manipulations more accurately. A complementary approach is exploring unsupervised forensics models that learn only from real images, without explicitly modeling the fake image creation process. For example, several models have been proposed to detect spliced images by identifying patches which come from different camera models <ref type="bibr" coords="2,429.76,519.17,10.79,8.64" target="#b8">[9,</ref><ref type="bibr" coords="2,443.03,519.17,11.83,8.64" target="#b23">24]</ref>, by using EXIF metadata <ref type="bibr" coords="2,329.14,531.13,15.27,8.64" target="#b14">[15]</ref>, or by identifying physical inconsistencies <ref type="bibr" coords="2,526.03,531.13,15.27,8.64" target="#b22">[23]</ref>. These approaches, however, are designed to detect instances of the image splicing problem, while we address a more subtle manipulation -facial structure warping.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Hand-defined manipulation cues</head><p>Other image forensics work has proposed to detect fake images using handdefined cues <ref type="bibr" coords="2,365.73,608.87,15.27,8.64" target="#b13">[14]</ref>. Early work detected resampling artifacts <ref type="bibr" coords="2,337.66,620.83,15.77,8.64" target="#b27">[28,</ref><ref type="bibr" coords="2,357.99,620.83,13.28,8.64" target="#b19">20]</ref> by finding periodic correlations between nearby pixels. There has also been work that detects inconsistent quantization <ref type="bibr" coords="2,406.60,644.74,10.58,8.64" target="#b3">[4]</ref>, double-JPEG artifacts <ref type="bibr" coords="2,519.22,644.74,10.79,8.64" target="#b7">[8,</ref><ref type="bibr" coords="2,534.33,644.74,7.19,8.64" target="#b4">5]</ref>, and geometric inconsistencies <ref type="bibr" coords="2,435.06,656.69,15.27,8.64" target="#b25">[26]</ref>. However, the operations performed by interactive image editing tools are often complex, and can be difficult to model. Our approach, by contrast, learns features appropriate for its task from a large dataset of manipulated images. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Datasets</head><p>We obtain a large dataset of real face images from the Open Images dataset <ref type="bibr" coords="3,156.21,223.73,16.60,8.64" target="#b20">[21]</ref> and Flickr, and create two datasets of fakes: a large, automatically generated set of manipulated images for training a forensics model, and a smaller set of actual manipulations done by an artist for evaluation. Details of the data collection process are provided in Appendix A5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Generating manipulated face images</head><p>Our goal is to automatically create a dataset of manipulated images that, when leveraged for training, generalizes to artist-created fakes. We script the Face-Aware Liquify (FAL) tool <ref type="bibr" coords="3,263.71,338.59,11.62,8.64" target="#b0">[1]</ref> in Adobe Photoshop to generate a variety of face manipulations, using built-in support for JavaScript execution. We choose Photoshop, since it is one of the most popular image editing tools, and this operation, as it is a very common manipulation in portrait photography. FAL represents manipulations using 16 parameters, corresponding to higherlevel semantics (e.g., adjusting the width of the nose, eye distance, chin height, etc.). A facial landmark detector registers a mesh to the input image, and the parameters control the mesh's vertex displacements. As shown in Figure <ref type="figure" coords="3,278.89,458.14,3.74,8.64">1</ref>, the tool can be used to make subtle, realistic manipulations, such as making a face more symmetrical. We randomly sample the FAL parameter space. While these parameter choices are unlikely to match the changes an artist would make, we argue, and validate, that randomly sampling the space will cover the space of "realistic" operations. We modify each image from our real face dataset randomly 6 times. In all, the data we used for training is 1.295M faces -185K unmodified, and 1.1M modified. Additionally, we hold out 5K real faces each from Open Images and Flickr, leaving half of the images unmodified and the rest modified in the same way as the training data. In total, the validation data consists of 2.5K images in each categories -{Open Images, Flickr} × {unmanipulated, manipulated}. Table <ref type="table" coords="3,281.38,625.51,4.98,8.64" target="#tab_0">1</ref> summarizes that data and Figure <ref type="figure" coords="3,182.10,637.47,4.98,8.64">2</ref> shows random samples.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Test Set: Artist-created face manipulations</head><p>We test the generalization ability to "real" manipulations by contracting a professional artist to manipulate 50 real photographs. Half are manipulated with the intent of "beautifying", or increasing attractiveness, and the other half to change facial expression, positively or negatively. This covers two important use cases. The artist created 50 images with the FAL tool, and 50 images with the more general Liquify tool -a free-form brush used to warp images. On average, it took 7.8 minutes of editing time per image.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Methods</head><p>Our goal is to train a system to detect facial manipulations. We present two models: a global classification model, tasked with predicting whether a face has been warped, and a local warp predictor, which can be used to identify where manipulations occur, and reverse them.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Real-or-fake classification</head><p>We first address the question "has this image been manipulated?" We train a binary classifier using a Dilated Residual Network variant (DRN-C-26) <ref type="bibr" coords="3,467.89,280.19,15.27,8.64">[39]</ref>. Details of the training procedure are provided in Appendix A6.</p><p>We investigate the effect of resolution by training low and high-resolution models. High-resolution models enable preservation of low-level details, potentially useful for identifying fakes, such as resampling artifacts. On the other hand, a lower-resolution model potentially contains sufficient details to identify fakes and can be trained more efficiently. We try low and high-resolution models, where the shorter side of the image is resized to 400 and 700 pixels, respectively. During training, the images are randomly left-right flipped and cropped to 384 and 640 pixels, respectively.</p><p>While we control the post-processing pipeline in our test setup, real-world use cases may contain unexpected postprocessing. Forensics algorithms are often sensitive to such operations <ref type="bibr" coords="3,353.35,472.59,15.27,8.64" target="#b27">[28]</ref>. To increase robustness, we consider more aggressive data augmentation, including resizing methods (bicubic and bilinear), JPEG compression, brightness, contrast, and saturation. We experimentally find that this increases robustness to perturbations at testing, even if they are not in the augmentation set.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Predicting what moved where</head><p>Upon detecting whether a face has been modified, a natural question for a viewer is how the image was edited: which parts of an image were warped, and what did the image look like prior to manipulation? To do this, we predict an optical flow field Û ∈ R H×W ×2 from the original image X orig ∈ R H×W ×3 to the warped image X, which we then use to try to "reverse" the manipulation and recover the original image.</p><p>We train a flow prediction model F to predict the perpixel warping field, measuring its distance to an approximate "ground-truth" flow field U for each training example (computed estimating optical flow between the original and modified images). Fig. <ref type="figure" coords="4,160.44,307.84,4.98,8.64">3</ref> shows examples of these flow fields. To remove erroneous flow values, we discard pixels that fail a forward-backward consistency test, resulting in binary mask M ∈ R H×W ×1 .</p><formula xml:id="formula_0" coords="4,96.45,364.08,189.92,9.65">L epe (F) = ||M F(X) − U || 2 ,<label>(1)</label></formula><p>where X is a manipulated image, U is its "ground-truth" flow, is the Hadamard product, and L epe is a measure of flow error (also known as endpoint error). We compute this loss for each pixel of the image, and compute the mean. Following <ref type="bibr" coords="4,92.58,432.90,15.27,8.64" target="#b33">[34]</ref>, we encourage the flow to be smooth by minimizing a multiscale loss on the flow gradients:</p><formula xml:id="formula_1" coords="4,53.83,464.81,228.81,22.60">L ms (F) = s∈S t∈{x,y} ||M ∇ s t (F(X)) − ∇ s t (U ) || 2 ,</formula><p>(2) where ∇ s x , ∇ s y are horizontal and vertical gradients of a flow field, decimated by stride s ∈ {2, 8, 32, 64}.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Undoing a warp</head><p>With the correct flow field predicted from the original image to the modified image, one can retrieve the original image by inverse warping. This leads to a natural reconstruction loss,</p><formula xml:id="formula_2" coords="4,89.57,587.87,196.79,9.65">L rec (F) = ||T X; F(X) − X orig || 1 ,<label>(3)</label></formula><p>where T (X; U ) warps X by resampling with flow U . In this case, the loss is applied to the unwarped image directly, after warping with a differentiable bilinear interpolation layer. We note that this approach is similar to the main loss used in flow-based image synthesis models <ref type="bibr" coords="4,242.19,656.69,15.77,8.64" target="#b43">[44,</ref><ref type="bibr" coords="4,260.45,656.69,11.83,8.64" target="#b37">38]</ref>.</p><p>Applying only the reconstruction loss leads to ambiguities in low-texture regions, which often results in undesirable artifacts. Instead, we jointly train with all three losses: L total = λ e L epe + λ m L ms + λ r L rec . We find λ e = 1.5, λ m = 15, and λ r = 1 work well and perform ablations in Section 5.2.</p><p>Architecture We use a Dilated Residual Network variant (DRN-C-26) [39], pretrained on the ImageNet <ref type="bibr" coords="4,495.83,349.38,16.60,8.64" target="#b31">[32]</ref> dataset, as our base network for local prediction. The DRN architecture was designed originally for semantic segmentation, and we found it to work well for the warp prediction task.</p><p>We found that directly training the flow regression network performed poorly. We first recast the problem into multinomial classification, commonly used in regression problems (e.g., colorization <ref type="bibr" coords="4,425.30,433.06,15.77,8.64" target="#b21">[22,</ref><ref type="bibr" coords="4,444.83,433.06,11.83,8.64" target="#b39">40]</ref>, surface normal prediction <ref type="bibr" coords="4,339.53,445.02,15.27,8.64" target="#b35">[36]</ref>, and generative modeling <ref type="bibr" coords="4,463.81,445.02,14.94,8.64" target="#b26">[27]</ref>), and then finetune with a regression loss. We computed ground truth flow fields using PWC-Net <ref type="bibr" coords="4,401.51,468.93,15.27,8.64" target="#b32">[33]</ref>. Details of the training procedure are provided in Appendix A6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Experiments</head><p>We evaluate our ability to detect and undo image manipulations, using both automatic and artist-created images.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.">Real-or-fake classification</head><p>We first investigate whether manipulated images can be detected by our global classifier on our validation set. We test the robustness of the classifier by perturbing the images, and measure its generalization ability to manipulations by a professional artist (Table <ref type="table" coords="4,410.16,620.83,3.60,8.64" target="#tab_1">2</ref>).</p><p>We evaluate several variants: (1) Low-res with aug.: a lower-resolution model (400 pixels on the smaller side), with data augmentation (compression, resizing methods, and photometric changes) and the whole training set (including low-resolution images). (2) Low-res no aug.: We test the augmentation methods above by omitting them. Note that all models still include random flipping and crop- </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Baselines</head><p>We compare our approach to several recent methods, which were trained for other, related forensics tasks. (1) FaceForensics++ <ref type="bibr" coords="5,171.14,322.26,15.49,8.64" target="#b30">[31]</ref>: A network trained on face swapping and reenactment data; we use the Xception <ref type="bibr" coords="5,70.03,346.17,16.60,8.64" target="#b11">[12]</ref> model trained on raw video frames. (2) Selfconsistency <ref type="bibr" coords="5,101.69,358.13,15.49,8.64" target="#b14">[15]</ref>: A network trained to spot low-level inconsistencies within an image.</p><p>Evaluations First, we evaluate our model's raw accuracy on the binary prediction task. Second, we use ranking-based scores that are not sensitive to the "base rate" of the fraction of fake images (which may be difficult to know in practice). For this, we use Average Precision (AP), as well as a Two Alternative Force Choice (2AFC) score that is directly comparable to human studies, where we provide our model with two images, one real and one manipulated, and measure the fraction of the time it assigns a higher manipulation probability to the fake.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Evaluation on auto-generated fakes</head><p>We first explore performance on our validation set, shown in Table <ref type="table" coords="5,256.02,525.04,4.98,8.64" target="#tab_1">2</ref> (left), containing automatically-generated manipulated images.</p><p>We began by running a human studies test on Amazon Mechanical Turk (AMT). We showed real and manipulated images, side-by-side for 6 seconds, and ask participants to identify the one that was modified. We gave 15 example pairs to "train" each person and then collected 35 test examples (for 40 participants total). Since the manipulations we trained with are subtle, this was a challenging task; participants were able to identify the manipulated image 53.5% of the time (chance = 50%). This indicates that it is difficult to use high-level semantics alone for this task.</p><p>The low-res model trained with augmentation performs at 93.7% accuracy and 98.9% average precision. Without augmenting for different resampling techniques, our network performance increases to 97.0% accuracy and 99.7%</p><p>AP, but leaves the network less robust to different image creation and editing pipelines. Processing at a higher resolution, 700 pixels, the performance also increases to 97.1% accuracy and 99.8% AP. Details of robustness experiments of our models are presented in Appendix A3, along with an analysis of the Class Activation Maps of the global classifier in Appendix A2.</p><p>Artist test set Critically, we investigate if training on our random perturbations generalizes to a more real-world setting. We collect data from a professional artist, tasked with the goal of making a subject more attractive, or changing the subject's expression. Since the edits here are made to be more noticeable, and study participants were able to identify the modified image with 71.1% accuracy. Our high-res classifier achieves 98.0% in the 2AFC setting. Our accuracy drops from 97.1 in the validation setting to 90.0. However, the AP drops much less, from 99.8 to 97.4. This indicates that there is some domain gap between our random perturbations and an artist, which can be reduced by a certain extent by "recalibrating" the classifier's detection threshold.</p><p>Baselines We compare to two recent baselines for image forensics, FaceForensics++ <ref type="bibr" coords="5,420.93,511.22,16.60,8.64" target="#b30">[31]</ref> and Self-consistency <ref type="bibr" coords="5,526.03,511.22,15.27,8.64" target="#b14">[15]</ref>. Neither of these methods are designed for our application: FaceForensics++ is split into three manipulation types: face swapping, "deepfakes" face replacement, and face2face reenactment <ref type="bibr" coords="5,361.28,559.04,15.27,8.64" target="#b30">[31]</ref>. Self-consistency, on the other hand, is designed to detect low-level differences in image characteristics. Both methods perform around chance on our dataset, indicating that generalizing to facial warping manipulations is challenging.</p><p>However, our method is able to generalize to some of the FaceForensics++ datasets. The low-res model with augmentation performs significantly better than chance (50.0% acc; 50.0% AP) on FaceSwap (65.4% acc; 71.8% AP), Face2Face (69.9% acc; 77.4% AP) and DeepFake (77.2% acc; 87.1% AP) tasks. On the other hand, the high-res model doesn't generalize as well to the task: FaceSwap (59.4% acc; 64.7% AP), Face2Face (55.7% acc; 55.9%   AP) and DeepFake (65.0% acc; 71.3% AP). This indicates that training with lower resolution images might allow the model to learn more high-level features (e.g., geometric inconsistencies), where the features can then be used to detect other face manipulations, while training with highresolution images allows the model to leverage low-level image features that allow it to perform better within the narrower domain. Moreover, training on synthetically generated subtle facial warping data could be an interesting technique to generalize to other, more complex, editing tasks.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.">Localizing and undoing manipulations</head><p>Next, we evaluate manipulation localization and reversal.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Model variations</head><p>To help understand what parts of our model contributed to its performance, we ablate the loss functions for our local prediction model. Since previous methods have not considered the problem of predicting or reversing warps, we consider variations of our own model.</p><p>(1) Our full method: trained with endpoint error (EPE) (Eqn. 1), multiscale gradient (Eqn. 2), and reconstruction (Eqn. 3) losses. (2) EPE: an ablation only trained with endpoint loss. (3) MultiG: trained with endpoint and multiscale, but without reconstruction loss.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Evaluations</head><p>We evaluate our model in several ways, capturing both localization ability and warp reversal ability. (1) End Point Error (EPE) similarity between predicted and ground-truth flow between the original and manipulated images (Eqn 1). (2) Intersection Over Union (IOU-τ ) We apply threshold τ to predicted and ground truth flows magnitudes and compute IOU. (3) Delta Peak Signal-to-Noise Ratio (∆PSNR) effectiveness of our predicted unwarping, PSNR (original, unwarped manipulated) minus PSNR (original, manipulated)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Analysis</head><p>As shown in Table <ref type="table" coords="7,179.59,704.51,3.74,8.64" target="#tab_2">3</ref>, we found that removing a loss reduced performance. In particular, we found that directly optimizing the reconstruction loss led to better image reconstructions. In Figures <ref type="figure" coords="7,440.56,99.39,30.01,8.64">3 and 4</ref>, we show several qualitative results on the automatically-generated and artistcreated data. We include more qualitative results, randomly sampled from the validation set, in Appendix A2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3.">Out-of-distribution manipulations</head><p>While our model is trained to detect face warping manipulations made by Photoshop, we also evaluate its ability to detect other kinds of image editing, and discuss its limitations.</p><p>Puppeteering We conduct an experiment to see whether our method can be used to detect the results of recent imagepuppeteering work <ref type="bibr" coords="7,387.97,248.59,10.58,8.64" target="#b5">[6]</ref>. In this work, a video (from a different subject) is used to animate an input image via image warping and the additional of extra details, such as skin wrinkles and texture in the eyes and mouth. We apply our manipulation detection model to this data, and show that despite not being trained on this data, we are still able to make reasonable predictions. Fig. <ref type="figure" coords="7,424.29,320.32,4.98,8.64" target="#fig_3">5</ref> shows a qualitative result of running both local and global predictors on this data, where it correctly identifies a puppeted smile animation that starts and returns to a (real) rest pose. We observe that our lowres model with augmentation produces more stable predictions over time than the one trained without augmentation. Moreover, the high-res model doesn't generalize to detecting such manipulations. We note that PSNR comparisons on this data are not possible, due to the addition of nonwarping image details. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Social media post-processing pipeline</head><p>We also evaluated our model's robustness to post-processing operations performed by Facebook (e.g., extra JPEG compression). We uploaded our artist-created fakes to Facebook, and then evaluated our method with the post-processed images. Table <ref type="table" coords="7,323.91,627.11,4.98,8.64" target="#tab_3">4</ref> shows results of our low-res models trained with and without augmentation, along with the high-res global classifier. We note that the high-res model doesn't generalize to such scenario, and both global and local models trained with augmentation perform better in this scenario.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Other image editing tools</head><p>We also tested our local detection model on facial warping by Facetune <ref type="bibr" coords="7,533.50,704.51,11.62,8.64" target="#b1">[2]</ref> Lens Studio Facetune Facetune (airbrushed) and Snapchat Lens Studio <ref type="bibr" coords="8,160.89,457.94,10.58,8.64" target="#b2">[3]</ref>. Facetune provides similar warping operations to change a person's expression along with an airbrushing functionality, and Snapchat Lens Studio warps the face by magnifying certain parts of a face. Fig. <ref type="figure" coords="8,68.88,505.76,4.98,8.64" target="#fig_4">6</ref> shows a qualitative result of suggested undo predictions. Notice that our model is able to perform reasonable recovery of the edits even if the model is not trained on these tools.</p><p>Generic Liquify filter Like any data-driven method, we are limited by our training distribution. Warping edits that exist outside of this, such as warping applied to hair or body, cannot be detected by our method. This can be seen in our artist experiment with the generic (non-face) Liquify filter, where images are sometimes outside the distribution (Figure <ref type="figure" coords="8,82.69,632.78,3.60,8.64" target="#fig_5">7</ref>). Despite this, our method can still predict with success well above chance (64.0 accuracy, 85.6 AP), indicating some generalization. However, the global classifier performs well below the FAL operation (90.0 accuracy, 97.4 AP), and the local prediction accuracy is not enough to improve the PSNR when unwarping (-0.72 ∆PSNR). Increasing the range of scripted warping operations is likely GT edits Predicted edits Unwarped diff to improve this. In general, reversing the warps is a challenging problem, as there are many configurations of plausible faces. This can be seen in that the PSNR improvement we get on the artist test set is limited to +2.21 db on average. While this manipulation is reduced, the problem of perfectly restoring the original image remains an open challenge.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Conclusion</head><p>We have presented the first method designed to detect facial warping manipulations, and did so using by training a forensics model entirely with images automatically generated from an image editing tool. We showed that our model can outperform human judgments in determining whether images are manipulated, and in many cases is able to predict the local deformation field used to generate the warped images. We see facial warp detection as an important step toward making forensics methods for analyzing images of a human body, and extending these approaches to body manipulations and photometric edits such as skin smoothing are interesting avenues for future work. Moreover, we also see our work as being a step toward toward making forensics tools that learn without labeled data, and which incorporate interactive editing tools into the training process.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A2. Qualitative results</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Local predictions</head><p>Figure <ref type="figure" coords="11,174.37,202.04,12.17,8.64" target="#fig_3">A5</ref> shows a random selection of results from our validation dataset of automaticallygenerated manipulations. We conducted an experiment where the PSNR change with respect to scaled versions of the predicted flow field are shown over the validation set (Figure <ref type="figure" coords="11,83.54,261.81,8.99,8.64">A1</ref>). We can see that the highest PSNR gain is where the scale factor is 1.0, which implies that our predicted flow fields do not contain a multiplicative bias, that might result from the regression loss.</p><p>Network visualization We visualize our global classifier using the class activation map method of Zhou et al. <ref type="bibr" coords="11,267.27,327.26,15.27,8.64" target="#b40">[41]</ref>. Figures <ref type="figure" coords="11,82.44,339.21,29.30,8.64" target="#fig_5">A6, A7</ref> show a random selection of class activation maps of our global classifier. Note that our global classifier model is able to achieve high accuracy (93.7%) despite the mismatch between class activation maps and ground truth flow. This suggests that the model may be able to pick up other cues to differentiate between original and manipulated images.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A3. Robustness to corruptions</head><p>We tested the robustness of our model by perturbing the low-level statistics of our validation set through common corruptions such as lossy JPEG compression, blurring, and printing and scanning physical prints. This offers three interesting test cases, as we did train on JPEG compressed images, did not train on blurring, and cannot train on rescanned images due to the cost of dataset acquisition.</p><p>As shown in Fig. <ref type="figure" coords="11,139.83,537.14,9.78,8.64" target="#fig_8">A2</ref>, the method with augmentation is fairly robust to JPEG compression. Though we did not train with blurring augmentations (as images are unlikely to be intentionally blurred), training with other augmentations helps increase resilience. However, with significant blur (σ &gt; 4), performance degrades to chance levels. This indicates that the classifier is relying on some high frequency information, which is the main component attenuated by the Gaussian filter.</p><p>Lastly, we also test the robustness of our classifier to print rebroadcasting <ref type="bibr" coords="11,131.85,656.69,15.27,8.64" target="#b12">[13]</ref>, testing on images that are printed, and then re-digitized by a scanner (e.g., simulating the task of identifying manipulations in magazine covers). We used a Canon imageRunner Advance C3530i Multifunctional copier and standard 8.5×11 inch paper. We ran- Figure <ref type="figure" coords="11,335.10,238.88,8.97,7.77">A1</ref>: PSNR plots from our held-out validation subset. We plot the average PSNRs of the unwarped image to the original (yaxis), with respect to a multiplicative factor on the predicted flow field. The error bars are the standard errors. In the ideal case, this PSNR should peak at 1.0, the predicted flow. domly selected 30 images each from the Flickr and Open-Images sets. Classification performance drops from 94.2% to 69.2% (standard error of 6.0%). While rebroadcasting hurts performance, our model still detects manipulated images significantly more accurately than chance.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Global Local</head><p>Acc </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A4. Generalization</head><p>We are interested in what cues in the images the model learns to focus on, in order to detect warping. For example, is the model looking at low-level image statistics (e.g. resampling artifacts) or high-level cues (e.g. facial geometric inconsistencies)? This has larger implications for example in whether the model can detect warps only realizable by FAL, or can it detect more general warping scenarios? To investigate, we evaluate our global and local models in four different scenarios: (1) images composed of noise, warped with FAL warps, (2) images composed of noise warped with out-of-domain warps, (3) out-of-domain natural images warped with FAL warps, and (4) portrait im-  (left) JPEG compression: a significant increase in robustness. Though unsurprising, as it is in our augmentation set, it is important, as compression and recompression is commonly applied to images. (middle) Blur: although this is not in our augmentation set, we observe a small increase in robustness. (right) Rescanning: a small increase in robustness. We corrupt by printing and rescanning a subset of photos, a perturbation that cannot be reproduced during training ages warped with out-of-domain warps.</p><p>To generate out-of-domain warps, we randomly sampled the latent space of the optical flow generator in the X2face model <ref type="bibr" coords="12,78.59,300.30,16.60,8.64" target="#b36">[37]</ref> to generate warps. We note that although the X2face model is trained to generate face-specific warps, the warping field will not necessarily align with the portrait; moreover, since a VAE loss is not included during X2face training, sampling the bottleneck does not guarantee to have realistic warping fields. However, empirically we observed our sampling method generates smooth warping fields that modifies the face in a "stochastic" fashion. That is, the X2face warping field will not specifically change a face in a meaningful way such as making someone's smile bigger or face smaller. On the other hand, for out-of-domain images we collected natural images from random samples in Open Images <ref type="bibr" coords="12,81.78,443.76,15.27,8.64" target="#b20">[21]</ref>, which are not portrait images. Table <ref type="table" coords="12,253.83,443.76,4.98,8.64" target="#tab_4">5</ref> shows the results.</p><p>Note that when there is a domain shift in warping field (face/X2face) or image space (natural/FAL), the performances of both models drop significantly although still perform above chance (50% Accuracy and 0 ∆PSNR). More interestingly, note that our global model is able to generalize to warped noise with FAL and X2face flows at a certain degree if well-calibrated (92.9, 82.0 AP), and our local model generalizes specifically to FAL-warped noise. This indicates they have learned low-level warping cues, while the local model is more specific to FAL warping field statistics. However, we trained global and local models solely on noise warped with FAL flows and tested on our validation set, and the models are only able to achieve 49.6% accuracy and 28.28 EPE respectively. This suggests that our model has learned low-level cues, but that low-level cues are not sufficient: the face warping problem is much more difficult.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A5. Additional data collection details</head><p>Figure <ref type="figure" coords="12,91.51,692.56,12.17,8.64">A4</ref> shows a sample of the manipulations in our automatically-generated dataset. For each example photo, we show all 6 random manipulations that were applied to it.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Collecting real face images</head><p>To obtain a diverse dataset of faces, we aggregate images from a variety of sources. First, we take all images from the Open Images dataset <ref type="bibr" coords="12,528.52,461.13,16.60,8.64" target="#b20">[21]</ref> with the "human face" label. This dataset consists of humans in-the-wild, scraped from Flickr. We also scrape Flickr specifically for portrait photography images. To isolate the faces, we use an out-of-the-box CNN-based face detector from dlib <ref type="bibr" coords="12,385.50,520.90,16.60,8.64" target="#b17">[18]</ref> and crop the face region only. All together, our face dataset contains 69k and 116k faces from OpenImages and Flickr portrait photos, respectively, of which approximately 65k are high-resolution (at least 700 pixels on the shortest side). We note that the our dataset is biased toward Flickr users, who, on average, post higher-quality photographs than users of other Internet platforms. More problematically, the Flickr user base is predominantly Western. However, as our method is entirely self-supervised, it is easy to collect and train with new data to match the test distribution for a target application.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A6. Implementation and training details</head><p>Flow consistency mask Given the original image X orig and manipulated image X mod , we compute the flow from original to manipulated and from manipulated to original using PWC-Net <ref type="bibr" coords="13,117.41,87.43,15.27,8.64" target="#b32">[33]</ref>, which we denote U om and U mo , respectively.</p><p>To compute the flow consistency mask, we transform U mo from the manipulated image space into the original image space, which is U mo = T U mo ; U om . We consider the flow to be consistent at a pixel if the magnitude of U mo + U om is less than a threshold. After this test, pixels corresponding to occlusions and ambiguities (e.g., in lowtexture regions) will be marked as inconsistent, and therefore do not contribute to the loss.</p><p>We take relative error of the flow consistency as the criterion. For a pixel p,</p><formula xml:id="formula_3" coords="13,56.02,239.23,226.48,23.22">M inconsistent (p) = 1 ||U mo (p) + U om (p)|| 2 ||U om (p)|| 2 + &gt; τ . (<label>4</label></formula><formula xml:id="formula_4" coords="13,282.49,246.28,3.87,8.64">)</formula><p>We take = 0.1 and τ = 0.85, then apply a Gaussian blur with σ = 7, denoted by G, and take the complement to get the flow consistency mask M :</p><formula xml:id="formula_5" coords="13,112.16,318.87,174.21,9.65">M = 1 − G(M inconsistent )<label>(5)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Training details for local prediction networks</head><p>We use a two-stage training curriculum, where we first train a perpixel 121-class classifier to predict the discretized warping field. We round the flow values into the closest integer, and assign class to each integer (u, v) value with a cutoff at 5 pixels. Therefore, we have u, v ∈ {−5, −4, . . . , 4, 5}, i.e. 121 classes in total. We pretrained the model for 100k iterations with batch size 16. Our strategy is consistent to Zhang et al. <ref type="bibr" coords="13,75.23,442.42,15.27,8.64" target="#b39">[40]</ref>, which found that (in the context of colorization) pretraining with multinomial classification and then fine-tuning for regression gave better performance than just training for regression directly.</p><p>The base-network of the regression model is initialized with the pretrained model weights, and the other weights are initialized with normal distribution with gain 0.02. We train the models for 250k iterations with batch size 32.</p><p>Both models are trained with Adam optimizer <ref type="bibr" coords="13,249.33,538.06,16.60,8.64" target="#b18">[19]</ref> with learning rate 10 −4 , β 1 = 0.9, β 2 = 0.999.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Training details for global classification networks</head><p>We initialized the base-network of the DRN-C-26 [39] network with the weights pretrained on the local detection task, and fine-tuned it for the global classification task. We use the Adam optimizer <ref type="bibr" coords="13,120.20,627.42,16.60,8.64" target="#b18">[19]</ref> with β 1 = 0.9, β 2 = 0.999, minibatch size 32 and 16 for the low and high-res models, respectively, and initial learning rate 10 −4 , reduced by 10× when loss plateaus. The models are trained for 300k iterations on 135.4k original images and 812.4k modified images, where the original images are sampled 6× more frequently to balance the class distribution.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Input Manipulations</head><p>Figure <ref type="figure" coords="14,75.91,582.63,8.97,7.77">A4</ref>: A random sample of manipulations from our dataset. For each photo, we show all 6 random edits that we made. We note that many of these modifications are subtle.  </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0" coords="1,295.12,734.40,4.98,8.64;1,18.34,388.90,18.00,166.10;1,18.34,316.14,18.00,62.76;1,18.34,296.14,18.00,10.00;1,18.34,261.14,18.00,30.00;1,18.34,216.14,18.00,40.00;2,150.27,156.27,56.27,7.77;2,388.15,156.27,85.66,7.77;2,50.11,169.64,495.00,7.77;2,50.11,180.44,416.95,7.93"><head>1</head><label></label><figDesc>arXiv:1906.05856v2 [cs.CV] 5 Sep 2019 (a) Real images (b) Manipulated images Figure 2: Random samples from our training dataset. (a) Real images scraped from Flickr portraits (top) and Open Images [21] (bottom). (b) Random warps automatically created with Photoshop's Face-Aware Liquify tool. The differences are very subtle.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1" coords="6,50.11,403.17,495.00,8.12;6,50.11,414.12,495.00,8.12;6,50.11,425.08,495.00,8.12;6,50.11,436.39,240.47,7.77;6,-19.75,351.92,157.50,182.70"><head>Figure 3 :Figure 4 :</head><label>34</label><figDesc>Figure 3: Qualitative results on artist-created and auto-generated data. We show examples of our flow prediction on images manipulated from an external artist and from our auto-generated validation set. (Input) Input manipulated image. (GT flow) The "ground truth" optical flow from original to manipulated image. (Our prediction) Predicted flow from our network. (Flow overlay) Magnitude of predicted flow overlaid. See Appendix A2 for additional examples.</figDesc><graphic coords="6,-19.75,351.92,157.50,182.70" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3" coords="7,50.11,227.51,236.24,8.12;7,50.11,238.47,236.25,8.12;7,50.11,249.78,236.25,7.77;7,50.11,260.39,236.25,8.12;7,50.11,271.69,224.18,7.77"><head>Figure 5 :</head><label>5</label><figDesc>Figure 5: Analysis of a Puppeteered video [6]. A single input image (first and last frame) is driven by a smiling animation. (top) Our local analysis correctly identifies manipulated regions (corners of the mouth). (bottom) The global prediction over time shows how the animation moves from input to smile and back.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4" coords="8,50.11,399.91,236.25,8.12;8,50.11,411.22,236.25,7.77;8,50.11,421.83,236.25,8.12;8,50.11,432.79,217.36,8.12;8,46.88,83.89,221.18,314.08"><head>Figure 6 :</head><label>6</label><figDesc>Figure 6: Unwarping with other image editing tools. We show results of unwarping predictions from Snapchat Lens Studio and Facetune edits. From top to bottom is: (1) Manipulated input. (2) Suggested "undo". (3) Original image. (4) Heatmap overlay.</figDesc><graphic coords="8,46.88,83.89,221.18,314.08" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5" coords="8,308.86,168.78,236.25,8.12;8,308.86,180.09,236.25,7.77;8,308.86,191.05,236.25,7.77;8,308.86,202.01,236.25,7.77;8,308.86,212.96,236.25,7.77;8,308.86,223.92,81.24,7.77;8,167.06,-86.23,244.07,283.12"><head>Figure 7 :</head><label>7</label><figDesc>Figure 7: Limitations. When manipulations are too far outside the training distribution, as with the general Liquify tool experiment. Our local prediction model fails to correctly identify warped regions. This is visible in the overlay as well as in the unwarped image (difference to ground truth after unwarping is shown on the right, darker is worse).</figDesc><graphic coords="8,167.06,-86.23,244.07,283.12" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6" coords="11,346.61,209.55,178.62,10.34;11,426.82,216.21,18.20,12.41;11,328.37,190.17,12.17,10.34;11,328.37,171.79,12.17,10.34;11,328.37,153.41,12.17,10.34;11,328.37,135.03,12.17,10.34;11,328.37,116.65,12.17,10.34;11,328.37,98.27,12.17,10.34;11,314.92,153.67,12.41,46.78;11,314.92,115.85,12.41,35.74;11,314.92,100.31,12.41,13.45"><head></head><label></label><figDesc>, recovered)[db]    </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8" coords="12,50.11,194.38,495.00,8.12;12,50.11,205.69,495.00,7.77;12,50.11,216.65,495.00,7.77;12,50.11,227.61,495.00,7.77;12,50.11,238.57,263.72,7.77;12,314.84,260.41,80.33,80.33"><head>Figure A2 :</head><label>A2</label><figDesc>Figure A2: Robustness to corruptions. Accuracy of global classification with JPEG, Gaussian blur, and after rescanning, with and without data augmentation.(left) JPEG compression: a significant increase in robustness. Though unsurprising, as it is in our augmentation set, it is important, as compression and recompression is commonly applied to images. (middle) Blur: although this is not in our augmentation set, we observe a small increase in robustness. (right) Rescanning: a small increase in robustness. We corrupt by printing and rescanning a subset of photos, a perturbation that cannot be reproduced during training</figDesc><graphic coords="12,314.84,260.41,80.33,80.33" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9" coords="12,308.86,355.77,236.25,8.12;12,308.86,367.08,236.25,7.77;12,308.86,378.04,236.25,7.77;12,308.86,389.00,236.25,7.77;12,308.86,399.96,96.17,7.77;12,396.16,260.42,72.53,80.32"><head>Figure A3 :</head><label>A3</label><figDesc>Figure A3: Noise experiment setup. The Gaussian noise image (left) and the face image (middle) are deformed with the same warping field (right). Our model trained on faces can detect the warped noise (if well-calibrated), but a model trained on noise cannot detect the warped face.</figDesc><graphic coords="12,396.16,260.42,72.53,80.32" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11" coords="15,50.11,680.96,495.00,7.77;15,50.11,691.92,495.00,7.77;15,50.11,702.88,146.68,7.77;15,68.37,584.79,64.35,72.07"><head>Figure A5 :Figure A6 :</head><label>A5A6</label><figDesc>Figure A5: Randomly selected results from our held-out validation dataset, showing the original, warped, and unwarped images. The ground-truth and predicted flow fields, and the difference images between the manipulated and original image, and the unwarped and original images (enhanced for visibility).</figDesc><graphic coords="15,68.37,584.79,64.35,72.07" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" coords="3,50.11,76.57,236.25,101.12"><head>Table 1 :</head><label>1</label><figDesc>Dataset statistics. This includes our own automatically created data as well as a smaller test set of manipulations created by a professional artist.</figDesc><table coords="3,57.73,76.57,219.77,62.28"><row><cell></cell><cell>Train</cell><cell>Val</cell><cell>Test</cell></row><row><cell>Source</cell><cell cols="2">OpenImage &amp; Flickr</cell><cell>Flickr</cell></row><row><cell>Total Images</cell><cell>1.1M</cell><cell>10k</cell><cell>100</cell></row><row><cell cols="2">Unmanipulated images 157k</cell><cell>5k</cell><cell>50</cell></row><row><cell>Manipulated images</cell><cell>942k</cell><cell>5k</cell><cell>50</cell></row><row><cell>Manipulations</cell><cell cols="2">Random FAL</cell><cell>Pro Artist</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" coords="4,50.11,78.18,495.00,216.25"><head>Table 2 :</head><label>2</label><figDesc>Real-or-fake classifier performance. We tested models with FAL warping applied both by automated scripting and a professional artist. We observe that training with high-resolution inputs performs the best among the three. In addition, training without augmentation performs better in this domain, but adding augmentation makes the model more robust to corruptions, both within and outside of the augmentation set (see Appendix A3).</figDesc><table coords="4,60.27,78.18,477.24,149.20"><row><cell cols="2">Algorithm</cell><cell></cell><cell></cell><cell cols="4">Validation (Random FAL)</cell><cell></cell><cell cols="4">Test (Professional Artist)</cell></row><row><cell>Method</cell><cell cols="2">Resol-with</cell><cell></cell><cell>Accuracy</cell><cell></cell><cell cols="2">AP 2AFC</cell><cell></cell><cell>Accuracy</cell><cell></cell><cell cols="2">AP 2AFC</cell></row><row><cell></cell><cell cols="5">ution Aug? Total Orig Mod</cell><cell></cell><cell></cell><cell cols="3">Total Orig Mod</cell><cell></cell><cell></cell></row><row><cell>Chance</cell><cell>-</cell><cell>-</cell><cell cols="5">50.0 50.0 50.0 50.0 50.0</cell><cell cols="5">50.0 50.0 50.0 50.0 50.0</cell></row><row><cell>Human</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>53.5</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>71.1</cell></row><row><cell>FaceForensics++ [31]</cell><cell>-</cell><cell>-</cell><cell cols="4">51.3 86.3 16.2 52.7</cell><cell>-</cell><cell cols="5">50.0 85.7 14.3 55.3 61.9</cell></row><row><cell>Self-consistency * [15]</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>53.7</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell cols="2">56.4 72.0</cell></row><row><cell>Low-res no aug.</cell><cell>400</cell><cell></cell><cell cols="5">97.0 97.2 96.9 99.7 99.5</cell><cell cols="5">89.0 86.0 92.0 96.8 98.0</cell></row><row><cell>Low-res with aug.</cell><cell>400</cell><cell></cell><cell cols="5">93.7 91.6 95.7 98.9 98.9</cell><cell cols="5">83.0 74.0 92.0 94.4 96.0</cell></row><row><cell>High-res with aug.</cell><cell>700</cell><cell></cell><cell cols="10">97.1 99.8 94.5 99.8 100.0 90.0 96.0 84.0 97.4 98.0</cell></row></table><note>*Self-consistency was tested on a 2k random subset of the validation set due to running time constraints.</note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" coords="5,50.11,76.67,495.00,212.62"><head>Table 3 :</head><label>3</label><figDesc>Warping localization and undoing performance. We show performance of our local prediction models across several evaluations: (1) EPE, which measures average flow accuracy, (2) IOU-3, which measures flow magnitude prediction accuracy and (3) ∆PSNR, which measures how closely the predicted unwarping recovers the original image from the manipulated; ↑, ↓ indicate if higher or lower is better. Our full method with all losses (flow prediction, multiscale flow gradient, and pixel-wise reconstruction) performs more strongly than ablations, both across datasets which use Face-Aware Liquify and other manipulations.ping. (3) High-res with aug.: We test if training on higher resolution (700 pixels on shorter side) may allow the network to pick up on more details. We keep the lower resolution images by upsampling them.</figDesc><table coords="5,56.98,76.67,485.85,87.67"><row><cell></cell><cell></cell><cell cols="3">Face-Aware Liquify (FAL)</cell><cell></cell><cell></cell><cell cols="2">Other Manipulations</cell></row><row><cell></cell><cell>Losses</cell><cell cols="2">Val (Rand-FAL)</cell><cell cols="2">Artist-FAL</cell><cell cols="2">Artist-Liquify</cell><cell cols="2">Portrait-to-Life [6]</cell></row><row><cell>EPE</cell><cell cols="9">Multi-Pix EPE IOU-3 ∆PSNR EPE IOU-3 ∆PSNR EPE IOU-3 ∆PSNR EPE IOU-3 ∆PSNR scale 1 ↓ ↑ ↑ ↓ ↑ ↑ ↓ ↑ ↑ ↓ ↑ ↑</cell></row><row><cell>EPE-only</cell><cell></cell><cell>0.51 0.45</cell><cell>+2.67</cell><cell>0.74 0.33</cell><cell>+2.09</cell><cell>0.63 0.12</cell><cell>-1.21</cell><cell>1.74 0.42</cell><cell>-</cell></row><row><cell>MultiG</cell><cell></cell><cell>0.53 0.42</cell><cell>+2.38</cell><cell>0.75 0.30</cell><cell>+2.07</cell><cell>0.59 0.11</cell><cell>-0.84</cell><cell>1.75 0.41</cell><cell>-</cell></row><row><cell>Full</cell><cell></cell><cell>0.52 0.43</cell><cell>+2.69</cell><cell>0.73 0.28</cell><cell>+2.21</cell><cell>0.56 0.12</cell><cell>-0.72</cell><cell>1.74 0.40</cell><cell>-</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" coords="7,308.86,450.93,236.25,101.71"><head>Table 4 :</head><label>4</label><figDesc>Results on Facebook post-processing. We tested our global and local models with the artist test set and compare the performance of our different models.</figDesc><table coords="7,320.43,450.93,213.10,56.79"><row><cell></cell><cell>Global</cell><cell></cell><cell>Local</cell><cell></cell></row><row><cell></cell><cell cols="2">Accuracy AP</cell><cell cols="2">∆PSNR EPE</cell></row><row><cell>High-res with aug.</cell><cell>55.0</cell><cell>64.0</cell><cell>-</cell><cell>-</cell></row><row><cell>Low-res no aug.</cell><cell>57.0</cell><cell>67.7</cell><cell>+0.15</cell><cell>0.99</cell></row><row><cell>Low-res with aug.</cell><cell>67.0</cell><cell>79.6</cell><cell>+0.61</cell><cell>0.91</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" coords="11,308.86,394.91,236.25,140.16"><head>Table 5 :</head><label>5</label><figDesc>Generalization results. We tested the generalization of our global and local models on four out-of-distribution dataset. The top row (Face/FAL) contains the results of our original validation set for comparison.</figDesc><table coords="11,318.24,394.91,217.49,73.80"><row><cell></cell><cell>. AP</cell><cell cols="2">∆PSNR IOU-3</cell></row><row><cell>Face / FAL</cell><cell>93.7 98.9</cell><cell>+2.69</cell><cell>0.43</cell></row><row><cell>Face / X2face</cell><cell>64.7 74.0</cell><cell>+0.13</cell><cell>0.05</cell></row><row><cell>Noise / FAL</cell><cell>44.5 92.9</cell><cell>-</cell><cell>0.43</cell></row><row><cell cols="2">Noise / X2face 36.5 82.0</cell><cell>-</cell><cell>0.03</cell></row><row><cell cols="2">Natural / FAL 67.7 77.3</cell><cell>+0.12</cell><cell>0.05</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgements</head><p>We thank Daichi Ito and Adam Pintek for contributing to our artist test set, along with Hany Farid, Matthias Kirchner, and Minyoung Huh for the helpful discussions. This work was supported, in part, by DARPA MediFor and UC Berkeley Center for Long-Term Cybersecurity. The views, opinions and/or findings expressed are those of the authors and should not be interpreted as representing the official views or policies of the Department of Defense or the U.S. Government.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A1. Supplemental Video</head><p>We have included a supplementary video in the following link: https://youtu.be/TUootD36Xm0. We invite readers to view this video for better visualizations of our qualitative results.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct coords="9,70.04,94.06,23.91,7.77;9,116.53,94.06,12.95,7.77;9,152.06,94.06,38.70,7.77;9,213.34,94.06,19.82,7.77;9,255.74,94.06,30.62,7.77;9,70.03,105.02,198.18,7.77;9,70.03,115.98,51.97,7.77" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Liquify</title>
+		<idno type="DOI">10.4324/9781315748801-41</idno>
+		<ptr target="https://helpx.adobe.com/photoshop/how-to/face-aware-liquify.html.3" />
+	</analytic>
+	<monogr>
+		<title level="m">Adobe Photoshop CC for Photographers, 2014 Release</title>
+				<imprint>
+			<publisher>Routledge</publisher>
+			<date type="published" when="2014-12-05" />
+			<biblScope unit="page" from="518" to="527" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,127.46,186.45,7.77" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">LAS VEGAS SANDS CORP., a Nevada corporation, Plaintiff, v. UKNOWN REGISTRANTS OF www.wn0000.com, www.wn1111.com, www.wn2222.com, www.wn3333.com, www.wn4444.com, www.wn5555.com, www.wn6666.com, www.wn7777.com, www.wn8888.com, www.wn9999.com, www.112211.com, www.4456888.com, www.4489888.com, www.001148.com, and www.2289888.com, Defendants.</title>
+		<idno type="DOI">10.1089/glre.2016.201011</idno>
+		<ptr target="https://www.facetuneapp.com/.8" />
+	</analytic>
+	<monogr>
+		<title level="j">Gaming Law Review and Economics</title>
+		<title level="j" type="abbrev">Gaming Law Review and Economics</title>
+		<idno type="ISSN">1097-5349</idno>
+		<idno type="ISSNe">1941-5494</idno>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="859" to="868" />
+			<date type="published" when="2016-12" />
+			<publisher>Mary Ann Liebert Inc</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,138.94,215.17,7.77" xml:id="b2">
+	<monogr>
+		<title level="m" type="main">The SNAP Strong Lens Survey</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Marshall</surname></persName>
+		</author>
+		<idno type="DOI">10.2172/839722</idno>
+		<ptr target="https://lensstudio.snapchat.com/.8" />
+		<imprint>
+			<date type="published" when="2005-01-03" />
+			<publisher>Office of Scientific and Technical Information (OSTI)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,150.42,216.32,7.77;9,70.03,161.22,216.33,7.93;9,70.03,172.18,170.57,7.93" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Photo forensics from JPEG dimples</title>
+		<author>
+			<persName coords=""><forename type="first">Shruti</forename><surname>Agarwal</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hany</forename><surname>Farid</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/wifs.2017.8267641</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2017 IEEE Workshop on Information Forensics and Security (WIFS)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2017-12">2017. 2017</date>
+			<biblScope unit="page">2</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,183.82,216.32,7.77;9,70.03,194.78,216.33,7.77;9,70.03,205.74,216.33,7.77;9,70.03,216.54,216.33,7.93;9,70.03,227.66,4.48,7.77" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Localization of JPEG Double Compression Through Multi-domain Convolutional Neural Networks</title>
+		<author>
+			<persName coords=""><forename type="first">Irene</forename><surname>Amerini</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Tiberio</forename><surname>Uricchio</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Lamberto</forename><surname>Ballan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Roberto</forename><surname>Caldelli</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvprw.2017.233</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2017 IEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2017-07">2017</date>
+			<biblScope unit="page">2</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,239.14,216.32,7.77;9,70.03,249.94,216.33,7.93;9,70.03,260.89,171.29,7.93" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Bringing portraits to life</title>
+		<author>
+			<persName coords=""><forename type="first">Hadar</forename><surname>Averbuch-Elor</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Daniel</forename><surname>Cohen-Or</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Johannes</forename><surname>Kopf</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Michael</forename><forename type="middle">F</forename><surname>Cohen</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3130800.3130818</idno>
+	</analytic>
+	<monogr>
+		<title level="j">ACM Transactions on Graphics</title>
+		<title level="j" type="abbrev">ACM Trans. Graph.</title>
+		<idno type="ISSN">0730-0301</idno>
+		<idno type="ISSNe">1557-7368</idno>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1" to="13" />
+			<date type="published" when="2017-11-20">2017</date>
+			<publisher>Association for Computing Machinery (ACM)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,272.54,216.32,7.77;9,70.03,283.50,216.33,7.77;9,70.03,294.29,55.29,7.93" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Recycle-GAN: Unsupervised Video Retargeting</title>
+		<author>
+			<persName coords=""><forename type="first">Aayush</forename><surname>Bansal</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shugao</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Deva</forename><surname>Ramanan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yaser</forename><surname>Sheikh</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-030-01228-1_8</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Computer Vision – ECCV 2018</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="122" to="138" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,305.94,216.33,7.77;9,70.03,316.90,216.33,7.77;9,70.03,327.85,216.33,7.77;9,70.03,338.65,216.33,7.93;9,70.03,349.61,216.33,7.73;9,70.03,360.73,75.21,7.77" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Aligned and non-aligned double JPEG detection using convolutional neural networks</title>
+		<author>
+			<persName coords=""><forename type="first">Mauro</forename><surname>Barni</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Luca</forename><surname>Bondi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nicolò</forename><surname>Bonettini</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Paolo</forename><surname>Bestagini</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Andrea</forename><surname>Costanzo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Marco</forename><surname>Maggini</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Benedetta</forename><surname>Tondi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Stefano</forename><surname>Tubaro</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jvcir.2017.09.003</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Visual Communication and Image Representation</title>
+		<title level="j" type="abbrev">Journal of Visual Communication and Image Representation</title>
+		<idno type="ISSN">1047-3203</idno>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="page" from="153" to="163" />
+			<date type="published" when="2017-11">2017</date>
+			<publisher>Elsevier BV</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,372.21,216.33,7.77;9,70.03,383.17,216.33,7.77;9,70.03,394.13,216.33,7.77;9,70.03,404.93,216.33,7.93;9,70.03,415.89,216.33,7.93;9,70.03,427.01,74.21,7.77" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Tampering Detection and Localization Through Clustering of Camera-Based CNN Features</title>
+		<author>
+			<persName coords=""><forename type="first">Luca</forename><surname>Bondi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Silvia</forename><surname>Lameri</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><surname>Guera</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Paolo</forename><surname>Bestagini</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Edward</forename><forename type="middle">J</forename><surname>Delp</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Stefano</forename><surname>Tubaro</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvprw.2017.232</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2017 IEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2017-07">2017. 2017</date>
+			<biblScope unit="page">2</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,438.49,216.32,7.77;9,70.03,449.29,216.33,7.93;9,70.03,460.25,97.87,7.93" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Everybody Dance Now</title>
+		<author>
+			<persName coords=""><forename type="first">Caroline</forename><surname>Chan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shiry</forename><surname>Ginosar</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Tinghui</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alexei</forename><forename type="middle">A</forename><surname>Efros</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/iccv.2019.00603</idno>
+		<idno type="arXiv">arXiv:1808.07371</idno>
+		<idno>2018. 1</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2019 IEEE/CVF International Conference on Computer Vision (ICCV)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2019-10" />
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="9,70.04,471.89,216.32,7.77;9,70.03,482.85,216.33,7.77;9,70.03,493.65,216.33,7.93;9,70.03,504.77,27.89,7.77" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Median Filtering Forensics Based on Convolutional Neural Networks</title>
+		<author>
+			<persName coords=""><forename type="first">Jiansheng</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiangui</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ye</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">Jane</forename><surname>Wang</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/lsp.2015.2438008</idno>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Signal Processing Letters</title>
+		<title level="j" type="abbrev">IEEE Signal Process. Lett.</title>
+		<idno type="ISSN">1070-9908</idno>
+		<idno type="ISSNe">1558-2361</idno>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="1849" to="1853" />
+			<date type="published" when="2015-11">2015</date>
+			<publisher>Institute of Electrical and Electronics Engineers (IEEE)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,516.25,216.32,7.77;9,70.03,527.04,151.85,7.93" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Xception: Deep learning with depthwise separable convolutions</title>
+		<author>
+			<persName coords=""><forename type="first">Chollet</forename><surname>Franc</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CVPR</title>
+				<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page">5</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,538.69,216.32,7.77;9,70.03,549.49,216.33,7.93;9,70.03,560.44,216.33,7.93" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Rebroadcast Attacks: Defenses, Reattacks, and Redefenses</title>
+		<author>
+			<persName coords=""><forename type="first">Wei</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shruti</forename><surname>Agarwal</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hany</forename><surname>Farid</surname></persName>
+		</author>
+		<idno type="DOI">10.23919/eusipco.2018.8553401</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2018 26th European Signal Processing Conference (EUSIPCO)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2018-09">2018. 2018</date>
+			<biblScope unit="page">11</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,571.93,185.90,7.93" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Photo Forensics</title>
+		<author>
+			<persName coords=""><forename type="first">Hany</forename><surname>Farid</surname></persName>
+		</author>
+		<idno type="DOI">10.7551/mitpress/10451.001.0001</idno>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<publisher>The MIT Press</publisher>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">2</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,583.57,216.32,7.77;9,70.03,594.53,216.33,7.77;9,70.03,605.33,174.08,7.93" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Fighting Fake News: Image Splice Detection via Learned Self-Consistency</title>
+		<author>
+			<persName coords=""><forename type="first">Minyoung</forename><surname>Huh</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Andrew</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Andrew</forename><surname>Owens</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alexei</forename><forename type="middle">A</forename><surname>Efros</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-030-01252-6_7</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Computer Vision – ECCV 2018</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="106" to="124" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,616.97,216.32,7.77;9,70.03,627.77,216.33,7.93;9,70.03,638.73,216.33,7.93;9,70.03,649.85,27.89,7.77" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Exposing digital forgeries through specular highlights on the eye</title>
+		<author>
+			<persName coords=""><forename type="first">K</forename><surname>Micah</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hany</forename><surname>Johnson</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Farid</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Workshop on Information Hiding</title>
+				<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="page">2</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,70.04,661.33,216.32,7.77;9,70.03,672.29,216.33,7.77;9,70.03,683.24,216.33,7.77;9,70.03,694.04,216.33,7.93;9,70.03,705.16,67.73,7.77" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Deep video portraits</title>
+		<author>
+			<persName coords=""><forename type="first">Hyeongwoo</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Pablo</forename><surname>Garrido</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ayush</forename><surname>Tewari</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Weipeng</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Justus</forename><surname>Thies</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Matthias</forename><surname>Niessner</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Patrick</forename><surname>Pérez</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Christian</forename><surname>Richardt</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Michael</forename><surname>Zollhöfer</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Christian</forename><surname>Theobalt</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3197517.3201283</idno>
+	</analytic>
+	<monogr>
+		<title level="j">ACM Transactions on Graphics</title>
+		<title level="j" type="abbrev">ACM Trans. Graph.</title>
+		<idno type="ISSN">0730-0301</idno>
+		<idno type="ISSNe">1557-7368</idno>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1" to="14" />
+			<date type="published" when="2018-07-30">2018</date>
+			<publisher>Association for Computing Machinery (ACM)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,75.96,216.33,7.94;9,328.78,86.92,216.33,7.94;9,328.78,98.04,8.97,7.77" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Research Information Security Technology Based on Machine Learning</title>
+		<author>
+			<persName coords=""><forename type="first">King</forename><surname>Davis</surname></persName>
+		</author>
+		<idno type="DOI">10.38007/ml.2020.010406</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Machine Learning Theory and Practice</title>
+		<title level="j" type="abbrev">ML</title>
+		<idno type="ISSN">2790-0983</idno>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page">12</biblScope>
+			<date type="published" when="2009-07">Jul). 2009</date>
+			<publisher>Scholar Publishing Group Ltd</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,110.10,216.32,7.77;9,328.78,120.90,216.33,7.93;9,328.78,132.02,32.37,7.77" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Preprint repository arXiv achieves milestone million uploads</title>
+		<author>
+			<persName coords=""><forename type="first">P</forename><surname>Diederik</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jimmy</forename><surname>Kingma</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Ba</surname></persName>
+		</author>
+		<idno type="DOI">10.1063/pt.5.028530</idno>
+		<idno type="arXiv">arXiv:1412.6980</idno>
+		<idno>2014. 13</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Physics Today</title>
+		<title level="j" type="abbrev">Phys. Today</title>
+		<idno type="ISSNe">1945-0699</idno>
+		<imprint>
+			<date type="published" when="2014" />
+			<publisher>AIP Publishing</publisher>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="9,328.79,144.07,216.32,7.77;9,328.78,154.87,216.33,7.93;9,328.78,165.83,216.33,7.73;9,328.78,176.79,127.39,7.93" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Fast and reliable resampling detection by spectral analysis of fixed linear predictor residue</title>
+		<author>
+			<persName coords=""><forename type="first">Matthias</forename><surname>Kirchner</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/1411328.1411333</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 10th ACM workshop on Multimedia and security</title>
+				<meeting>the 10th ACM workshop on Multimedia and security</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2008-09-22">2008</date>
+			<biblScope unit="page">2</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,189.00,216.32,7.77;9,328.78,199.96,216.33,7.77;9,328.78,210.92,216.33,7.77;9,328.78,221.88,216.33,7.77;9,328.78,232.68,216.33,7.93;9,328.78,243.63,141.26,7.93" xml:id="b20">
+	<monogr>
+		<title level="m" type="main">Openimages: A public dataset for large-scale multi-label and multi-class image classification</title>
+		<author>
+			<persName coords=""><forename type="first">Ivan</forename><surname>Krasin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Tom</forename><surname>Duerig</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Neil</forename><surname>Alldrin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Andreas</forename><surname>Veit</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sami</forename><surname>Abu-El-Haija</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Serge</forename><surname>Belongie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">David</forename><surname>Cai</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zheyun</forename><surname>Feng</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Vittorio</forename><surname>Ferrari</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Victor</forename><surname>Gomes</surname></persName>
+		</author>
+		<ptr target="https://github.com/openimages" />
+		<imprint>
+			<date type="published" when="2016">, 2016</date>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page">12</biblScope>
+		</imprint>
+	</monogr>
+	<note>Dataset available</note>
+</biblStruct>
+
+<biblStruct coords="9,328.79,255.85,216.32,7.77;9,328.78,266.81,216.33,7.77;9,328.78,277.61,216.33,7.93;9,328.78,288.73,121.41,7.77" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Learning Representations for Automatic Colorization</title>
+		<author>
+			<persName coords=""><forename type="first">Gustav</forename><surname>Larsson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Maire</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Gregory</forename><surname>Shakhnarovich</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-319-46493-0_35</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Computer Vision – ECCV 2016</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="577" to="593" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,300.78,216.32,7.77;9,328.78,311.74,216.33,7.77;9,328.78,322.54,216.33,7.93;9,328.78,333.50,119.53,7.93" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Segmentation-based image copy-move forgery detection scheme</title>
+		<author>
+			<persName coords=""><forename type="first">Jian</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiaolong</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Bin</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xingming</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Information Forensics and Security</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">2</biblScope>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,345.71,216.32,7.77;9,328.78,356.51,216.33,7.93;9,328.78,367.47,216.33,7.73;9,328.78,378.43,200.31,7.93" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Learned Forensic Source Similarity for Unknown Camera Models</title>
+		<author>
+			<persName coords=""><forename type="first">Owen</forename><surname>Mayer</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Matthew</forename><forename type="middle">C</forename><surname>Stamm</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/icassp.2018.8462585</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2018 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2018-04">2018. 2018</date>
+			<biblScope unit="page">2</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,390.64,216.32,7.77;9,328.78,401.60,216.33,7.77;9,328.78,413.40,190.79,6.31;9,328.78,423.52,112.67,7.77" xml:id="b24">
+	<monogr>
+		<title level="m" type="main">How to recognize fake ai-generated images</title>
+		<author>
+			<persName coords=""><forename type="first">Kyle</forename><surname>Mcdonald</surname></persName>
+		</author>
+		<ptr target="https://medium.com/@kcimc/how-to-recognize-fake-ai-generated-images-4d1f6f9a2842.1" />
+		<imprint>
+			<date type="published" when="2018-12">December 2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,435.57,216.32,7.77;9,328.78,446.37,216.33,7.93;9,328.78,457.49,67.73,7.77" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Exposing photo manipulation with inconsistent reflections</title>
+		<author>
+			<persName coords=""><forename type="first">F O'</forename><surname>James</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hany</forename><surname>Brien</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Farid</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM Trans. Graph</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">2</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,469.55,216.32,7.77;9,328.78,480.34,216.33,7.93;9,328.78,491.30,129.17,7.93" xml:id="b26">
+	<monogr>
+		<title level="m" type="main">Pixel recurrent neural networks</title>
+		<author>
+			<persName coords=""><forename type="first">Aaron</forename><surname>Van Den Oord</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nal</forename><surname>Kalchbrenner</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Koray</forename><surname>Kavukcuoglu</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1601.06759</idno>
+		<idno>2016. 4</idno>
+		<imprint/>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="9,328.79,503.52,216.32,7.77;9,328.78,514.32,216.33,7.93;9,328.78,525.28,151.26,7.93" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Exposing digital forgeries by detecting traces of resampling</title>
+		<author>
+			<persName coords=""><forename type="first">C</forename><surname>Alin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hany</forename><surname>Popescu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Farid</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on signal processing</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">3</biblScope>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,537.49,216.32,7.77;9,328.78,548.45,216.33,7.77;9,328.78,559.25,216.33,7.93;9,328.78,570.21,216.33,7.73;9,328.78,581.17,216.33,7.93" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Transferable Deep-CNN Features for Detecting Digital and Print-Scanned Morphed Face Images</title>
+		<author>
+			<persName coords=""><forename type="first">R</forename><surname>Raghavendra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kiran</forename><forename type="middle">B</forename><surname>Raja</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sushma</forename><surname>Venkatesh</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Christoph</forename><surname>Busch</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvprw.2017.228</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2017 IEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2017-07">2017. 2017</date>
+			<biblScope unit="page">2</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,328.79,593.38,216.33,7.77;9,328.78,604.34,216.33,7.77;9,328.78,615.30,216.33,7.77;9,328.78,626.10,192.81,7.93" xml:id="b29">
+	<monogr>
+		<title level="m" type="main">FaceForensics: A large-scale video dataset for forgery detection in human faces</title>
+		<author>
+			<persName coords=""><forename type="first">Andreas</forename><surname>Rössler</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Davide</forename><surname>Cozzolino</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Luisa</forename><surname>Verdoliva</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Christian</forename><surname>Riess</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Justus</forename><surname>Thies</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Matthias</forename><surname>Nießner</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1803.09179</idno>
+		<idno>2018. 2</idno>
+		<imprint/>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="9,328.79,638.31,216.33,7.77;9,328.78,649.27,216.33,7.77;9,328.78,660.07,216.33,7.93;9,328.78,671.03,147.10,7.93" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">FaceForensics++: Learning to Detect Manipulated Facial Images</title>
+		<author>
+			<persName><forename type="first">Andreas</forename><surname>Rossler</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Davide</forename><surname>Cozzolino</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Luisa</forename><surname>Verdoliva</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Christian</forename><surname>Riess</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Justus</forename><surname>Thies</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Matthias</forename><surname>Niessner</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/iccv.2019.00009</idno>
+		<idno type="arXiv">arXiv:1901.08971</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2019 IEEE/CVF International Conference on Computer Vision (ICCV)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2019-10">2019</date>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page">5</biblScope>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="9,328.79,683.24,216.32,7.77;9,328.78,694.20,216.33,7.77;9,328.78,705.16,216.33,7.77;10,70.03,75.96,216.33,7.94;10,70.03,86.92,154.99,7.94" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">ImageNet Large Scale Visual Recognition Challenge</title>
+		<author>
+			<persName coords=""><forename type="first">Olga</forename><surname>Russakovsky</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jia</forename><surname>Deng</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hao</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jonathan</forename><surname>Krause</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sanjeev</forename><surname>Satheesh</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sean</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Zhiheng</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Andrej</forename><surname>Karpathy</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Aditya</forename><surname>Khosla</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Michael</forename><surname>Bernstein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Alexander</forename><forename type="middle">C</forename><surname>Berg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Li</forename><surname>Fei-Fei</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s11263-015-0816-y</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Computer Vision</title>
+		<title level="j" type="abbrev">Int J Comput Vis</title>
+		<idno type="ISSN">0920-5691</idno>
+		<idno type="ISSNe">1573-1405</idno>
+		<imprint>
+			<biblScope unit="volume">115</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="211" to="252" />
+			<date type="published" when="2015-04-11">2015</date>
+			<publisher>Springer Science and Business Media LLC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,99.04,216.32,7.77;10,70.03,110.00,216.33,7.77;10,70.03,120.80,216.33,7.93;10,70.03,131.75,216.33,7.93;10,70.03,142.87,63.75,7.77" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">PWC-Net: CNNs for Optical Flow Using Pyramid, Warping, and Cost Volume</title>
+		<author>
+			<persName coords=""><forename type="first">Deqing</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xiaodong</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ming-Yu</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jan</forename><surname>Kautz</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2018.00931</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2018-06">2018</date>
+			<biblScope unit="page">13</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,154.83,216.32,7.77;10,70.03,165.79,216.33,7.77;10,70.03,176.75,216.33,7.77;10,70.03,187.55,131.97,7.93" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">DeMoN: Depth and Motion Network for Learning Monocular Stereo</title>
+		<author>
+			<persName coords=""><forename type="first">Benjamin</forename><surname>Ummenhofer</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Huizhong</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jonas</forename><surname>Uhrig</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nikolaus</forename><surname>Mayer</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Eddy</forename><surname>Ilg</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alexey</forename><surname>Dosovitskiy</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Thomas</forename><surname>Brox</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2017.596</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2017-07">2017</date>
+			<biblScope unit="volume">4</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,199.66,216.32,7.77;10,70.03,210.62,216.33,7.77;10,70.03,221.42,216.33,7.93;10,70.03,232.38,128.49,7.93" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs</title>
+		<author>
+			<persName coords=""><forename type="first">Ting-Chun</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ming-Yu</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jun-Yan</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Andrew</forename><surname>Tao</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jan</forename><surname>Kautz</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Bryan</forename><surname>Catanzaro</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2018.00917</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2018-06">2018</date>
+			<biblScope unit="page">1</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,244.49,216.32,7.77;10,70.03,255.29,216.33,7.93;10,70.03,266.25,216.33,7.73;10,70.03,277.21,162.56,7.93" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Designing deep networks for surface normal estimation</title>
+		<author>
+			<persName coords=""><forename type="first">Xiaolong</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">David</forename><forename type="middle">F</forename><surname>Fouhey</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Abhinav</forename><surname>Gupta</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2015.7298652</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2015 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2015-06">2015</date>
+			<biblScope unit="page">4</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,289.33,216.32,7.77;10,70.03,300.28,216.33,7.77;10,70.03,311.08,216.33,7.93;10,70.03,322.04,216.33,7.93;10,70.03,333.16,50.30,7.77" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">X2Face: A Network for Controlling Face Generation Using Images, Audio, and Pose Codes</title>
+		<author>
+			<persName coords=""><forename type="first">Olivia</forename><surname>Wiles</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">Sophia</forename><surname>Koepke</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Andrew</forename><surname>Zisserman</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-030-01261-8_41</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Computer Vision – ECCV 2018</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="690" to="706" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,345.12,216.32,7.77;10,70.03,356.08,216.33,7.77;10,70.03,366.87,216.33,7.93" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Video Enhancement with Task-Oriented Flow</title>
+		<author>
+			<persName coords=""><forename type="first">Tianfan</forename><surname>Xue</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Baian</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jiajun</forename><surname>Wu</surname></persName>
+			<idno type="ORCID">0000-0002-4176-343X</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Donglai</forename><surname>Wei</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">William</forename><forename type="middle">T</forename><surname>Freeman</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s11263-018-01144-2</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Computer Vision</title>
+		<title level="j" type="abbrev">Int J Comput Vis</title>
+		<idno type="ISSN">0920-5691</idno>
+		<idno type="ISSNe">1573-1405</idno>
+		<imprint>
+			<biblScope unit="volume">127</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1106" to="1125" />
+			<date type="published" when="2019-02-12" />
+			<publisher>Springer Science and Business Media LLC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,389.95,216.32,7.77;10,70.03,400.75,216.33,7.93;10,70.03,411.71,99.37,7.93" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Dilated Residual Networks</title>
+		<author>
+			<persName coords=""><forename type="first">Fisher</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Vladlen</forename><surname>Koltun</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Thomas</forename><surname>Funkhouser</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2017.75</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2017-07">2017</date>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page">13</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,423.82,216.32,7.77;10,70.03,434.62,216.33,7.93;10,70.03,445.58,160.77,7.93" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Colorful Image Colorization</title>
+		<author>
+			<persName coords=""><forename type="first">Richard</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Phillip</forename><surname>Isola</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alexei</forename><forename type="middle">A</forename><surname>Efros</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-319-46487-9_40</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Computer Vision – ECCV 2016</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="649" to="666" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,457.69,216.32,7.77;10,70.03,468.65,216.33,7.77;10,70.03,479.45,216.33,7.93;10,70.03,490.41,216.33,7.93;10,70.03,501.53,32.37,7.77" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Learning Deep Features for Discriminative Localization</title>
+		<author>
+			<persName coords=""><forename type="first">Bolei</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Aditya</forename><surname>Khosla</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Agata</forename><surname>Lapedriza</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Aude</forename><surname>Oliva</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Antonio</forename><surname>Torralba</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2016.319</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2016-06">2016</date>
+			<biblScope unit="page">11</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,513.49,216.32,7.77;10,70.03,524.44,216.33,7.77;10,70.03,535.24,216.33,7.93;10,70.03,546.20,216.33,7.93;10,70.03,557.32,27.89,7.77" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Two-Stream Neural Networks for Tampered Face Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Peng</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xintong</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Vlad</forename><forename type="middle">I</forename><surname>Morariu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Larry</forename><forename type="middle">S</forename><surname>Davis</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvprw.2017.229</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2017 IEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2017-07">2017. 2017</date>
+			<biblScope unit="page">2</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,569.28,216.32,7.77;10,70.03,580.23,216.33,7.77;10,70.03,591.03,54.78,7.93" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Learning Rich Features for Image Manipulation Detection</title>
+		<author>
+			<persName coords=""><forename type="first">Peng</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Xintong</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Vlad</forename><forename type="middle">I</forename><surname>Morariu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Larry</forename><forename type="middle">S</forename><surname>Davis</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/cvpr.2018.00116</idno>
+	</analytic>
+	<monogr>
+		<title level="m">2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition</title>
+				<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2018-06">2018</date>
+			<biblScope unit="page">2</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,70.04,603.15,216.32,7.77;10,70.03,614.11,216.33,7.77;10,70.03,624.91,65.00,7.93" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">View Synthesis by Appearance Flow</title>
+		<author>
+			<persName coords=""><forename type="first">Tinghui</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shubham</forename><surname>Tulsiani</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Weilun</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jitendra</forename><surname>Malik</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alexei</forename><forename type="middle">A</forename><surname>Efros</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-319-46493-0_18</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Computer Vision – ECCV 2016</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="286" to="301" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>
