@@ -1,5 +1,3 @@
-from grobid_client import grobid_client as grobid
-import os
 from utils.report import Report
 from utils.functions import * 
 
